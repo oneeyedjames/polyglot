@@ -352,11 +352,12 @@ function init_admin_user($database) {
 
 function init_user_roles($database) {
 	if ($result = $database->query("SELECT * FROM role")) {
-		if ($result->found == 0) {
-			$sql = "REPLACE INTO `role` (`name`, `code`) VALUES (?, ?), (?, ?), (?, ?)";
+		if ($result->found)
+			return true;
 
-			return $database->execute($sql, 'Manager', 'manager', 'Editor', 'editor', 'Translator', 'translator');
-		}
+		$sql = "REPLACE INTO `role` (`name`, `code`) VALUES (?, ?), (?, ?), (?, ?)";
+
+		return $database->execute($sql, 'Manager', 'manager', 'Editor', 'editor', 'Translator', 'translator');
 	}
 
 	return false;

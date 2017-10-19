@@ -235,7 +235,7 @@ class controller extends controller_base {
 			'limit'  => 1,
 			'bridge' => 'rp_permission',
 			'args'   => array(
-				'rp_role' => $role_id,
+				'rp_role'  => $role_id,
 				'action'   => $action,
 				'resource' => $resource,
 				'granted'  => 1
@@ -264,15 +264,13 @@ class controller extends controller_base {
 
 	public function api_view() {
 		http_response_code(404);
-		echo '{"error":"This endpoint is not yet implemented"}';
+		die('{"error":"This endpoint is not yet implemented"}');
 	}
 
 	public function redirect($url) {
 		if (headers_sent())
-			echo "<script type='text/javascript'>window.location = '$url'</script>";
+			die("<script type=\"text/javascript\">window.location = '$url'</script>");
 		else
-			header("Location: $url");
-
-		exit;
+			die(header("Location: $url"));
 	}
 }
