@@ -4,7 +4,8 @@
 </ol>
 <h2><i class="fa fa-group"></i> Roles</h2>
 <p>
-	<a class="btn green" data-action="modal" data-target="#role-form" href="role/form-meta">
+	<a class="btn green" href="role/form-meta"
+		data-action="modal" data-target="#modal-form">
 		<i class="fa fa-plus"></i> Add New Role
 	</a>
 </p>
@@ -15,4 +16,4 @@
 		</div>
 	<?php endforeach; ?>
 </div>
-<div class="card blue modal" id="role-form"></div>
+<div class="card blue modal" id="modal-form"></div>

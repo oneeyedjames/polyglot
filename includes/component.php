@@ -125,10 +125,14 @@ function init_url() {
 	$url_schema->add_action('add-user',    'project');
 	$url_schema->add_action('remove-user', 'project');
 
+	$url_schema->add_action('add-permission',    'role');
+	$url_schema->add_action('remove-permission', 'role');
+
 	$url_schema->add_view('form-meta',     'user');
 	$url_schema->add_view('form-project',  'user');
 	$url_schema->add_view('form-language', 'user');
 	$url_schema->add_view('form-meta',     'role');
+	$url_schema->add_view('form-permission', 'role');
 	$url_schema->add_view('form-meta',     'project');
 	$url_schema->add_view('form-language', 'project');
 	$url_schema->add_view('form-user',     'project');

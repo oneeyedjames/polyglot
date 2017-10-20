@@ -27,6 +27,44 @@ class role_controller extends controller {
         return array('resource' => 'role');
     }
 
+    public function add_permission_action($get, $post) {
+        $role_id = get_resource_id();
+
+        if (isset($post['permission'])) {
+            $permission_id = intval($post['permission']);
+
+            $sql = 'SELECT * FROM role_permission_map WHERE role_id = ? AND permission_id = ?';
+
+            $result = $this->query($sql, $role_id, $permission_id);
+
+            if (!$result->found) {
+                $record = new object(array(
+    				'role_id'       => $role_id,
+                    'permission_id' => $permission_id,
+                    'granted'       => 1
+    			));
+
+    			$this->put_record($record, 'role_permission_map');
+            }
+        }
+
+        return array('resource' => 'role');
+    }
+
+    public function remove_permission_action($get, $post) {
+        $role_id = get_resource_id();
+
+        if (isset($post['permission'])) {
+            $permission_id = intval($post['permission']);
+
+            $sql = 'DELETE FROM role_permission_map WHERE role_id = ? AND permission_id = ?';
+
+            $this->execute($sql, $role_id, $permission_id);
+        }
+
+        return array('resource' => 'role');
+    }
+
     public function index_view($vars) {
         $limit  = get_per_page();
 		$offset = get_offset(get_page(), $limit);
@@ -55,5 +93,19 @@ class role_controller extends controller {
 			$vars['role'] = new object();
 
 		return $vars;
+    }
+
+    public function form_permission_view($vars) {
+        $permissions = $this->query('SELECT * FROM permission ORDER BY `resource`, `action`');
+
+        $resources = array();
+        foreach ($permissions as $permission)
+            $resources[] = $permission->resource;
+
+        $vars['role'] = $this->get_record(get_resource_id());
+        $vars['permissions'] = $permissions;
+        $vars['resources'] = array_unique($resources);
+
+        return $vars;
     }
 }
