@@ -43,6 +43,12 @@ header('Content-type: text/html; charset=utf-8');
 										<span class="navlbl">Users</span>
 									</a>
 								</li>
+								<li>
+									<a href="roles">
+										<i class="fa fa-group"></i>
+										<span class="navlbl">Roles</span>
+									</a>
+								</li>
 							<?php endif; ?>
 						</ul>
 						<ul class="nav right">

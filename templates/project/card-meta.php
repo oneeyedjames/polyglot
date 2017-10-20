@@ -32,7 +32,7 @@
 			$nonce = $this->create_nonce('remove-user', 'project'); ?>
 			<li>
 				<span><?php echo $user->name;?></span>
-				<small>(<?php echo $user->role->name; ?>)</small>
+				<small>(<?php echo $user->role->title; ?>)</small>
 				<div>
 					<a style="text-decoration: none;">Change</a> |
 					<a class="remove-user-button"
