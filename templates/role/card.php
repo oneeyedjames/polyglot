@@ -3,6 +3,14 @@
 
     <p><?php echo $role->descrip; ?></p>
 
+    <?php $form_id = "remove-role-permission-$role->id"; ?>
+    <form action="role/<?php echo $role->id; ?>/remove-permission" method="POST"
+        id="<?php echo $form_id; ?>" data-message="Are you sure you want to remove this permission?">
+        <?php $nonce = $this->create_nonce('remove-permission', 'role'); ?>
+        <input type="hidden" name="nonce" value="<?php echo $nonce; ?>">
+        <input type="hidden" name="permission">
+    </form>
+
     <a class="btn sm green pull-right modal"
         href="role/<?php echo $role->id; ?>/form-permission"
         data-action="modal" data-target="#modal-form">
@@ -18,15 +26,12 @@
 
                     echo $permission->action;
                 ?>
-                <form action="role/<?php echo $role->id; ?>/remove-permission" method="POST" class="pull-right">
-                    <?php $nonce = $this->create_nonce('remove-permission', 'role'); ?>
-                    <input type="hidden" name="nonce" value="<?php echo $nonce; ?>">
-                    <input type="hidden" name="permission" value="<?php echo $permission->id; ?>">
-
-                    <button type="submit" class="btn sm red">
-            			<i class="fa fa-trash"></i>
-            		</button>
-                </form>
+                <a href="#" class="pull-right"
+                    data-action="submit"
+                    data-target="#<?php echo $form_id ?>"
+                    data-input-permission="<?php echo $permission->id; ?>">
+        			<i class="fa fa-trash"></i> Remove
+        		</a>
             </li>
         <?php endforeach; ?>
     </ul>
