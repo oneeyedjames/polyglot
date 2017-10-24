@@ -20,13 +20,13 @@
     <ul>
         <?php foreach ($role->permissions as $permission) : ?>
             <li>
-                <?php
+                <div><?php
                     if ($permission->resource)
                         echo "$permission->resource/";
 
                     echo $permission->action;
-                ?>
-                <a href="#" class="pull-right"
+                ?></div>
+                <a style="text-decoration: none; cursor: pointer"
                     data-action="submit"
                     data-target="#<?php echo $form_id ?>"
                     data-input-permission="<?php echo $permission->id; ?>">
