@@ -273,4 +273,10 @@ class controller extends controller_base {
 		else
 			die(header("Location: $url"));
 	}
+
+	protected function delete_record($id, $resource = false) {
+		$resource = $resource ?: $this->resource;
+
+		return $this->execute("DELETE FROM `$resource` WHERE id = ?", $id);
+	}
 }
