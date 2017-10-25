@@ -8,11 +8,11 @@ header('Content-type: text/html; charset=utf-8');
 		<base href="/">
 
 		<script type="text/javascript" src="lib/jquery/dist/jquery.min.js"></script>
-		<script type="text/javascript" src="lib/barista/dist/js/barista.min.js"></script>
+		<script type="text/javascript" src="lib/barista/dist/js/barista.js"></script>
 		<script type="text/javascript" src="js/script.js"></script>
 
 		<link rel="stylesheet" type="text/css" href="lib/fontawesome/css/font-awesome.min.css">
-		<link rel="stylesheet" type="text/css" href="lib/barista/dist/css/barista.min.css">
+		<link rel="stylesheet" type="text/css" href="lib/barista/dist/css/barista.css">
 		<link rel="stylesheet" type="text/css" href="css/style.css">
 	</head>
 	<body>
@@ -41,6 +41,12 @@ header('Content-type: text/html; charset=utf-8');
 									<a href="users">
 										<i class="fa fa-user"></i>
 										<span class="navlbl">Users</span>
+									</a>
+								</li>
+								<li>
+									<a href="roles">
+										<i class="fa fa-group"></i>
+										<span class="navlbl">Roles</span>
 									</a>
 								</li>
 							<?php endif; ?>

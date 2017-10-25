@@ -20,7 +20,7 @@
 		<?php foreach ($roles as $role) : ?>
 			<label>
 				<input type="radio" name="role" value="<?php echo $role->id; ?>">
-				<span><?php echo $role->name; ?></span>
+				<span><?php echo $role->title; ?></span>
 			</label>
 		<?php endforeach; ?>
 	</div>
