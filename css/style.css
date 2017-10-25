@@ -18,6 +18,8 @@
 .txt-btn.purple { color: #990099; }
 .txt-btn.orange { color: #FF6600; }
 
+.permission-resource-actions { display: none; }
+
 @media only screen and (max-width: 767px) {
 	.navlbl { display: none; }
 }

@@ -2,10 +2,17 @@
 
 $nonce = $this->create_nonce('add-permission', 'role');
 
-foreach ($permissions as $permission)
-    $actions[$permission->resource][] = "<option value='$permission->id'>$permission->action</option>";
+$actions = array();
 
-$default_options = $actions[$permissions[0]->resource];
+ksort($resources);
+foreach ($resources as $resource => $resource_meta) {
+    $actions[$resource] = array();
+
+    sort($resource_meta['actions']);
+    foreach ($resource_meta['actions'] as $action) {
+        $actions[$resource][] = "<option value='$action'>$action</option>";
+    }
+}
 
 ?>
 <form action="role/<?php echo $role->id; ?>/add-permission" method="POST">
@@ -15,34 +22,35 @@ $default_options = $actions[$permissions[0]->resource];
     <p>Add permission for: <span class="lbl yellow"><?php echo $role->title; ?></span></p>
 
     <label>Resource</label>
-    <select id="permission-resource">
-        <?php foreach ($resources as $resource) : ?>
+    <select id="permission-resource" name="permission[resource]">
+        <?php foreach (array_keys($resources) as $resource) : ?>
             <option value="<?php echo $resource; ?>"><?php echo $resource; ?></option>
         <?php endforeach; ?>
     </select>
 
     <label>Action</label>
-    <select id="permission-action" name="permission">
-        <?php echo implode(PHP_EOL, $default_options); ?>
-    </select>
+    <select id="permission-action" name="permission[action]"></select>
 
     <?php foreach ($actions as $resource => $options) : ?>
-        <div id="permission-resource-<?php echo $resource; ?>" style="display: none;">
+        <div id="permission-resource-<?php echo $resource; ?>"
+            class="permission-resource-actions">
             <?php echo implode(PHP_EOL, $options); ?>
         </div>
     <?php endforeach; ?>
-
-    <script type="text/javascript">
-        jQuery(document).ready(function($) {
-            $('#permission-resource').change(function() {
-                var group = $('#permission-resource-' + $(this).val());
-                $('#permission-action').html(group.html());
-            });
-        });
-    </script>
 
     <footer>
 		<button type="submit" class="btn blue">Save</button>
 		<button type="button" class="btn cancel">Cancel</button>
 	</footer>
 </form>
+<script type="text/javascript">
+    jQuery(document).ready(function($) {
+        var group = $('.permission-resource-actions').first();
+        $('#permission-action').html(group.html());
+
+        $('#permission-resource').change(function() {
+            var group = $('#permission-resource-' + $(this).val());
+            $('#permission-action').html(group.html());
+        });
+    });
+</script>

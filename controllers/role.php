@@ -28,24 +28,28 @@ class role_controller extends controller {
     }
 
     public function add_permission_action($get, $post) {
-        $role_id = get_resource_id();
+        if (isset($post['permission']['resource'], $post['permission']['action'])) {
+            $permissions = $this->make_query(array(
+                'args' => array(
+                    'resource' => $post['permission']['resource'],
+                    'action'   => $post['permission']['action']
+                )
+            ), 'permission')->get_result();
 
-        if (isset($post['permission'])) {
-            $permission_id = intval($post['permission']);
-
-            $sql = 'SELECT * FROM role_permission_map WHERE role_id = ? AND permission_id = ?';
-
-            $result = $this->query($sql, $role_id, $permission_id);
-
-            if (!$result->found) {
-                $record = new object(array(
-    				'role_id'       => $role_id,
-                    'permission_id' => $permission_id,
-                    'granted'       => 1
-    			));
-
-    			$this->put_record($record, 'role_permission_map');
+            if ($permissions->found) {
+                $permission = $permissions->first;
+            } else {
+                $permission = new object();
+                $permission->resource = $post['permission']['resource'];
+                $permission->action   = $post['permission']['action'];
+                $permission->id       = $this->put_record($permission, 'permission');
             }
+
+			$this->put_record(new object(array(
+				'role_id'       => get_resource_id(),
+                'permission_id' => $permission->id,
+                'granted'       => 1
+			)), 'role_permission_map');
         }
 
         return array('resource' => 'role');
@@ -96,16 +100,11 @@ class role_controller extends controller {
     }
 
     public function form_permission_view($vars) {
-        $permissions = $this->query('SELECT * FROM permission ORDER BY `resource`, `action`');
-
-        $resources = array();
-        foreach ($permissions as $permission)
-            $resources[] = $permission->resource;
+        global $url_schema;
 
         $vars['role'] = $this->get_record(get_resource_id());
-        $vars['permissions'] = $permissions;
-        $vars['resources'] = array_unique($resources);
-
+        $vars['resources'] = $url_schema->resources;
+        
         return $vars;
     }
 }

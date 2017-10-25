@@ -116,7 +116,6 @@ function init_url() {
 
 	$url_schema->add_resource('user',     'users');
 	$url_schema->add_resource('role',     'roles');
-	$url_schema->add_resource('permission', 'permissions');
 	$url_schema->add_resource('project',  'projects');
 	$url_schema->add_resource('language', 'languages');
 	$url_schema->add_resource('document', 'documents');
@@ -134,7 +133,6 @@ function init_url() {
 	$url_schema->add_view('form-language', 'user');
 	$url_schema->add_view('form-meta',     'role');
 	$url_schema->add_view('form-permission', 'role');
-	$url_schema->add_view('form-meta',     'permission');
 	$url_schema->add_view('form-meta',     'project');
 	$url_schema->add_view('form-language', 'project');
 	$url_schema->add_view('form-user',     'project');
