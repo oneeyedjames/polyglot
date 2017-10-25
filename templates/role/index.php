@@ -8,6 +8,7 @@
 		data-action="modal" data-target="#modal-form">
 		<i class="fa fa-plus"></i> Add New Role
 	</a>
+	<a class="txt-btn blue" href="permissions">Permissions</a>
 </p>
 <div class="row">
 	<?php foreach ($roles as $role) : ?>

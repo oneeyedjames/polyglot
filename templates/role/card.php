@@ -11,10 +11,10 @@
         <input type="hidden" name="permission">
     </form>
 
-    <a class="btn sm green pull-right modal"
+    <a class="txt-btn green pull-right"
         href="role/<?php echo $role->id; ?>/form-permission"
         data-action="modal" data-target="#modal-form">
-        <i class="fa fa-plus"></i>
+        <i class="fa fa-plus"></i> Add
     </a>
     <strong>Permissions</strong>
     <ul>
@@ -26,11 +26,10 @@
 
                     echo $permission->action;
                 ?></div>
-                <a style="text-decoration: none; cursor: pointer"
-                    data-action="submit"
-                    data-target="#<?php echo $form_id ?>"
+                <a class="txt-btn red"
+                    data-action="submit" data-target="#<?php echo $form_id ?>"
                     data-input-permission="<?php echo $permission->id; ?>">
-        			<i class="fa fa-trash"></i> Remove
+        			<i class="fa fa-minus"></i> Remove
         		</a>
             </li>
         <?php endforeach; ?>

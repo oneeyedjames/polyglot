@@ -5,6 +5,19 @@
 	padding-right: 0;
 }
 
+.txt-btn {
+	text-decoration: none;
+	cursor: pointer;
+}
+
+.txt-btn.gray   { color: #999999; }
+.txt-btn.blue   { color: #3366CC; }
+.txt-btn.red    { color: #DC3912; }
+.txt-btn.yellow { color: #FFB800; }
+.txt-btn.green  { color: #109618; }
+.txt-btn.purple { color: #990099; }
+.txt-btn.orange { color: #FF6600; }
+
 @media only screen and (max-width: 767px) {
 	.navlbl { display: none; }
 }

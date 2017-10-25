@@ -116,6 +116,7 @@ function init_url() {
 
 	$url_schema->add_resource('user',     'users');
 	$url_schema->add_resource('role',     'roles');
+	$url_schema->add_resource('permission', 'permissions');
 	$url_schema->add_resource('project',  'projects');
 	$url_schema->add_resource('language', 'languages');
 	$url_schema->add_resource('document', 'documents');
