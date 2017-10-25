@@ -4,7 +4,8 @@
 </ol>
 <h2><i class="fa fa-flag"></i> Languages</h2>
 <p>
-	<a class="btn green" data-action="modal" data-target="#language-form" href="language/form-meta">
+	<a class="btn green" href="language/form-meta"
+		data-action="modal" data-target="#language-form">
 		<i class="fa fa-plus"></i> Add New Language
 	</a>
 </p>
@@ -15,4 +16,4 @@
 		</div>
 	<?php endforeach; ?>
 </div>
-<div class="card modal col-md-8 col-lg-6 blue" id="language-form"></div>
+<div class="card modal col-md-8 col-lg-6 blue" id="modal-form"></div>
