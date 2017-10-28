@@ -3,11 +3,10 @@
 	<input type="hidden" name="nonce" value="<?php echo $nonce; ?>">
 	<header>Edit Project</header>
 
-	<h3><i class="fa fa-folder-open"></i> Project</h3>
-	<strong><?php echo $project->title; ?></strong>
+	<label><i class="fa fa-folder-open"></i> Project</label>
+	<em><?php echo $project->title; ?></em>
 
-	<h3><i class="fa fa-user"></i> Add User</h3>
-    <label class="control-label">User</label>
+    <label class="control-label"><i class="fa fa-user"></i> User</label>
     <select name="user" class="form-control">
     	<?php foreach ($users as $user) : if (!isset($project->users[$user->id])) : ?>
     		<option value="<?php echo $user->id; ?>">
@@ -15,7 +14,8 @@
             </option>
     	<?php endif; endforeach; ?>
     </select>
-    <label class="control-label">Role</label>
+
+    <label class="control-label"><i class="fa fa-group"></i> Role</label>
     <div class="radio">
 		<?php foreach ($roles as $role) : ?>
 			<label>

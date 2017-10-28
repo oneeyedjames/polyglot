@@ -1,20 +1,18 @@
-<?php $nonce = $this->create_nonce('save', 'project'); ?>
-<form action="project/<?php echo $project->id; ?>/save" method="POST">
+<?php $nonce = $this->create_nonce('add-language', 'project'); ?>
+<form action="project/<?php echo $project->id; ?>/add-language" method="POST">
 	<input type="hidden" name="nonce" value="<?php echo $nonce; ?>">
-	<header>Edit Project</header>
+	<header>Add Language</header>
 
-	<h3><i class="fa fa-folder-open"></i> Project</h3>
-	<strong><?php echo $project->title; ?></strong>
+	<label><i class="fa fa-folder-open"></i> Project</label>
+	<em><?php echo $project->title; ?></em>
 
-	<h3><i class="fa fa-flag"></i> Languages</h3>
-	<div class="checkbox">
-		<?php foreach ($languages as $language) : ?>
-			<label>
-				<input type="checkbox" name="languages[]" value="<?php echo $language->id; ?>"<?php checked(isset($project->languages[$language->id])); ?>>
-				<?php echo $language->name; ?>
-			</label>
-		<?php endforeach; ?>
-	</div>
+	<label><i class="fa fa-flag"></i> Language</label>
+	<select name="language" class="checkbox">
+		<?php foreach ($languages as $language) :
+			if (!isset($project->languages[$language->id])) : ?>
+			<option value="<?php echo $language->id; ?>"><?php echo $language->name; ?></option>
+		<?php endif; endforeach; ?>
+	</select>
 
 	<footer style="text-align: right;">
 		<button type="button" class="btn cancel">Cancel</button>

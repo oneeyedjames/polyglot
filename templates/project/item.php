@@ -47,5 +47,3 @@
 	</div>
 </div>
 <div class="card modal blue" id="modal-form"></div>
-<div class="card modal blue" id="project-language-form"></div>
-<div class="card modal blue" id="project-user-form"></div>
