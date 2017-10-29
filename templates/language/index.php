@@ -9,6 +9,7 @@
 		<i class="fa fa-plus"></i> Add New Language
 	</a>
 </p>
+<p><?php $this->load('page-limit'); ?></p>
 <table class="blue striped">
 	<thead>
 		<tr>
