@@ -5,35 +5,31 @@ class language_controller extends controller {
 		parent::__construct('language', $database, $cache);
 	}
 
-	public function save_action() {
-		extract($_POST['language']);
+	public function save_action($get, $post) {
+		$language = new object();
+        $language->id = get_resource_id();
 
-		$params = array($code, $name);
+        if (isset($post['language']['code']))
+            $language->code = $post['language']['code'];
 
-		if ($id = get_resource_id()) {
-			$params[] = $id;
-			$sql = "UPDATE language SET code = ?, name = ? WHERE id = ?";
-		} else {
-			$sql = "INSERT INTO language (code, name) VALUES (?, ?)";
-		}
+        if (isset($post['language']['name']))
+            $language->name = $post['language']['name'];
 
-		$this->execute($sql, $params);
+        $this->put_record($language);
 
 		return array('resource' => 'language');
 	}
 
-	public function delete_action() {
-		if ($id = get_resource_id()) {
-			$sql = "DELETE FROM language WHERE id = ?";
-			$this->execute($sql, array($id));
-		}
+	public function delete_action($get, $post) {
+		if ($id = get_resource_id())
+			$this->remove_record($id);
 
 		return array('resource' => 'language');
 	}
 
 	public function index_view($vars) {
-		$limit = get_per_page();
-		$offset = get_offset(get_page(), $limit);
+		$vars['limit']  = $limit  = get_per_page();
+		$vars['offset'] = $offset = get_offset(get_page(), $limit);
 
 		$args = compact('limit', 'offset');
 

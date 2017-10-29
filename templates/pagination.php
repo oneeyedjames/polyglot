@@ -1,7 +1,7 @@
 <?php
 
 if (!isset($page_count))
-	$page_count = (int) ceil($item_count / $per_page);
+	$page_count = intval(ceil($item_count / $per_page));
 
 $page_limit = $page_range * 2 + 1;
 

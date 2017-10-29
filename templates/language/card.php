@@ -37,12 +37,18 @@
 		</div>
 	</div>
 	<footer>
-		<a href="language/<?php echo $language->id; ?>/form-meta" class="btn blue"
-			data-action="modal" data-target="#language-form">
-			<i class="fa fa-edit"></i> Edit
-		</a>
-		<a class="btn red">
-			<i class="fa fa-trash"></i> Delete
-		</a>
+		<form action="language/<?php echo $language->id; ?>/delete" method="POST">
+            <?php $nonce = $this->create_nonce('delete', 'language'); ?>
+            <input type="hidden" name="nonce" value="<?php echo $nonce; ?>">
+
+			<a href="language/<?php echo $language->id; ?>/form-meta" class="btn blue"
+				data-action="modal" data-target="#modal-form">
+				<i class="fa fa-edit"></i> Edit
+			</a>
+
+    		<button type="submit" class="btn red">
+    			<i class="fa fa-trash"></i> Delete
+    		</button>
+        </form>
 	</footer>
 </div>

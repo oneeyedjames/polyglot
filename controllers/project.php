@@ -41,6 +41,35 @@ class project_controller extends controller {
 		return array('resource' => 'project', 'id' => $project->id);
 	}
 
+	// TODO Method Stub
+	public function delete_action($get, $post) {
+		return array('resource' => 'project');
+	}
+
+	public function add_language_action($get, $post) {
+		$project_id = get_resource_id();
+
+		if (isset($post['language'])) {
+			$this->put_record(new object(array(
+				'project_id' => $project_id,
+				'language_id' => intval($post['language'])
+			)), 'project_language_map');
+		}
+
+		return array('resource' => 'project', 'id' => $project_id);
+	}
+
+	public function remove_language_action($get, $post) {
+		$project_id = get_resource_id();
+
+		if (isset($post['language'])) {
+			$sql = 'DELETE FROM `project_language_map` WHERE `project_id` = ? AND `language_id` = ?';
+			$this->execute($sql, $project_id, intval($post['language']));
+		}
+
+		return array('resource' => 'project', 'id' => $project_id);
+	}
+
 	public function add_user_action($get, $post) {
 		$project_id = get_resource_id();
 

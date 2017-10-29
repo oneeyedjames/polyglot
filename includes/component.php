@@ -122,8 +122,10 @@ function init_url() {
 	$url_schema->add_resource('list',     'lists');
 	$url_schema->add_resource('term',     'terms');
 
-	$url_schema->add_action('add-user',    'project');
-	$url_schema->add_action('remove-user', 'project');
+	$url_schema->add_action('add-language',    'project');
+	$url_schema->add_action('remove-language', 'project');
+	$url_schema->add_action('add-user',        'project');
+	$url_schema->add_action('remove-user',     'project');
 
 	$url_schema->add_action('add-permission',    'role');
 	$url_schema->add_action('remove-permission', 'role');
