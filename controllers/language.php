@@ -28,8 +28,8 @@ class language_controller extends controller {
 	}
 
 	public function index_view($vars) {
-		$limit = get_per_page();
-		$offset = get_offset(get_page(), $limit);
+		$vars['limit']  = $limit  = get_per_page();
+		$vars['offset'] = $offset = get_offset(get_page(), $limit);
 
 		$args = compact('limit', 'offset');
 
