@@ -5,7 +5,7 @@
 
     <?php $form_id = "remove-role-permission-$role->id"; ?>
     <form action="role/<?php echo $role->id; ?>/remove-permission" method="POST"
-        id="<?php echo $form_id; ?>" data-message="Are you sure you want to remove this permission?">
+        id="<?php echo $form_id; ?>" data-confirm="Are you sure you want to remove this permission?">
         <?php $nonce = $this->create_nonce('remove-permission', 'role'); ?>
         <input type="hidden" name="nonce" value="<?php echo $nonce; ?>">
         <input type="hidden" name="permission">

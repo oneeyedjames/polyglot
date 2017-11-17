@@ -46,13 +46,13 @@
 	</ul>
 </div>
 <form id="remove-language-form" action="project/<?php echo $project->id; ?>/remove-language" method="POST"
-	data-message="Are you sure you want to remove this language from the project?">
+	data-confirm="Are you sure you want to remove this language from the project?">
 	<?php $nonce = $this->create_nonce('remove-language', 'project'); ?>
 	<input type="hidden" name="nonce" value="<?php echo $nonce; ?>">
 	<input type="hidden" name="language">
 </form>
 <form id="remove-user-form" action="project/<?php echo $project->id; ?>/remove-user" method="POST"
-	data-message="Are you sure you want to remove this user from the project?">
+	data-confirm="Are you sure you want to remove this user from the project?">
 	<?php $nonce = $this->create_nonce('remove-user', 'project'); ?>
 	<input type="hidden" name="nonce" value="<?php echo $nonce; ?>">
 	<input type="hidden" name="user">
