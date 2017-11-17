@@ -20,6 +20,8 @@
 
 .permission-resource-actions { display: none; }
 
+th.snap, td.snap { width: 5em; }
+
 @media only screen and (max-width: 767px) {
 	.navlbl { display: none; }
 }

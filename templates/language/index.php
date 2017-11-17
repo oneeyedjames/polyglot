@@ -1,3 +1,4 @@
+<?php $delete_nonce = $this->create_nonce('delete', 'language'); ?>
 <ol class="breadcrumb">
 	<li><a href="home"><i class="fa fa-home"></i> Home</a></li>
 	<li class="active">Languages</li>
@@ -13,7 +14,7 @@
 <table class="blue striped">
 	<thead>
 		<tr>
-			<th></th>
+			<th class="snap"></th>
 			<th>Name</th>
 			<th>Code</th>
 			<th># Projects</th>
@@ -23,7 +24,7 @@
 	<tbody>
 		<?php foreach ($languages as $language) : ?>
 			<tr>
-				<td>
+				<td class="snap">
 					<form action="language/<?php echo $language->id; ?>/delete" method="POST" class="btn-group pull-left"
 						data-confirm="Are you sure you want to delete this language?">
 						<a href="language/<?php echo $language->id; ?>/form-meta" class="btn blue"
@@ -31,8 +32,7 @@
 							<i class="fa fa-edit"></i>
 						</a>
 
-			    		<?php $nonce = $this->create_nonce('delete', 'language'); ?>
-			            <input type="hidden" name="nonce" value="<?php echo $nonce; ?>">
+			            <input type="hidden" name="nonce" value="<?php echo $delete_nonce; ?>">
 
 						<button type="submit" class="btn red">
 			    			<i class="fa fa-trash"></i>
