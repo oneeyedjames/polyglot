@@ -42,42 +42,26 @@
 				<td><?php echo $language->name; ?></td>
 				<td><?php echo $language->code; ?></td>
 				<td>
-					<a style="cursor: pointer" data-action="collapse"
-						data-target="#language-<?php echo $language->id; ?>-projects">
-						<?php echo $language->projects->found; ?> Projects
-					</a>
-					<div id="language-<?php echo $language->id; ?>-projects" class="collapsed">
-						<ul>
-							<?php foreach ($language->projects as $project) : ?>
-								<li>
-									<a href="project/<?php echo $project->id; ?>">
-										<?php echo $project->title; ?>
-									</a>
-								</li>
-							<?php endforeach; ?>
-							<?php if ($language->projects->found > count($language->projects)) : ?>
-								<li><em>more</em></li>
-							<?php endif; ?>
-						</ul>
-					</div>
+					<?php if ($language->projects->found) :
+						$label = ' Project' . ($language->projects->found > 1 ? 's' : ''); ?>
+						<a href="language/<?php echo $language->id; ?>/card-projects"
+							data-action="modal" data-target="#modal-form">
+							<?php echo $language->projects->found . $label; ?>
+						</a>
+					<?php else : ?>
+						<em>No Projects</em>
+					<?php endif; ?>
 				</td>
 				<td>
-					<a style="cursor: pointer" data-action="collapse"
-						data-target="#language-<?php echo $language->id; ?>-users">
-						<?php echo $language->users->found; ?> Users
-					</a>
-					<div id="language-<?php echo $language->id; ?>-users" class="collapsed">
-						<?php foreach ($language->users as $user) : ?>
-							<li>
-								<a href="user/<?php echo $user->id; ?>">
-									<?php echo $user->name; ?>
-								</a>
-							</li>
-						<?php endforeach; ?>
-						<?php if ($language->users->found > count($language->users)) : ?>
-							<li><em>more</em></li>
-						<?php endif; ?>
-					</div>
+					<?php if ($language->users->found) :
+						$label = ' User' . ($language->users->found > 1 ? 's' : ''); ?>
+						<a href="language/<?php echo $language->id; ?>/card-users"
+							data-action="modal" data-target="#modal-form">
+							<?php echo $language->users->found . $label; ?>
+						</a>
+					<?php else : ?>
+						<em>No Users</em>
+					<?php endif; ?>
 				</td>
 			</tr>
 		<?php endforeach; ?>
