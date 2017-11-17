@@ -36,8 +36,8 @@ class term_controller extends controller {
 		if ($term->id = get_resource_id()) {
 			$revision = $this->get_record($term->id);
 			$revision->master_id = $term->id;
-			$revision->created = $revision->updated;
 			$revision->revision = 1;
+			$revision->created = $revision->updated;
 			unset($revision->id, $revision->updated);
 
 			$term->language_id = $revision->language_id;

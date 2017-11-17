@@ -24,6 +24,7 @@ class list_controller extends controller {
 		if ($list->id = get_resource_id()) {
 			$rev = $this->get_record($list->id);
 			$rev->master_id = $list->id;
+			$rev->revision = 1;
 			$rev->created = $rev->updated;
 			unset($rev->id, $rev->updated);
 
@@ -154,9 +155,9 @@ class list_controller extends controller {
 	protected function get_terms($list_id, $lang_id, $limit = DEFAULT_PER_PAGE, $offset = 0) {
 		$args = compact('limit', 'offset');
 		$args['args'] = array(
-			'list_term'     => $list_id,
-			'language_term' => $lang_id,
-			'revision'      => 0
+			'list_term'       => $list_id,
+			'language_term'   => $lang_id,
+			'term`.`revision' => 0
 		);
 
 		$terms = $this->make_query($args, 'term')->get_result();

@@ -25,7 +25,7 @@
 			<tr>
 				<td>
 					<form action="language/<?php echo $language->id; ?>/delete" method="POST" class="btn-group pull-left"
-						data-warning="Are you sure you want to delete this language?">
+						data-confirm="Are you sure you want to delete this language?">
 						<a href="language/<?php echo $language->id; ?>/form-meta" class="btn blue"
 							data-action="modal" data-target="#modal-form">
 							<i class="fa fa-edit"></i>
