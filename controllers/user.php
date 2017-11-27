@@ -135,4 +135,38 @@ class user_controller extends controller {
 
 		return $vars;
 	}
+
+	public function card_projects_view($vars) {
+		if ($user_id = get_resource_id()) {
+			$user = $this->get_record($user_id);
+			$user->projects = $this->make_query(array(
+				'bridge' => 'up_project',
+				'limit'  => 3,
+				'args'   => array(
+					'up_user' => $user_id
+				)
+			), 'project')->get_result();
+
+			$vars['user'] = $user;
+		}
+
+		return $vars;
+	}
+
+	public function card_languages_view($vars) {
+		if ($user_id = get_resource_id()) {
+			$user = $this->get_record($user_id);
+			$user->languages = $this->make_query(array(
+				'bridge' => 'ul_language',
+				'limit'  => 3,
+				'args'   => array(
+					'ul_user' => $user_id
+				)
+			), 'language')->get_result();
+
+			$vars['user'] = $user;
+		}
+
+		return $vars;
+	}
 }
