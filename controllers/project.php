@@ -149,6 +149,40 @@ class project_controller extends controller {
 		return $vars;
 	}
 
+	public function card_languages_view($vars) {
+		if ($proj_id = get_resource_id()) {
+			$project = $this->get_record($proj_id);
+			$project->languages = $this->make_query(array(
+				'bridge' => 'pl_language',
+				'limit'  => 3,
+				'args'   => array(
+					'pl_project' => $proj_id
+				)
+			), 'language')->get_result();
+
+			$vars['project'] = $project;
+		}
+
+		return $vars;
+	}
+
+	public function card_users_view($vars) {
+		if ($proj_id = get_resource_id()) {
+			$project = $this->get_record($proj_id);
+			$project->users = $this->make_query(array(
+				'bridge' => 'up_user',
+				'limit'  => 3,
+				'args'   => array(
+					'up_project' => $proj_id
+				)
+			), 'user')->get_result();
+
+			$vars['project'] = $project;
+		}
+
+		return $vars;
+	}
+
 	public function api_view() {
 		if ($id = get_resource_id()) {
 			$project = $this->get_record($id);

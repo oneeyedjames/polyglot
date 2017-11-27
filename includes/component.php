@@ -145,6 +145,9 @@ function init_url() {
 	$url_schema->add_view('form-meta',     'list');
 	$url_schema->add_view('form-meta',     'term');
 
+	$url_schema->add_view('card-languages', 'project');
+	$url_schema->add_view('card-users',     'project');
+
 	$url_params = $url_schema->parse_path($url_path);
 
 	foreach ($url_params as $key => $value)
