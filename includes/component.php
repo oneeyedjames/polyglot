@@ -145,6 +145,8 @@ function init_url() {
 
 	$url_schema->add_view('card-projects',  'user');
 	$url_schema->add_view('card-languages', 'user');
+	$url_schema->add_view('card-languages', 'project');
+	$url_schema->add_view('card-users',     'project');
 	$url_schema->add_view('card-projects',  'language');
 	$url_schema->add_view('card-users',     'language');
 
