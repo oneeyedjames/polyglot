@@ -68,4 +68,4 @@
 	</tbody>
 </table>
 <p><?php $this->pagination($languages->found); ?></p>
-<div class="card modal col-md-8 col-lg-6 blue" id="modal-form"></div>
+<div class="card modal col-md-8 col-lg-6 cyan" id="modal-form"></div>
