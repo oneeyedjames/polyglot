@@ -139,11 +139,14 @@ function init_url() {
 	$url_schema->add_view('form-language', 'project');
 	$url_schema->add_view('form-user',     'project');
 	$url_schema->add_view('form-meta',     'language');
-	$url_schema->add_view('card-projects', 'language');
-	$url_schema->add_view('card-users',    'language');
 	$url_schema->add_view('form-meta',     'document');
 	$url_schema->add_view('form-meta',     'list');
 	$url_schema->add_view('form-meta',     'term');
+
+	$url_schema->add_view('card-projects',  'user');
+	$url_schema->add_view('card-languages', 'user');
+	$url_schema->add_view('card-projects',  'language');
+	$url_schema->add_view('card-users',     'language');
 
 	$url_params = $url_schema->parse_path($url_path);
 
