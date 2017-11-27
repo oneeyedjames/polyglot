@@ -36,7 +36,7 @@
 			</ul>
 		</div>
 	</div>
-	<footer>
+	<!-- <footer>
 		<form action="language/<?php echo $language->id; ?>/delete" method="POST">
             <?php $nonce = $this->create_nonce('delete', 'language'); ?>
             <input type="hidden" name="nonce" value="<?php echo $nonce; ?>">
@@ -50,5 +50,5 @@
     			<i class="fa fa-trash"></i> Delete
     		</button>
         </form>
-	</footer>
+	</footer> -->
 </div>

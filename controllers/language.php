@@ -63,4 +63,38 @@ class language_controller extends controller {
 
 		return $vars;
 	}
+
+	public function card_projects_view($vars) {
+		if ($lang_id = get_resource_id()) {
+			$language = $this->get_record($lang_id);
+			$language->projects = $this->make_query(array(
+				'bridge' => 'pl_project',
+				'limit'  => 3,
+				'args'   => array(
+					'pl_language' => $language->id
+				)
+			), 'project')->get_result();
+
+			$vars['language'] = $language;
+		}
+
+		return $vars;
+	}
+
+	public function card_users_view($vars) {
+		if ($lang_id = get_resource_id()) {
+			$language = $this->get_record($lang_id);
+			$language->users = $this->make_query(array(
+				'bridge' => 'ul_user',
+				'limit'  => 3,
+				'args'   => array(
+					'ul_language' => $language->id
+				)
+			), 'user')->get_result();
+
+			$vars['language'] = $language;
+		}
+
+		return $vars;
+	}
 }

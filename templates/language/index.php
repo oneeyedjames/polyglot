@@ -1,3 +1,4 @@
+<?php $delete_nonce = $this->create_nonce('delete', 'language'); ?>
 <ol class="breadcrumb">
 	<li><a href="home"><i class="fa fa-home"></i> Home</a></li>
 	<li class="active">Languages</li>
@@ -9,10 +10,11 @@
 		<i class="fa fa-plus"></i> Add New Language
 	</a>
 </p>
+<p><?php $this->load('page-limit'); ?></p>
 <table class="blue striped">
 	<thead>
 		<tr>
-			<th></th>
+			<th class="snap"></th>
 			<th>Name</th>
 			<th>Code</th>
 			<th># Projects</th>
@@ -22,7 +24,7 @@
 	<tbody>
 		<?php foreach ($languages as $language) : ?>
 			<tr>
-				<td>
+				<td class="snap">
 					<form action="language/<?php echo $language->id; ?>/delete" method="POST" class="btn-group pull-left"
 						data-confirm="Are you sure you want to delete this language?">
 						<a href="language/<?php echo $language->id; ?>/form-meta" class="btn blue"
@@ -30,8 +32,7 @@
 							<i class="fa fa-edit"></i>
 						</a>
 
-			    		<?php $nonce = $this->create_nonce('delete', 'language'); ?>
-			            <input type="hidden" name="nonce" value="<?php echo $nonce; ?>">
+			            <input type="hidden" name="nonce" value="<?php echo $delete_nonce; ?>">
 
 						<button type="submit" class="btn red">
 			    			<i class="fa fa-trash"></i>
@@ -41,46 +42,30 @@
 				<td><?php echo $language->name; ?></td>
 				<td><?php echo $language->code; ?></td>
 				<td>
-					<a style="cursor: pointer" data-action="collapse"
-						data-target="#language-<?php echo $language->id; ?>-projects">
-						<?php echo $language->projects->found; ?> Projects
-					</a>
-					<div id="language-<?php echo $language->id; ?>-projects" class="collapsed">
-						<ul>
-							<?php foreach ($language->projects as $project) : ?>
-								<li>
-									<a href="project/<?php echo $project->id; ?>">
-										<?php echo $project->title; ?>
-									</a>
-								</li>
-							<?php endforeach; ?>
-							<?php if ($language->projects->found > count($language->projects)) : ?>
-								<li><em>more</em></li>
-							<?php endif; ?>
-						</ul>
-					</div>
+					<?php if ($language->projects->found) :
+						$label = ' Project' . ($language->projects->found > 1 ? 's' : ''); ?>
+						<a href="language/<?php echo $language->id; ?>/card-projects"
+							data-action="modal" data-target="#modal-form">
+							<?php echo $language->projects->found . $label; ?>
+						</a>
+					<?php else : ?>
+						<em>No Projects</em>
+					<?php endif; ?>
 				</td>
 				<td>
-					<a style="cursor: pointer" data-action="collapse"
-						data-target="#language-<?php echo $language->id; ?>-users">
-						<?php echo $language->users->found; ?> Users
-					</a>
-					<div id="language-<?php echo $language->id; ?>-users" class="collapsed">
-						<?php foreach ($language->users as $user) : ?>
-							<li>
-								<a href="user/<?php echo $user->id; ?>">
-									<?php echo $user->name; ?>
-								</a>
-							</li>
-						<?php endforeach; ?>
-						<?php if ($language->users->found > count($language->users)) : ?>
-							<li><em>more</em></li>
-						<?php endif; ?>
-					</div>
+					<?php if ($language->users->found) :
+						$label = ' User' . ($language->users->found > 1 ? 's' : ''); ?>
+						<a href="language/<?php echo $language->id; ?>/card-users"
+							data-action="modal" data-target="#modal-form">
+							<?php echo $language->users->found . $label; ?>
+						</a>
+					<?php else : ?>
+						<em>No Users</em>
+					<?php endif; ?>
 				</td>
 			</tr>
 		<?php endforeach; ?>
 	</tbody>
 </table>
 <p><?php $this->pagination($languages->found); ?></p>
-<div class="card modal col-md-8 col-lg-6 blue" id="modal-form"></div>
+<div class="card modal col-md-8 col-lg-6 cyan" id="modal-form"></div>
