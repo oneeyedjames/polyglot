@@ -10,13 +10,15 @@
 	</a>
 </p>
 <p><?php $this->load('page-limit'); ?></p>
-<table class="blue striped">
+<table class="blue">
 	<thead>
 		<tr>
 			<th class="snap"></th>
 			<th>Project</th>
 			<th># Languages</th>
 			<th># Users</th>
+			<th># Documents</th>
+			<th># Term Lists</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -58,6 +60,28 @@
 						</a>
 					<?php else : ?>
 						<em>No Users</em>
+					<?php endif; ?>
+				</td>
+				<td>
+					<?php if ($project->documents->found) :
+						$label = ' Document' . ($project->documents->found > 1 ? 's' : ''); ?>
+						<a href="project/<?php echo $project->id; ?>/card-documents"
+							data-action="modal" data-target="#modal-card">
+							<?php echo $project->documents->found . $label; ?>
+						</a>
+					<?php else : ?>
+						<em>No Documents</em>
+					<?php endif; ?>
+				</td>
+				<td>
+					<?php if ($project->lists->found) :
+						$label = ' Term List' . ($project->lists->found > 1 ? 's' : ''); ?>
+						<a href="project/<?php echo $project->id; ?>/card-lists"
+							data-action="modal" data-target="#modal-card">
+							<?php echo $project->lists->found . $label; ?>
+						</a>
+					<?php else : ?>
+						<em>No Lists</em>
 					<?php endif; ?>
 				</td>
 			</tr>

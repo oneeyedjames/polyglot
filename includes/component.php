@@ -145,10 +145,12 @@ function init_url() {
 
 	$url_schema->add_view('card-projects',  'user');
 	$url_schema->add_view('card-languages', 'user');
-	$url_schema->add_view('card-languages', 'project');
-	$url_schema->add_view('card-users',     'project');
 	$url_schema->add_view('card-projects',  'language');
 	$url_schema->add_view('card-users',     'language');
+	$url_schema->add_view('card-languages', 'project');
+	$url_schema->add_view('card-users',     'project');
+	$url_schema->add_view('card-documents', 'project');
+	$url_schema->add_view('card-lists',     'project');
 
 	$url_params = $url_schema->parse_path($url_path);
 

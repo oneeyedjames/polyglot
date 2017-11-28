@@ -183,6 +183,40 @@ class project_controller extends controller {
 		return $vars;
 	}
 
+	public function card_documents_view($vars) {
+		if ($proj_id = get_resource_id()) {
+			$project = $this->get_record($proj_id);
+			$project->documents = $this->make_query(array(
+				'args' => array(
+					'project_document' => $proj_id,
+					'master_id'        => 0,
+					'revision'         => 0
+				)
+			), 'document')->get_result();
+
+			$vars['project'] = $project;
+		}
+
+		return $vars;
+	}
+
+	public function card_lists_view($vars) {
+		if ($proj_id = get_resource_id()) {
+			$project = $this->get_record($proj_id);
+			$project->lists = $this->make_query(array(
+				'args' => array(
+					'project_list' => $proj_id,
+					'master_id'    => 0,
+					'revision'     => 0
+				)
+			), 'list')->get_result();
+
+			$vars['project'] = $project;
+		}
+
+		return $vars;
+	}
+
 	public function api_view() {
 		if ($id = get_resource_id()) {
 			$project = $this->get_record($id);
