@@ -1,6 +1,8 @@
 <?php
 
 class controller extends controller_base {
+	use authorization;
+
 	private static $_default_controller = false;
 	private static $_default_database   = false;
 	private static $_default_cache      = false;
@@ -45,7 +47,7 @@ class controller extends controller_base {
 		if (in_array($action, array('login', 'logout')))
 			return parent::do_action($action);
 
-		if ($this->is_authorized($action))
+		if ($this->is_authorized($action, $this->resource))
 			return parent::do_action($action);
 
 		http_response_code(401);
@@ -177,74 +179,15 @@ class controller extends controller_base {
 		return $vars;
 	}
 
-	protected function is_authorized($action, $resource = false) {
+	protected function is_authorized($action, $resource) {
 		if ($user = get_session_user()) {
-			$resource = $resource ?: $this->resource;
-
 			if (!$user->verify_action_token(@$_POST['nonce'], $action, $resource))
 				return false;
 
-			if ($user->admin)
-				return true;
-
-			$proj_id = 0;
-
-			switch ($resource) {
-				case 'project':
-					$proj_id = get_resource_id();
-					break;
-				case 'document':
-				case 'list':
-					$record = $this->get_record(get_resource_id(), $resource);
-					$proj_id = $record ? $record->project_id : get_filter('project');
-					break;
-				case 'term':
-					if ($term = $this->get_record(get_resource_id(), 'term')) {
-						if ($list = $this->get_record($term->list_id, 'list'))
-							$proj_id = $list->project_id;
-					} elseif ($list_id = get_filter('list')) {
-						if ($list = $this->get_record($list_id, 'list'))
-							$proj_id = $list->project_id;
-					}
-					break;
-			}
-
-			if ($role = $this->get_role($user->id, $proj_id))
-				return $this->has_permission($role->id, $action, $resource);
+			return parent::is_authorized($action, $resource);
 		}
 
 		return false;
-	}
-
-	protected function get_role($user_id = SESSION_USER_ID, $proj_id = 0) {
-		$query = $this->make_query(array(
-			'bridge' => 'up_role',
-			'args' => array(
-				'up_user'    => $user_id,
-				'up_project' => $proj_id
-			)
-		), 'role');
-
-		return $query->get_result()->first;
-	}
-
-	protected function has_permission($role_id, $action, $resource = false) {
-		$resource = $resource ?: $this->resource;
-
-		$query = $this->make_query(array(
-			'limit'  => 1,
-			'bridge' => 'rp_permission',
-			'args'   => array(
-				'rp_role'  => $role_id,
-				'action'   => $action,
-				'resource' => $resource,
-				'granted'  => 1
-			)
-		), 'permission');
-
-		$result = $query->get_result();
-
-		return boolval(count($result));
 	}
 
 	public function create_nonce($action, $resource = false) {
