@@ -69,6 +69,6 @@
 		<?php endforeach; ?>
 	</tbody>
 </table>
-<p><?php $this->pagination($languages->found); ?></p>
+<p><?php $this->pagination($users->found); ?></p>
 <div class="card blue modal" id="modal-form"></div>
 <div class="card cyan modal" id="modal-card"></div>
