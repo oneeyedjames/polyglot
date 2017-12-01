@@ -1,8 +1,6 @@
 <?php
 
 class controller extends controller_base {
-	use authorization;
-
 	private static $_default_controller = false;
 	private static $_default_database   = false;
 	private static $_default_cache      = false;
