@@ -23,8 +23,36 @@ function get_records($resource, $limit, $offset) {
 function get_user($user_id) {
 	global $database;
 
-	if ($record = $database->get_record('user', $user_id))
-		return new user($record);
+	if ($record = $database->get_record('user', $user_id)) {
+		$query = new database_query($database, array(
+			'table'  => 'role',
+			'limit'  => 1,
+			'bridge' => 'up_role',
+			'args' => array(
+				'up_user'    => $user_id,
+				'up_project' => get_project_id()
+			)
+		));
+
+		if ($role = $query->get_result()->first) {
+			$query = new database_query($database, array(
+				'table'  => 'permission',
+				'bridge' => 'rp_permission',
+				'args'   => array(
+					'rp_role'  => $role->id,
+					'action'   => $action,
+					'resource' => $resource,
+					'granted'  => 1
+				)
+			));
+
+			$role->permissions = $query->get_result();
+		}
+
+		$user = new user($record, $role);
+
+		return $user;
+	}
 
 	return false;
 }

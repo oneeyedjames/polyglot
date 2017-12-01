@@ -15,12 +15,19 @@ class template extends template_base {
 	}
 
 	public function load($view, $resource = false, $vars = array()) {
-		$controller = $this->_controllers[] = controller::load($resource);
-		$controller->pre_view($view, $vars);
+		$granted = in_array($view, array('header', 'footer', 'login-form'));
 
-		parent::load($view, $resource, $vars);
+		if (!$granted && $user = get_session_user())
+			$granted = $user->has_permission($view, $resource);
 
-		array_pop($this->_controllers);
+		if ($granted) {
+			$controller = $this->_controllers[] = controller::load($resource);
+			$controller->pre_view($view, $vars);
+
+			parent::load($view, $resource, $vars);
+
+			array_pop($this->_controllers);
+		}
 	}
 
 	public function pagination($item_count, $vars = array()) {
