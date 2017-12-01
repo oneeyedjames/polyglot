@@ -9,9 +9,7 @@ trait authorization {
 			if ($user->admin)
 				return true;
 
-			$proj_id = $this->get_project_id($resource);
-
-			if ($role = $this->get_role($user->id, $proj_id)) {
+			if ($role = $this->get_role($user->id, get_project_id())) {
 				foreach ($role->permissions as $permission) {
 					if ($permission->action == $action && $permission->resource == $resource)
 						return true;
@@ -21,31 +19,6 @@ trait authorization {
 
 		return false;
 	}
-
-    protected function get_project_id($resource) {
-        $proj_id = 0;
-
-        switch ($resource) {
-            case 'project':
-                $proj_id = get_resource_id();
-                break;
-            case 'document':
-            case 'list':
-                $record = $this->get_record(get_resource_id(), $resource);
-                $proj_id = $record ? $record->project_id : get_filter('project');
-                break;
-            case 'term':
-				$term = $this->get_record(get_resource_id(), 'term');
-				$list_id = $term ? $term->list_id : get_filter('list');
-
-				if ($list_id && $list = $this->get_record($list_id, 'list'))
-					$proj_id = $list->project_id;
-
-                break;
-        }
-
-        return $proj_id;
-    }
 
     protected function get_role($user_id = SESSION_USER_ID, $proj_id = 0) {
 		$role = $this->make_query(array(

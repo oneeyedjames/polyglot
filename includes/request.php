@@ -9,6 +9,32 @@ function get_resource_id() {
 	return is_numeric(@$_GET['id']) ? intval($_GET['id']) : false;
 }
 
+function get_project_id() {
+	global $database;
+
+	$resource = get_resource();
+	$resource_id = get_resource_id();
+
+	switch ($resource) {
+		case 'project':
+			return get_resource_id();
+		case 'document':
+		case 'list':
+			$record = $database->get_record($resource, $resource_id);
+			return $record ? $record->project_id : get_filter('project');
+		case 'term':
+			$term = $database->get_record($resource, $resource_id);
+			$list_id = $term ? $term->list_id : get_filter('list');
+
+			if ($list_id && $list = $database->get_record('list', $list_id))
+				return $list->project_id;
+
+			return false;
+		default:
+			return false;
+	}
+}
+
 function get_action() {
 	global $url_schema;
 	return $url_schema->is_action(@$_GET['action'], @$_GET['resource']);
