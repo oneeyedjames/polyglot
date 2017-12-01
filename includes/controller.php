@@ -47,7 +47,7 @@ class controller extends controller_base {
 		if (in_array($action, array('login', 'logout')))
 			return parent::do_action($action);
 
-		if ($this->is_authorized($action, $this->resource))
+		if ($this->is_authorized($action))
 			return parent::do_action($action);
 
 		http_response_code(401);
@@ -179,12 +179,14 @@ class controller extends controller_base {
 		return $vars;
 	}
 
-	protected function is_authorized($action, $resource) {
+	protected function is_authorized($action, $resource = false) {
+		$resource = $resource ?: $this->resource;
+
 		if ($user = get_session_user()) {
 			if (!$user->verify_action_token(@$_POST['nonce'], $action, $resource))
 				return false;
 
-			return parent::is_authorized($action, $resource);
+			return $user->has_permission($action, $resource);
 		}
 
 		return false;
@@ -215,11 +217,5 @@ class controller extends controller_base {
 			die("<script type=\"text/javascript\">window.location = '$url'</script>");
 		else
 			die(header("Location: $url"));
-	}
-
-	protected function delete_record($id, $resource = false) {
-		$resource = $resource ?: $this->resource;
-
-		return $this->execute("DELETE FROM `$resource` WHERE id = ?", $id);
 	}
 }
