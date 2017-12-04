@@ -27,7 +27,7 @@ $nonce = $this->create_nonce('save', 'project');
 		<?php endforeach; ?>
 	</select>
 
-	<footer style="text-align: right;">
+	<footer>
 		<button type="button" class="btn cancel">Cancel</button>
 		<button type="submit" class="btn blue">Save</button>
 	</footer>

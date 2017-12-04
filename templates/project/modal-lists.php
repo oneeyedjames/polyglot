@@ -1,7 +1,8 @@
-<header>Term Lists</header>
-<h4><i class="fa fa-folder-open"></i> <?php echo $project->title; ?></h4>
-<?php $label = ' Term List' . ($project->lists->found > 1 ? 's' : ''); ?>
-<strong><?php echo $project->lists->found . $label; ?></strong>
+<header>
+    <i class="fa fa-folder-open"></i> <?php echo $project->title; ?>
+    <a href="#" class="cancel pull-right"><i class="fa fa-close"></i></a>
+</header>
+<strong><i class="fa fa-list"></i> Term Lists</strong>
 <ul>
     <?php foreach ($project->lists as $list) : ?>
         <li>
@@ -14,6 +15,3 @@
         <li><em>more</em></li>
     <?php endif; ?>
 </ul>
-<footer>
-    <button class="btn cancel">Close</button>
-</footer>
