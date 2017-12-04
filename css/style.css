@@ -10,14 +10,6 @@
 	cursor: pointer;
 }
 
-.txt-btn.gray   { color: #999999; }
-.txt-btn.blue   { color: #3366CC; }
-.txt-btn.red    { color: #DC3912; }
-.txt-btn.yellow { color: #FFB800; }
-.txt-btn.green  { color: #109618; }
-.txt-btn.purple { color: #990099; }
-.txt-btn.orange { color: #FF6600; }
-
 .permission-resource-actions { display: none; }
 
 th.snap, td.snap { width: 5em; }

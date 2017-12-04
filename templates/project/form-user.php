@@ -16,14 +16,19 @@
     </select>
 
     <label class="control-label"><i class="fa fa-group"></i> Role</label>
-    <div class="radio">
+    <!-- <div class="radio"> -->
+	<select name="role" class="form-control">
 		<?php foreach ($roles as $role) : ?>
-			<label>
+			<option value="<?php echo $role->id; ?>">
+				<?php echo $role->title; ?>
+			</option>
+			<!-- <label>
 				<input type="radio" name="role" value="<?php echo $role->id; ?>">
 				<span><?php echo $role->title; ?></span>
-			</label>
+			</label> -->
 		<?php endforeach; ?>
-	</div>
+	</select>
+	<!-- </div> -->
 
 	<footer style="text-align: right;">
 		<button type="button" class="btn cancel">Cancel</button>

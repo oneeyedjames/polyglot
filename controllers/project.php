@@ -149,7 +149,7 @@ class project_controller extends controller {
 		return $vars;
 	}
 
-	public function card_languages_view($vars) {
+	public function modal_languages_view($vars) {
 		if ($proj_id = get_resource_id()) {
 			$project = $this->get_record($proj_id);
 			$project->languages = $this->make_query(array(
@@ -166,7 +166,7 @@ class project_controller extends controller {
 		return $vars;
 	}
 
-	public function card_users_view($vars) {
+	public function modal_users_view($vars) {
 		if ($proj_id = get_resource_id()) {
 			$project = $this->get_record($proj_id);
 			$project->users = $this->make_query(array(
@@ -183,7 +183,7 @@ class project_controller extends controller {
 		return $vars;
 	}
 
-	public function card_documents_view($vars) {
+	public function modal_documents_view($vars) {
 		if ($proj_id = get_resource_id()) {
 			$project = $this->get_record($proj_id);
 			$project->documents = $this->make_query(array(
@@ -200,7 +200,7 @@ class project_controller extends controller {
 		return $vars;
 	}
 
-	public function card_lists_view($vars) {
+	public function modal_lists_view($vars) {
 		if ($proj_id = get_resource_id()) {
 			$project = $this->get_record($proj_id);
 			$project->lists = $this->make_query(array(
