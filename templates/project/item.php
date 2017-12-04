@@ -12,7 +12,9 @@
 				<h3><i class="fa fa-file"></i> Documents</h3>
 				<p>
 					<a href="project/<?php echo $project->id; ?>/documents/form-meta"
-						class="btn green" data-action="modal" data-target="#modal-form">
+						class="btn green" data-action="modal"
+						data-target="#modal-form-document"
+						data-parent="#modal-form">
 						<i class="fa fa-plus"></i> Add New Document
 					</a>
 				</p>
@@ -28,7 +30,9 @@
 				<h3><i class="fa fa-list"></i> Term Lists</h3>
 				<p>
 					<a href="project/<?php echo $project->id; ?>/lists/form-meta"
-						class="btn green" data-action="modal" data-target="#modal-form">
+						class="btn green" data-action="modal"
+						data-target="#modal-form-list"
+						data-parent="#modal-form">
 						<i class="fa fa-plus"></i> Add New Term List
 					</a>
 				</p>
@@ -49,4 +53,4 @@
 		?>
 	</div>
 </div>
-<div class="card modal blue" id="modal-form"></div>
+<div id="modal-form"></div>

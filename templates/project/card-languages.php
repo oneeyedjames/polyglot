@@ -3,7 +3,8 @@
 		<i class="fa fa-flag"></i> Languages
 		<a class="pull-right"
 			href="project/<?php echo $project->id; ?>/form-language"
-			data-action="modal" data-target="#modal-form">
+			data-action="modal" data-target="#modal-form-language"
+			data-parent="#modal-form">
 			<i class="fa fa-plus"></i> Add
 		</a>
 	</header>
