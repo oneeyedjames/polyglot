@@ -11,10 +11,8 @@
 			<div class="col-sm-12 col-md-6">
 				<h3><i class="fa fa-file"></i> Documents</h3>
 				<p>
-					<a href="project/<?php echo $project->id; ?>/documents/form-meta"
-						class="btn green" data-action="modal"
-						data-target="#modal-form-document"
-						data-parent="#modal-form">
+					<a href="project/<?php echo $project->id; ?>/documents/form-meta" target="#modal-form"
+						class="btn green" data-action="modal" data-target="#modal-form-document">
 						<i class="fa fa-plus"></i> Add New Document
 					</a>
 				</p>
@@ -29,10 +27,8 @@
 			<div class="col-sm-12 col-md-6">
 				<h3><i class="fa fa-list"></i> Term Lists</h3>
 				<p>
-					<a href="project/<?php echo $project->id; ?>/lists/form-meta"
-						class="btn green" data-action="modal"
-						data-target="#modal-form-list"
-						data-parent="#modal-form">
+					<a href="project/<?php echo $project->id; ?>/lists/form-meta" target="#modal-form"
+						class="btn green" data-action="modal" data-target="#modal-form-list">
 						<i class="fa fa-plus"></i> Add New Term List
 					</a>
 				</p>

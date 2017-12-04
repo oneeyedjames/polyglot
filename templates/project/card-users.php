@@ -1,10 +1,8 @@
 <div class="card cyan">
 	<header>
 		<i class="fa fa-user"></i> Users
-		<a class="pull-right"
-			href="project/<?php echo $project->id; ?>/form-user"
-			data-action="modal" data-target="#modal-form-user"
-			data-parent="#modal-form">
+		<a href="project/<?php echo $project->id; ?>/form-user" target="#modal-form"
+			class="pull-right" data-action="modal" data-target="#modal-form-user">
 			<i class="fa fa-plus"></i> Add
 		</a>
 	</header>
