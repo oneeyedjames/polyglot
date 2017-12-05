@@ -18,8 +18,8 @@
 			<th>User</th>
 			<th>Email</th>
 			<th>Admin</th>
-			<th># Projects</th>
-			<th># Languages</th>
+			<th>Projects</th>
+			<th>Languages</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -53,6 +53,10 @@
 					<?php else : ?>
 						<em>No Projects</em>
 					<?php endif; ?>
+					<a href="user/<?php echo $user->id; ?>/form-projects" target="#modal-card"
+						data-action="modal" data-target="#modal-form-projects">
+						<i class="fa fa-edit"></i>
+					</a>
 				</td>
 				<td>
 					<?php if ($user->languages->found) :
@@ -64,6 +68,10 @@
 					<?php else : ?>
 						<em>No Languages</em>
 					<?php endif; ?>
+					<a href="user/<?php echo $user->id; ?>/form-languages" target="#modal-card"
+						data-action="modal" data-target="#modal-form-languages">
+						<i class="fa fa-edit"></i>
+					</a>
 				</td>
 			</tr>
 		<?php endforeach; ?>

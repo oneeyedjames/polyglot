@@ -90,7 +90,7 @@ class user_controller extends controller {
 		return $vars;
 	}
 
-	public function form_project_view($vars) {
+	public function form_projects_view($vars) {
 		$user = $this->get_record(get_resource_id());
 
 		$user->projects = $this->make_query(array(
@@ -119,7 +119,7 @@ class user_controller extends controller {
 		return $vars;
 	}
 
-	public function form_language_view($vars) {
+	public function form_languages_view($vars) {
 		$user = $this->get_record(get_resource_id());
 		$user->languages = $this->make_query(array(
 			'bridge' => 'ul_language',
