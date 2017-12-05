@@ -104,7 +104,23 @@ class role_controller extends controller {
 
         $vars['role'] = $this->get_record(get_resource_id());
         $vars['resources'] = $url_schema->resources;
-        
+
+        return $vars;
+    }
+
+    public function card_permissions_view($vars) {
+        if ($role_id = get_resource_id()) {
+            $role = $this->get_record(get_resource_id());
+            $role->permissions = $this->make_query(array(
+				'bridge' => 'rp_permission',
+				'args'   => array(
+					'rp_role' => $role->id
+				)
+			), 'permission')->get_result();
+
+            $vars['role'] = $role;
+        }
+
         return $vars;
     }
 }

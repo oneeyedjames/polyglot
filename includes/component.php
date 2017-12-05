@@ -131,8 +131,9 @@ function init_url() {
 	$url_schema->add_action('add-permission',    'role');
 	$url_schema->add_action('remove-permission', 'role');
 
-	$url_schema->add_view('form-meta',       'role');
-	$url_schema->add_view('form-permission', 'role');
+	$url_schema->add_view('form-meta',        'role');
+	$url_schema->add_view('form-permission',  'role');
+	$url_schema->add_view('card-permissions', 'role');
 
 	$url_schema->add_action('add-language',    'project');
 	$url_schema->add_action('remove-language', 'project');
