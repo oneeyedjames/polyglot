@@ -5,7 +5,7 @@
 </ol>
 <h2><i class="fa fa-group"></i> Roles</h2>
 <p>
-	<a href="role/form-meta" class="btn green" target="#modal-card"
+	<a href="role/form-meta" target="#modal-card" class="btn green"
 		data-action="modal" data-target="#modal-form-meta">
 		<i class="fa fa-plus"></i> Add New Role
 	</a>
@@ -16,6 +16,7 @@
 		<tr>
 			<th class="snap"></th>
 			<th>Role</th>
+			<th>Description</th>
 			<th>Permissions</th>
 		</tr>
 	</thead>
@@ -37,7 +38,8 @@
 			    		</button>
 			        </form>
 				</td>
-				<td><?php echo $role->title; ?></td>
+				<td><a href="roles/<?php echo $role->id; ?>"><?php echo $role->title; ?></a></td>
+				<td><?php echo $role->descrip; ?></td>
 				<td>
 					<?php if ($role->permissions->found) :
 						$label = ' Permission' . ($role->permissions->found > 1 ? 's' : ''); ?>
@@ -53,5 +55,5 @@
 		<?php endforeach; ?>
 	</tbody>
 </table>
-<p><?php $this->pagination($users->found); ?></p>
+<p><?php $this->pagination($roles->found); ?></p>
 <div id="modal-card"></div>

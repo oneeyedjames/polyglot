@@ -90,6 +90,27 @@ class role_controller extends controller {
         return $vars;
     }
 
+    public function item_view($vars) {
+        $limit  = get_per_page();
+		$offset = get_offset(get_page(), $limit);
+
+        if ($role_id = get_resource_id()) {
+            $role = $this->get_record($role_id);
+            $role->permissions = $this->make_query(array(
+				'bridge' => 'rp_permission',
+                'limit'  => $limit,
+                'offset' => $offset,
+				'args'   => array(
+					'rp_role' => $role->id
+				)
+			), 'permission')->get_result();
+
+            $vars['role'] = $role;
+        }
+
+        return $vars;
+    }
+
     public function form_meta_view($vars) {
         if ($role_id = get_resource_id())
 			$vars['role'] = $this->get_record($role_id);
