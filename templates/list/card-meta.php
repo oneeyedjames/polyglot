@@ -14,10 +14,10 @@
 	<p><?php echo $list->created; ?></p>
 
 	<footer>
-		<a class="btn blue" href="lists/<?php echo $list->id; ?>/form">
+		<a class="btn primary" href="lists/<?php echo $list->id; ?>/form">
 			<i class="fa fa-edit"></i> Edit
 		</a>
-		<a class="btn red">
+		<a class="btn danger">
 			<i class="fa fa-trash"></i> Delete
 		</a>
 	</footer>

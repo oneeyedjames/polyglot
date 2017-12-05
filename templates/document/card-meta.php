@@ -20,10 +20,10 @@
 
 	<?php if ($document->id) : ?>
 		<footer>
-			<a href="document/<?php echo $document->id; ?>/form" title="Edit" class="btn blue">
+			<a href="document/<?php echo $document->id; ?>/form" title="Edit" class="btn primary">
 				<i class="fa fa-edit"></i> Edit
 			</a>
-			<a class="btn red">
+			<a class="btn danger">
 				<i class="fa fa-trash"></i> Delete
 			</a>
 		</footer>

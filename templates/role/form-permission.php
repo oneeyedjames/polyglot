@@ -17,7 +17,7 @@ foreach ($resources as $resource => $resource_meta) {
 ?>
 <form action="role/<?php echo $role->id; ?>/add-permission" method="POST">
     <input type="hidden" name="nonce" value="<?php echo $nonce; ?>">
-    <div class="modal card cyan" id="modal-form-permission">
+    <div class="modal card primary" id="modal-form-permission">
         <header>Add Permission</header>
 
         <label><i class="fa fa-users"></i> Role</label>
@@ -41,7 +41,7 @@ foreach ($resources as $resource => $resource_meta) {
         <?php endforeach; ?>
 
         <footer>
-    		<button type="submit" class="btn blue">Save</button>
+    		<button type="submit" class="btn primary">Save</button>
     		<button type="button" class="btn cancel">Cancel</button>
     	</footer>
     </div>

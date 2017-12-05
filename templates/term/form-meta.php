@@ -22,7 +22,7 @@ $nonce = $this->create_nonce('save', 'term');
 
 	<label>Title</label>
 	<?php if ($term->master) : ?>
-		<div class="card alert yellow"><?php echo $term->master->content; ?></div>
+		<div class="card alert"><?php echo $term->master->content; ?></div>
 	<?php endif; ?>
 	<input id="term-content" type="text" name="term[content]" value="<?php echo $term->content; ?>">
 
@@ -32,12 +32,12 @@ $nonce = $this->create_nonce('save', 'term');
 
 	<label>Description</label>
 	<?php if ($term->master) : ?>
-		<div class="card alert yellow" style="white-space: pre-wrap;"><?php echo $term->master->descrip; ?></div>
+		<div class="card alert" style="white-space: pre-wrap;"><?php echo $term->master->descrip; ?></div>
 	<?php endif; ?>
 	<textarea id="term-description" name="term[description]" rows="2"><?php echo $term->descrip; ?></textarea>
 
 	<footer>
 		<button type="button" class="btn cancel">Cancel</button>
-		<button type="submit" class="btn blue">Save</button>
+		<button type="submit" class="btn primary">Save</button>
 	</footer>
 </form>

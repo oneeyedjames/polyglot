@@ -1,4 +1,4 @@
-<div class="card blue">
+<div class="card primary">
 	<header>
 		<a href="project/<?php echo $project->id; ?>"><?php echo $project->title; ?></a>
 	</header>
@@ -36,11 +36,11 @@
 		</div>
 	</div>
 	<footer>
-		<a href="project/<?php echo $project->id; ?>/form-meta" class="btn blue"
+		<a href="project/<?php echo $project->id; ?>/form-meta" class="btn primary"
 			data-action="modal" data-target="#project-form">
 			<i class="fa fa-edit"></i> Edit
 		</a>
-		<a class="btn red">
+		<a class="btn danger">
 			<i class="fa fa-trash"></i> Delete
 		</a>
 	</footer>

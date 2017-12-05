@@ -33,7 +33,7 @@ $nonce = $this->create_nonce('save', 'document');
 	<?php if ($document->master) : ?>
 		<div class="row">
 			<div class="col-md-6">
-				<div class="card alert yellow"><?php echo $master->title; ?></div>
+				<div class="card alert"><?php echo $master->title; ?></div>
 			</div>
 			<div class="col-md-6">
 				<input type="text" name="document[title]" value="<?php echo $document->title; ?>">
@@ -47,7 +47,7 @@ $nonce = $this->create_nonce('save', 'document');
 	<?php if ($document->master) : ?>
 		<div class="row">
 			<div class="col-md-6">
-				<div class="card alert yellow"><?php echo $master->descrip; ?></div>
+				<div class="card alert"><?php echo $master->descrip; ?></div>
 			</div>
 			<div class="col-md-6">
 				<textarea name="document[description]" rows="4"><?php echo $document->descrip; ?></textarea>
@@ -61,7 +61,7 @@ $nonce = $this->create_nonce('save', 'document');
 	<?php if ($document->master) : ?>
 		<div class="row">
 			<div class="col-md-6">
-				<div class="card alert yellow" style="white-space: pre-wrap;"><?php echo $master->content; ?></div>
+				<div class="card alert" style="white-space: pre-wrap;"><?php echo $master->content; ?></div>
 			</div>
 			<div class="col-md-6">
 				<textarea name="document[content]" rows="24"><?php echo $document->content; ?></textarea>
@@ -73,6 +73,6 @@ $nonce = $this->create_nonce('save', 'document');
 
 	<footer>
 		<button type="button" class="btn cancel">Cancel</button>
-		<button type="submit" class="btn blue">Save</button>
+		<button type="submit" class="btn primary">Save</button>
 	</footer>
 </form>
