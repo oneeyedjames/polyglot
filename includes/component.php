@@ -122,36 +122,38 @@ function init_url() {
 	$url_schema->add_resource('list',     'lists');
 	$url_schema->add_resource('term',     'terms');
 
+	$url_schema->add_view('form-meta',      'user');
+	$url_schema->add_view('form-projects',  'user');
+	$url_schema->add_view('form-languages', 'user');
+	$url_schema->add_view('card-projects',  'user');
+	$url_schema->add_view('card-languages', 'user');
+
+	$url_schema->add_action('add-permission',    'role');
+	$url_schema->add_action('remove-permission', 'role');
+
+	$url_schema->add_view('form-meta',       'role');
+	$url_schema->add_view('form-permission', 'role');
+
 	$url_schema->add_action('add-language',    'project');
 	$url_schema->add_action('remove-language', 'project');
 	$url_schema->add_action('add-user',        'project');
 	$url_schema->add_action('remove-user',     'project');
 
-	$url_schema->add_action('add-permission',    'role');
-	$url_schema->add_action('remove-permission', 'role');
-
-	$url_schema->add_view('form-meta',     'user');
-	$url_schema->add_view('form-project',  'user');
-	$url_schema->add_view('form-language', 'user');
-	$url_schema->add_view('form-meta',     'role');
-	$url_schema->add_view('form-permission', 'role');
-	$url_schema->add_view('form-meta',     'project');
-	$url_schema->add_view('form-language', 'project');
-	$url_schema->add_view('form-user',     'project');
-	$url_schema->add_view('form-meta',     'language');
-	$url_schema->add_view('form-meta',     'document');
-	$url_schema->add_view('form-meta',     'list');
-	$url_schema->add_view('form-meta',     'term');
-
-	$url_schema->add_view('card-projects',  'user');
-	$url_schema->add_view('card-languages', 'user');
-	$url_schema->add_view('card-projects',  'language');
-	$url_schema->add_view('card-users',     'language');
-
+	$url_schema->add_view('form-meta',       'project');
+	$url_schema->add_view('form-language',   'project');
+	$url_schema->add_view('form-user',       'project');
 	$url_schema->add_view('modal-languages', 'project');
 	$url_schema->add_view('modal-users',     'project');
 	$url_schema->add_view('modal-documents', 'project');
 	$url_schema->add_view('modal-lists',     'project');
+
+	$url_schema->add_view('form-meta',     'language');
+	$url_schema->add_view('card-projects', 'language');
+	$url_schema->add_view('card-users',    'language');
+
+	$url_schema->add_view('form-meta',     'document');
+	$url_schema->add_view('form-meta',     'list');
+	$url_schema->add_view('form-meta',     'term');
 
 	$url_params = $url_schema->parse_path($url_path);
 
