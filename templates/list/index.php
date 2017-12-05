@@ -6,7 +6,7 @@
 </ol>
 <h2><i class="fa fa-list"></i> <?php echo $project->title; ?> &raquo; Term Lists</h2>
 <p>
-	<a href="project/<?php echo $project->id; ?>/lists/form-meta" class="btn green" data-action="modal" data-target="#list-form">
+	<a href="project/<?php echo $project->id; ?>/lists/form-meta" class="btn success" data-action="modal" data-target="#list-form">
 		<i class="fa fa-plus"></i> Add New Term List
 	</a>
 </p>
@@ -19,4 +19,4 @@
 	<?php endforeach; ?>
 </div>
 <p><?php $this->pagination($lists->found); ?></p>
-<div class="card modal blue" id="list-form"></div>
+<div class="modal card primary" id="list-form"></div>

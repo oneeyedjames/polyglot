@@ -6,7 +6,7 @@
 </ol>
 <h2><i class="fa fa-file"></i> <?php echo $project->title; ?> &raquo; Documents</h2>
 <p>
-	<a href="project/<?php echo $project->id; ?>/documents/form" class="btn green" data-action="modal" data-target="#document-form">
+	<a href="project/<?php echo $project->id; ?>/documents/form" class="btn success" data-action="modal" data-target="#document-form">
 		<i class="fa fa-plus"></i> Add New Document
 	</a>
 </p>
@@ -19,4 +19,4 @@
 	<?php endforeach; ?>
 </div>
 <p><?php $this->pagination($documents->found); ?></p>
-<div class="card modal blue" id="list-form"></div>
+<div class="modal card primary" id="list-form"></div>

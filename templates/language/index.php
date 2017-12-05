@@ -5,13 +5,13 @@
 </ol>
 <h2><i class="fa fa-flag"></i> Languages</h2>
 <p>
-	<a href="language/form-meta" target="#modal-form" class="btn green"
+	<a href="language/form-meta" target="#modal-form" class="btn success"
 		data-action="modal" data-target="#modal-form-language">
 		<i class="fa fa-plus"></i> Add New Language
 	</a>
 </p>
 <p><?php $this->load('page-limit'); ?></p>
-<table class="blue striped">
+<table class="primary">
 	<thead>
 		<tr>
 			<th class="snap"></th>
@@ -28,13 +28,13 @@
 					<form action="language/<?php echo $language->id; ?>/delete" method="POST" class="btn-group pull-left"
 						data-confirm="Are you sure you want to delete this language?">
 						<a href="language/<?php echo $language->id; ?>/form-meta" target="#modal-form"
-							class="btn blue" data-action="modal" data-target="#modal-form-language">
+							class="btn primary" data-action="modal" data-target="#modal-form-language">
 							<i class="fa fa-edit"></i>
 						</a>
 
 			            <input type="hidden" name="nonce" value="<?php echo $delete_nonce; ?>">
 
-						<button type="submit" class="btn red">
+						<button type="submit" class="btn danger">
 			    			<i class="fa fa-trash"></i>
 			    		</button>
 					</form>

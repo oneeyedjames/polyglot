@@ -13,12 +13,12 @@
 		</h2>
 		<p class="lead"><?php echo $list->descrip; ?></p>
 		<p>
-			<a href="list/<?php echo $list->id; ?>/terms/form-meta" class="btn green" data-target="#term-form" data-action="modal">
+			<a href="list/<?php echo $list->id; ?>/terms/form-meta" class="btn success" data-target="#term-form" data-action="modal">
 				<i class="fa fa-plus"></i> Add New Term
 			</a>
 		</p>
 		<?php $this->load('page-limit'); ?>
-		<table class="blue">
+		<table class="primary">
 			<thead>
 				<tr>
 					<th></th>
@@ -38,7 +38,7 @@
 						<td>
 							<?php if (!get_filter('translation')) : ?>
 								<div class="btn-group">
-									<a class="btn blue" href="term/<?php echo $term->id; ?>/form-meta" data-action="modal" data-target="#term-form">
+									<a class="btn primary" href="term/<?php echo $term->id; ?>/form-meta" data-action="modal" data-target="#term-form">
 										<i class="fa fa-edit"></i>
 									</a>
 								</div>
@@ -70,4 +70,4 @@
 		<?php $this->load('card-meta', 'list', compact('list')); ?>
 	</div>
 </div>
-<div class="card modal blue" id="term-form"></div>
+<div class="modal card primary" id="term-form"></div>

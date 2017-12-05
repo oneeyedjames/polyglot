@@ -1,4 +1,4 @@
-<div class="card blue">
+<div class="card primary">
 	<header>
 		<a href="lists/<?php echo $list->id; ?>"><?php echo $list->title; ?></a>
 	</header>
@@ -15,10 +15,10 @@
 		<?php endif; endforeach; ?>
 	</ul>
 	<footer>
-		<a class="btn blue" href="lists/<?php echo $list->id; ?>/form">
+		<a class="btn primary" href="lists/<?php echo $list->id; ?>/form">
 			<i class="fa fa-edit"></i> Edit
 		</a>
-		<a class="btn red">
+		<a class="btn danger">
 			<i class="fa fa-trash"></i> Delete
 		</a>
 	</footer>

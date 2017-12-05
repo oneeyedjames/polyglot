@@ -7,7 +7,7 @@ $nonce = $this->create_nonce('save', 'role');
 ?>
 <form action="<?php echo $url; ?>" method="POST">
 	<input type="hidden" name="nonce" value="<?php echo $nonce; ?>">
-	<div class="modal card blue" id="modal-form-meta">
+	<div class="modal card primary" id="modal-form-meta">
 		<header>Edit Role</header>
 
 		<label>Title</label>
@@ -17,7 +17,7 @@ $nonce = $this->create_nonce('save', 'role');
 		<textarea name="role[description]" class="form-control"><?php echo $role->descrip; ?></textarea>
 
 		<footer>
-			<button type="submit" class="btn blue">Save</button>
+			<button type="submit" class="btn primary">Save</button>
 			<button type="button" class="btn cancel">Cancel</button>
 		</footer>
 	</div>

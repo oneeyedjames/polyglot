@@ -1,7 +1,7 @@
 <?php $nonce = $this->create_nonce('save', 'user'); ?>
 <form action="user/<?php echo $user->id; ?>/save" method="POST">
 	<input type="hidden" name="nonce" value="<?php echo $nonce; ?>">
-	<div class="modal card blue" id="modal-form-projects">
+	<div class="modal card primary" id="modal-form-projects">
 		<header><i class="fa fa-user"></i> <?php echo $user->name; ?></header>
 
 		<strong><i class="fa fa-folder-open"></i> Projects</strong>
@@ -21,7 +21,7 @@
 
 		<footer style="text-align: right;">
 			<button type="button" class="btn cancel">Cancel</button>
-			<button type="submit" class="btn blue">Save</button>
+			<button type="submit" class="btn primary">Save</button>
 		</footer>
 	</div>
 </form>
