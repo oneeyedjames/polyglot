@@ -1,5 +1,5 @@
 <?php $master = $document->master ?: $document; ?>
-<div class="card">
+<div class="card info">
 	<header><i class="fa fa-flag"></i> Translations</header>
 	<ul>
 		<?php if ($document->master) : ?>
@@ -7,8 +7,10 @@
 				<a href="document/<?php echo $document->master->id; ?>">
 					<?php echo $document->master->title; ?>
 				</a>
-				<div>in <?php echo $document->master->language->name; ?></div>
-				<div>by <?php echo $document->master->user->name; ?></div>
+				<div class="row">
+					<div class="col-xs-6"><i class="fa fa-flag"></i>  <?php echo $document->master->language->name; ?></div>
+					<div class="col-xs-6"><i class="fa fa-user"></i> <?php echo $document->master->user->name; ?></div>
+				</div>
 			</li>
 		<?php endif; foreach ($document->project->languages as $language) :
 			if (!in_array($language->id, array($document->language->id, $master->language->id))) : ?>
@@ -17,13 +19,16 @@
 					<a href="document/<?php echo $master->id; ?>/translation/<?php echo $language->id; ?>">
 						<?php echo $translation->title; ?>
 					</a>
-					<div>in <?php echo $language->name; ?></div>
-					<div>by <?php echo $translation->user->name; ?></div>
+					<div class="row">
+						<div class="col-xs-6"><i class="fa fa-flag"></i> <?php echo $language->name; ?></div>
+						<div class="col-xs-6"><i class="fa fa-user"></i> <?php echo $translation->user->name; ?></div>
+					</div>
 				<?php else : ?>
-					<a href="document/<?php echo $master->id; ?>/form/translation/<?php echo $language->id; ?>">
-						Add Translation
+					<a href="document/<?php echo $master->id; ?>/form/translation/<?php echo $language->id; ?>"
+						class="txt-btn success">
+						<i class="fa fa-plus"></i> Add Translation
 					</a>
-					<div>in <?php echo $language->name; ?></div>
+					<div><i class="fa fa-flag"></i> <?php echo $language->name; ?></div>
 				<?php endif; ?>
 			</li>
 		<?php endif; endforeach; ?>

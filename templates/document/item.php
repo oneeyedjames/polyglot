@@ -30,6 +30,14 @@
 			<?php endif; ?>
 		</h2>
 		<p class="lead"><?php echo $document->descrip; ?></p>
+		<p>
+			<a href="document/<?php echo $document->id; ?>/form" title="Edit" class="btn primary">
+				<i class="fa fa-edit"></i> Edit
+			</a>
+			<a class="btn danger">
+				<i class="fa fa-trash"></i> Delete
+			</a>
+		</p>
 		<p style="white-space: pre-wrap"><?php echo $document->content; ?></p>
 	</div>
 	<div class="col-sm-12 col-md-4 col-md-pull-8 col-lg-3 col-lg-pull-9">
