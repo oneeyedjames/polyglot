@@ -12,7 +12,7 @@ $nonce = $this->create_nonce('save', 'list');
 ?>
 <form action="<?php echo $url; ?>" method="POST">
 	<input type="hidden" name="nonce" value="<?php echo $nonce; ?>">
-	<div class="modal card primary" id="modal-form-list">
+	<div class="modal card primary" id="modal-form-meta">
 		<header>Edit Term List</header>
 
 		<label>Title</label>
