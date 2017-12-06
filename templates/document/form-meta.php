@@ -10,7 +10,7 @@ $nonce = $this->create_nonce('save', 'document');
 ?>
 <form action="<?php echo $url; ?>" method="POST">
 	<input type="hidden" name="nonce" value="<?php echo $nonce; ?>">
-	<div class="modal card primary" id="modal-form-document">
+	<div class="modal card primary" id="modal-form-meta">
 		<header><i class="fa fa-file"></i> Edit Document</header>
 
 		<label>Title</label>
