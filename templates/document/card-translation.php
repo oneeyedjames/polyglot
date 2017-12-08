@@ -25,7 +25,7 @@
 					</div>
 				<?php else : ?>
 					<a href="document/<?php echo $master->id; ?>/form/translation/<?php echo $language->id; ?>"
-						class="txt-btn success">
+						class="btn sm text success">
 						<i class="fa fa-plus"></i> Add Translation
 					</a>
 					<div><i class="fa fa-flag"></i> <?php echo $language->name; ?></div>

@@ -13,7 +13,7 @@
 				<?php if ($language->id == $project->default_language_id) : ?>
 					<em class="pull-right">Default</em>
 				<?php else : ?>
-					<a class="txt-btn danger pull-right"
+					<a class="btn sm text danger pull-right"
 						data-action="submit" data-target="#remove-language-form"
 						data-input-language="<?php echo $language->id; ?>">
 						<i class="fa fa-minus"></i> Remove
