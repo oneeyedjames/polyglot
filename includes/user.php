@@ -23,12 +23,16 @@ class user extends user_base {
 		if ($this->admin)
 			return true;
 
-		if (!$this->role)
-			return false;
+		return boolval($this->get_permission($action, $resource));
+	}
 
-		foreach ($this->role->permissions as $permission) {
-			if ($permission->action == $action && $permission->resource == $resource)
-				return true;
+	public function get_permission($action, $resource = false) {
+		if ($this->role) {
+			foreach ($this->role->permissions as $permission) {
+				if ($permission->action == $action &&
+					$permission->resource == $resource)
+					return $permission;
+			}
 		}
 
 		return false;
