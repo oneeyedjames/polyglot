@@ -1,3 +1,4 @@
+<?php $nonce = $this->create_nonce('remove-permission', 'role'); ?>
 <ol class="breadcrumb">
 	<li><a href="home"><i class="fa fa-home"></i> Home</a></li>
 	<li><a href="roles">Roles</a></li>
@@ -16,6 +17,7 @@
 <table class="primary">
     <thead>
         <tr>
+			<th></th>
             <th>Resource</th>
             <th>Action</th>
         </tr>
@@ -23,6 +25,16 @@
     <tbody>
         <?php foreach ($role->permissions as $permission) : ?>
             <tr>
+				<td style="width: 2.5em">
+					<form action="role/<?php echo $role->id; ?>/remove-permission" method="POST"
+						data-confirm="Are you sure you want to remove this permission?">
+						<input type="hidden" name="nonce" value="<?php echo $nonce; ?>">
+						<input type="hidden" name="permission" value="<?php echo $permission->id; ?>">
+						<button type="submit" class="danger">
+							<i class="fa fa-minus"></i>
+						</button>
+					</form>
+				</td>
                 <td><?php echo $permission->resource; ?></td>
                 <td><?php echo $permission->action; ?></td>
             </tr>
