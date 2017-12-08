@@ -35,8 +35,7 @@ trait authorization {
 			'args'   => array(
 				'rp_role'  => $role->id,
 				'action'   => $action,
-				'resource' => $resource,
-				'granted'  => 1
+				'resource' => $resource
 			)
 		), 'permission')->get_result();
 

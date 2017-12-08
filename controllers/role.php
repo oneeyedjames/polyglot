@@ -49,8 +49,7 @@ class role_controller extends controller {
 
 			$this->put_record(new object(array(
 				'role_id'       => $role_id,
-                'permission_id' => $permission->id,
-                'granted'       => 1
+                'permission_id' => $permission->id
 			)), 'role_permission_map');
         }
 

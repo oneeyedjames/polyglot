@@ -41,8 +41,7 @@ function get_user($user_id) {
 				'args'   => array(
 					'rp_role'  => $role->id,
 					'action'   => $action,
-					'resource' => $resource,
-					'granted'  => 1
+					'resource' => $resource
 				)
 			));
 
