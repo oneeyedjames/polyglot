@@ -131,8 +131,9 @@ function init_url() {
 	$url_schema->add_action('add-permission',    'role');
 	$url_schema->add_action('remove-permission', 'role');
 
-	$url_schema->add_view('form-meta',       'role');
-	$url_schema->add_view('form-permission', 'role');
+	$url_schema->add_view('form-meta',        'role');
+	$url_schema->add_view('form-permission',  'role');
+	$url_schema->add_view('card-permissions', 'role');
 
 	$url_schema->add_action('add-language',    'project');
 	$url_schema->add_action('remove-language', 'project');
@@ -321,7 +322,7 @@ function get_database_schema() {
 	$schema->role_permission_map = "CREATE TABLE IF NOT EXISTS `role_permission_map` (
 		`role_id` int(10) unsigned NOT NULL,
 		`permission_id` int(10) unsigned NOT NULL,
-		`granted` tinyint(3) unsigned NOT NULL,
+		`override` tinyint(3) unsigned NOT NULL DEFAULT 0,
 		PRIMARY KEY (`role_id`,`permission_id`)
 	) DEFAULT CHARSET=utf8";
 
@@ -459,9 +460,9 @@ function setup_user_roles($database) {
 				}
 			}
 
-			$values = implode(', ', array_fill(0, count($grant_data) / 2, '(?, ?, 1)'));
+			$values = implode(', ', array_fill(0, count($grant_data) / 2, '(?, ?)'));
 
-			$sql = "INSERT INTO `role_permission_map` (`role_id`, `permission_id`, `granted`) VALUES $values";
+			$sql = "INSERT INTO `role_permission_map` (`role_id`, `permission_id`) VALUES $values";
 
 			$database->execute($sql, $grant_data);
 		}

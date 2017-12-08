@@ -5,7 +5,7 @@
 	<div class="col-md-6 col-lg-4">
 		<h3><i class="fa fa-folder-open"></i> Projects</h3>
 		<!--<p>
-			<a class="btn green" data-action="modal" data-target="#project-form" href="project/form-meta">
+			<a class="btn success" data-action="modal" data-target="#project-form" href="project/form-meta">
 				<i class="fa fa-plus"></i> Add New Project
 			</a>
 		</p>-->
@@ -15,7 +15,7 @@
 	<div class="col-md-6 col-lg-4">
 		<h3><i class="fa fa-flag"></i> Languages</h3>
 		<!--<p>
-			<a class="btn green" data-action="modal" data-target="#project-form" href="language/form-meta">
+			<a class="btn success" data-action="modal" data-target="#project-form" href="language/form-meta">
 				<i class="fa fa-plus"></i> Add New Language
 			</a>
 		</p>-->
@@ -25,7 +25,7 @@
 	<div class="col-md-6 col-lg-4">
 		<h3><i class="fa fa-user"></i> Users</h3>
 		<!--<p>
-			<a class="btn green" data-action="modal" data-target="#project-form" href="users/form-meta">
+			<a class="btn success" data-action="modal" data-target="#project-form" href="users/form-meta">
 				<i class="fa fa-plus"></i> Add New User
 			</a>
 		</p>-->
@@ -33,6 +33,6 @@
 		<a class="btn" href="users">See More <i class="fa fa-chevron-right"></i></a>
 	</div>
 </div>
-<div class="card modal blue" id="project-form"></div>
-<div class="card modal blue" id="language-form"></div>
-<div class="card modal blue" id="user-form"></div>
+<div class="modal card primary" id="project-form"></div>
+<div class="modal card primary" id="language-form"></div>
+<div class="modal card primary" id="user-form"></div>

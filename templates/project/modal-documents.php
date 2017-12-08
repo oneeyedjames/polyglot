@@ -1,4 +1,4 @@
-<div class="modal card cyan" id="modal-card-documents">
+<div class="modal card info" id="modal-card-documents">
     <header>
         <i class="fa fa-folder-open"></i> <?php echo $project->title; ?>
         <a href="#" class="cancel pull-right"><i class="fa fa-close"></i></a>

@@ -12,7 +12,7 @@ $nonce = $this->create_nonce('save', 'language');
 ?>
 <form action="<?php echo $url; ?>" method="POST">
 	<input type="hidden" name="nonce" value="<?php echo $nonce; ?>">
-	<div class="modal card blue" id="modal-form-meta">
+	<div class="modal card primary" id="modal-form-meta">
 		<header>Edit User</header>
 
 		<label>Username</label>
@@ -22,7 +22,7 @@ $nonce = $this->create_nonce('save', 'language');
 		<input type="text" name="user[email]" value="<?php echo $user->email; ?>">
 
 		<footer>
-			<button type="submit" class="btn blue">Save</button>
+			<button type="submit" class="btn primary">Save</button>
 			<button type="button" class="btn cancel">Cancel</button>
 		</footer>
 	</div>

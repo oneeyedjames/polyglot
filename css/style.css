@@ -5,11 +5,6 @@
 	padding-right: 0;
 }
 
-.txt-btn {
-	text-decoration: none;
-	cursor: pointer;
-}
-
 .permission-resource-actions { display: none; }
 
 th.snap, td.snap { width: 5em; }

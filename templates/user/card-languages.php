@@ -1,4 +1,4 @@
-<div class="modal card cyan" id="modal-card-languages">
+<div class="modal card info" id="modal-card-languages">
     <header>
         <i class="fa fa-user"></i> <?php echo $user->name; ?>
         <a class="cancel pull-right"><i class="fa fa-close"></i></a>

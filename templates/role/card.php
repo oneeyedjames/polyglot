@@ -1,4 +1,4 @@
-<div class="card blue">
+<div class="card primary">
     <header><?php echo $role->title; ?></header>
 
     <p><?php echo $role->descrip; ?></p>
@@ -11,7 +11,7 @@
         <input type="hidden" name="permission">
     </form>
 
-    <a class="txt-btn green pull-right"
+    <a class="btn sm text success pull-right"
         href="role/<?php echo $role->id; ?>/form-permission"
         data-action="modal" data-target="#modal-form">
         <i class="fa fa-plus"></i> Add
@@ -26,7 +26,7 @@
 
                     echo $permission->action;
                 ?></div>
-                <a class="txt-btn red"
+                <a class="btn sm text danger"
                     data-action="submit" data-target="#<?php echo $form_id ?>"
                     data-input-permission="<?php echo $permission->id; ?>">
         			<i class="fa fa-minus"></i> Remove
@@ -40,12 +40,12 @@
             <?php $nonce = $this->create_nonce('delete', 'role'); ?>
             <input type="hidden" name="nonce" value="<?php echo $nonce; ?>">
 
-            <a class="btn blue" href="role/<?php echo $role->id; ?>/form-meta"
+            <a class="btn primary" href="role/<?php echo $role->id; ?>/form-meta"
     			data-action="modal" data-target="#modal-form">
     			<i class="fa fa-edit"></i> Edit
     		</a>
 
-    		<button type="submit" class="btn red">
+    		<button type="submit" class="btn danger">
     			<i class="fa fa-trash"></i> Delete
     		</button>
         </form>

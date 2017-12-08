@@ -28,6 +28,8 @@ class role_controller extends controller {
     }
 
     public function add_permission_action($get, $post) {
+        $role_id = get_resource_id();
+
         if (isset($post['permission']['resource'], $post['permission']['action'])) {
             $permissions = $this->make_query(array(
                 'args' => array(
@@ -46,13 +48,12 @@ class role_controller extends controller {
             }
 
 			$this->put_record(new object(array(
-				'role_id'       => get_resource_id(),
-                'permission_id' => $permission->id,
-                'granted'       => 1
+				'role_id'       => $role_id,
+                'permission_id' => $permission->id
 			)), 'role_permission_map');
         }
 
-        return array('resource' => 'role');
+        return array('resource' => 'role', 'id' => $role_id);
     }
 
     public function remove_permission_action($get, $post) {
@@ -66,7 +67,7 @@ class role_controller extends controller {
             $this->execute($sql, $role_id, $permission_id);
         }
 
-        return array('resource' => 'role');
+        return array('resource' => 'role', 'id' => $role_id);
     }
 
     public function index_view($vars) {
@@ -90,6 +91,27 @@ class role_controller extends controller {
         return $vars;
     }
 
+    public function item_view($vars) {
+        $limit  = get_per_page();
+		$offset = get_offset(get_page(), $limit);
+
+        if ($role_id = get_resource_id()) {
+            $role = $this->get_record($role_id);
+            $role->permissions = $this->make_query(array(
+				'bridge' => 'rp_permission',
+                'limit'  => $limit,
+                'offset' => $offset,
+				'args'   => array(
+					'rp_role' => $role->id
+				)
+			), 'permission')->get_result();
+
+            $vars['role'] = $role;
+        }
+
+        return $vars;
+    }
+
     public function form_meta_view($vars) {
         if ($role_id = get_resource_id())
 			$vars['role'] = $this->get_record($role_id);
@@ -104,7 +126,23 @@ class role_controller extends controller {
 
         $vars['role'] = $this->get_record(get_resource_id());
         $vars['resources'] = $url_schema->resources;
-        
+
+        return $vars;
+    }
+
+    public function card_permissions_view($vars) {
+        if ($role_id = get_resource_id()) {
+            $role = $this->get_record(get_resource_id());
+            $role->permissions = $this->make_query(array(
+				'bridge' => 'rp_permission',
+				'args'   => array(
+					'rp_role' => $role->id
+				)
+			), 'permission')->get_result();
+
+            $vars['role'] = $role;
+        }
+
         return $vars;
     }
 }
