@@ -111,8 +111,10 @@ function init_url() {
 
 	$url_schema->add_action('login');
 	$url_schema->add_action('logout');
+	$url_schema->add_action('reset-password');
 
 	$url_schema->add_view('login-form');
+	$url_schema->add_view('reset-password-form');
 
 	$url_schema->add_resource('user',     'users');
 	$url_schema->add_resource('role',     'roles');
@@ -232,6 +234,8 @@ function get_database_schema() {
 		`password` varchar(128) NOT NULL,
 		`email` varchar(255) NOT NULL,
 		`admin` tinyint(3) unsigned NOT NULL DEFAULT 0,
+		`reset_token` varchar (255) NULL,
+		`reset_expire` = datetime NULL,
 		PRIMARY KEY (`id`),
 		UNIQUE KEY `email` (`email`)
 	) DEFAULT CHARSET=utf8";

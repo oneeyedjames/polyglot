@@ -42,7 +42,7 @@ class controller extends controller_base {
 	}
 
 	public function do_action($action) {
-		if (in_array($action, array('login', 'logout')))
+		if (in_array($action, array('login', 'logout', 'reset-password')))
 			return parent::do_action($action);
 
 		if ($this->is_authorized($action))
@@ -82,6 +82,33 @@ class controller extends controller_base {
 		setcookie('user_token', null, time() - 300);
 
 		return array('view', 'login-form');
+	}
+
+	public function reset_password_action($get, $post) {
+		if (isset($post['email'])) {
+			$user = $this->make_query(array(
+				'limit' => 1,
+				'args'  => array(
+					'email' => $post['email']
+				)
+			), 'user')->get_result()->first;
+
+			if ($user) {
+				$user->reset_nonce = create_nonce(16);
+				$user->reset_expire = date('Y-m-d H:i:s', time() + 1800);
+
+				$this->update_record($user, 'user');
+
+				error_log(build_url(array(
+					'view' => 'reset-password',
+					'filter' => array(
+						'token' => $$user->reset_nonce;
+					)
+				)));
+			}
+		}
+
+		return array();
 	}
 
 	public function index_view($vars) {
@@ -147,6 +174,30 @@ class controller extends controller_base {
 				)
 			), 'language')->get_result();
 		});
+
+		return $vars;
+	}
+
+	public function reset_password_form_view($vars) {
+		if ($token = get_filter('token')) {
+			$user = $this->make_query(array(
+				'limit' => 1,
+				'args'  => array(
+					'reset_token' => $token
+				)
+			), 'user')->get_result()->first;
+
+			if ($user) {
+				if (strtotime($user->reset_expire) < time())
+					$vars['user'] = $user;
+				else
+					$vars['error'] = "Expired token.";
+
+				$vars['token'] = $token;
+			} else {
+				$vars['error'] = "Invalid token.";
+			}
+		}
 
 		return $vars;
 	}
