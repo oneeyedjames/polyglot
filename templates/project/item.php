@@ -11,7 +11,7 @@
 			<div class="col-sm-12 col-md-6">
 				<h3><i class="fa fa-file"></i> Documents</h3>
 				<p>
-					<a href="project/<?php echo $project->id; ?>/documents/form-meta" target="#modal-form"
+					<a href="project/<?php echo $project->id; ?>/documents/form-meta" target="#modal-card"
 						class="btn success" data-action="modal" data-target="#modal-form-meta">
 						<i class="fa fa-plus"></i> Add New Document
 					</a>
@@ -27,8 +27,8 @@
 			<div class="col-sm-12 col-md-6">
 				<h3><i class="fa fa-list"></i> Term Lists</h3>
 				<p>
-					<a href="project/<?php echo $project->id; ?>/lists/form-meta" target="#modal-form"
-						class="btn success" data-action="modal" data-target="#modal-form-list">
+					<a href="project/<?php echo $project->id; ?>/lists/form-meta" target="#modal-card"
+						class="btn success" data-action="modal" data-target="#modal-form-meta">
 						<i class="fa fa-plus"></i> Add New Term List
 					</a>
 					<a href="project/<?php echo $project->id; ?>/lists" class="btn">
@@ -49,4 +49,4 @@
 		?>
 	</div>
 </div>
-<div id="modal-form"></div>
+<div id="modal-card"></div>
