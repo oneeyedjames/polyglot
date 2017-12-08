@@ -12,33 +12,33 @@
 				<h3><i class="fa fa-file"></i> Documents</h3>
 				<p>
 					<a href="project/<?php echo $project->id; ?>/documents/form-meta" target="#modal-form"
-						class="btn green" data-action="modal" data-target="#modal-form-document">
+						class="btn success" data-action="modal" data-target="#modal-form-document">
 						<i class="fa fa-plus"></i> Add New Document
+					</a>
+					<a href="project/<?php echo $project->id; ?>/documents" class="btn">
+						See More <i class="fa fa-chevron-right"></i>
 					</a>
 				</p>
 				<?php foreach ($project->documents as $document) {
 					$document->project = $project;
 					$this->load('card', 'document', compact('document'));
 				} ?>
-				<a class="btn" href="project/<?php echo $project->id; ?>/documents">
-					See More <i class="fa fa-chevron-right"></i>
-				</a>
 			</div>
 			<div class="col-sm-12 col-md-6">
 				<h3><i class="fa fa-list"></i> Term Lists</h3>
 				<p>
 					<a href="project/<?php echo $project->id; ?>/lists/form-meta" target="#modal-form"
-						class="btn green" data-action="modal" data-target="#modal-form-list">
+						class="btn success" data-action="modal" data-target="#modal-form-list">
 						<i class="fa fa-plus"></i> Add New Term List
+					</a>
+					<a href="project/<?php echo $project->id; ?>/lists" class="btn">
+						See More <i class="fa fa-chevron-right"></i>
 					</a>
 				</p>
 				<?php foreach ($project->lists as $list) {
 					$list->project = $project;
 					$this->load('card', 'list', compact('list'));
 				} ?>
-				<a class="btn" href="project/<?php echo $project->id; ?>/lists">
-					See More <i class="fa fa-chevron-right"></i>
-				</a>
 			</div>
 		</div>
 	</div>

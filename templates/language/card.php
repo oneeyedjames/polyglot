@@ -1,4 +1,4 @@
-<div class="card blue">
+<div class="card primary">
 	<header>
 		<a href="language/<?php echo $language->id; ?>"><?php echo $language->name; ?></a>
 	</header>
@@ -41,12 +41,12 @@
             <?php $nonce = $this->create_nonce('delete', 'language'); ?>
             <input type="hidden" name="nonce" value="<?php echo $nonce; ?>">
 
-			<a href="language/<?php echo $language->id; ?>/form-meta" class="btn blue"
+			<a href="language/<?php echo $language->id; ?>/form-meta" class="btn primary"
 				data-action="modal" data-target="#modal-form">
 				<i class="fa fa-edit"></i> Edit
 			</a>
 
-    		<button type="submit" class="btn red">
+    		<button type="submit" class="btn danger">
     			<i class="fa fa-trash"></i> Delete
     		</button>
         </form>

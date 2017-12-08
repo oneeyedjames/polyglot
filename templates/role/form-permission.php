@@ -17,31 +17,34 @@ foreach ($resources as $resource => $resource_meta) {
 ?>
 <form action="role/<?php echo $role->id; ?>/add-permission" method="POST">
     <input type="hidden" name="nonce" value="<?php echo $nonce; ?>">
-    <header>Add Permission</header>
+    <div class="modal card primary" id="modal-form-permission">
+        <header>Add Permission</header>
 
-    <p>Add permission for: <span class="lbl yellow"><?php echo $role->title; ?></span></p>
+        <label><i class="fa fa-users"></i> Role</label>
+        <em><?php echo $role->title; ?></em>
 
-    <label>Resource</label>
-    <select id="permission-resource" name="permission[resource]">
-        <?php foreach (array_keys($resources) as $resource) : ?>
-            <option value="<?php echo $resource; ?>"><?php echo $resource; ?></option>
+        <label>Resource</label>
+        <select id="permission-resource" name="permission[resource]">
+            <?php foreach (array_keys($resources) as $resource) : ?>
+                <option value="<?php echo $resource; ?>"><?php echo $resource; ?></option>
+            <?php endforeach; ?>
+        </select>
+
+        <label>Action</label>
+        <select id="permission-action" name="permission[action]"></select>
+
+        <?php foreach ($actions as $resource => $options) : ?>
+            <div id="permission-resource-<?php echo $resource; ?>"
+                class="permission-resource-actions">
+                <?php echo implode(PHP_EOL, $options); ?>
+            </div>
         <?php endforeach; ?>
-    </select>
 
-    <label>Action</label>
-    <select id="permission-action" name="permission[action]"></select>
-
-    <?php foreach ($actions as $resource => $options) : ?>
-        <div id="permission-resource-<?php echo $resource; ?>"
-            class="permission-resource-actions">
-            <?php echo implode(PHP_EOL, $options); ?>
-        </div>
-    <?php endforeach; ?>
-
-    <footer>
-		<button type="submit" class="btn blue">Save</button>
-		<button type="button" class="btn cancel">Cancel</button>
-	</footer>
+        <footer>
+    		<button type="submit" class="btn primary">Save</button>
+    		<button type="button" class="btn cancel">Cancel</button>
+    	</footer>
+    </div>
 </form>
 <script type="text/javascript">
     jQuery(document).ready(function($) {

@@ -1,24 +1,18 @@
-<div class="card">
+<div class="card info">
 	<header><i class="fa fa-info-circle"></i> Term List</header>
 
-	<strong>Project</strong>
+	<strong><i class="fa fa-folder-open"></i> Project</strong>
 	<p><a href="projects/<?php echo $list->project->id; ?>"><?php echo $list->project->title; ?></a></p>
 
-	<strong>Language</strong>
+	<strong><i class="fa fa-flag"></i> Language</strong>
 	<p><?php echo $list->language->name; ?></p>
 
-	<strong>Author</strong>
+	<strong><i class="fa fa-user"></i> Author</strong>
 	<p><?php echo $list->user->name; ?></p>
 
-	<strong>Created</strong>
+	<strong><i class="fa fa-calendar"></i> Created</strong>
 	<p><?php echo $list->created; ?></p>
 
-	<footer>
-		<a class="btn blue" href="lists/<?php echo $list->id; ?>/form">
-			<i class="fa fa-edit"></i> Edit
-		</a>
-		<a class="btn red">
-			<i class="fa fa-trash"></i> Delete
-		</a>
-	</footer>
+	<strong><i class="fa fa-calendar"></i> Updated</strong>
+	<p><?php echo $list->updated; ?></p>
 </div>

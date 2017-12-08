@@ -1,4 +1,4 @@
-<div class="card cyan">
+<div class="card info">
 	<header>
 		<i class="fa fa-user"></i> Users
 		<a href="project/<?php echo $project->id; ?>/form-user" target="#modal-form"
@@ -10,7 +10,7 @@
 		<?php foreach ($project->users as $user) : ?>
 			<li>
 				<strong><?php echo $user->name;?></strong>
-				<a class="txt-btn red pull-right"
+				<a class="txt-btn danger pull-right"
 					data-action="submit" data-target="#remove-user-form"
 					data-input-user="<?php echo $user->id; ?>">
 					<i class="fa fa-minus"></i> Remove

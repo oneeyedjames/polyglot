@@ -32,7 +32,7 @@ if ($page_max > $page_count)
 		<div class="btn-group">
 	<?php endif; ?>
 	<?php for ($i = $page_min; $i <= $page_max; $i++) :
-		$color = $page == $i ? 'blue' : 'default';
+		$color = $page == $i ? 'primary' : 'default';
 		$disabled = $page != $i ? '' : ' disabled="disabled"'; ?>
 		<a href="<?php echo page_url($url_params, $i); ?>" class="btn <?php echo $color; ?>"<?php disabled($i, $page); ?>><?php echo $i; ?></a>
 	<?php endfor; ?>

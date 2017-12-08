@@ -5,21 +5,21 @@
 </ol>
 <h2><i class="fa fa-user"></i> Users</h2>
 <p>
-	<a class="btn green" href="user/form-meta"
-		data-action="modal" data-target="#modal-form">
+	<a href="user/form-meta" target="#modal-card" class="btn success"
+		data-action="modal" data-target="#modal-form-meta">
 		<i class="fa fa-plus"></i> Add New User
 	</a>
 </p>
 <p><?php $this->load('page-limit'); ?></p>
-<table class="blue striped">
+<table class="primary">
 	<thead>
 		<tr>
 			<th class="snap"></th>
 			<th>User</th>
 			<th>Email</th>
 			<th>Admin</th>
-			<th># Projects</th>
-			<th># Languages</th>
+			<th>Projects</th>
+			<th>Languages</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -28,14 +28,14 @@
 				<td class="snap">
 					<form action="user/<?php echo $user->id; ?>/delete" method="POST" class="btn-group pull-left"
 						data-confirm="Are you sure you want to delete this user?">
-						<a href="user/<?php echo $user->id; ?>/form-meta" class="btn blue"
-							data-action="modal" data-target="#modal-form">
+						<a href="user/<?php echo $user->id; ?>/form-meta" target="#modal-card"
+							class="btn primary" data-action="modal" data-target="#modal-form-meta">
 							<i class="fa fa-edit"></i>
 						</a>
 
 			            <input type="hidden" name="nonce" value="<?php echo $delete_nonce; ?>">
 
-						<button type="submit" class="btn red">
+						<button type="submit" class="btn danger">
 			    			<i class="fa fa-trash"></i>
 			    		</button>
 					</form>
@@ -46,29 +46,36 @@
 				<td>
 					<?php if ($user->projects->found) :
 						$label = ' Project' . ($user->projects->found > 1 ? 's' : ''); ?>
-						<a href="user/<?php echo $user->id; ?>/card-projects"
-							data-action="modal" data-target="#modal-card">
+						<a href="user/<?php echo $user->id; ?>/card-projects" target="#modal-card"
+							data-action="modal" data-target="#modal-card-projects">
 							<?php echo $user->projects->found . $label; ?>
 						</a>
 					<?php else : ?>
 						<em>No Projects</em>
 					<?php endif; ?>
+					<a href="user/<?php echo $user->id; ?>/form-projects" target="#modal-card"
+						data-action="modal" data-target="#modal-form-projects">
+						<i class="fa fa-edit"></i>
+					</a>
 				</td>
 				<td>
 					<?php if ($user->languages->found) :
 						$label = ' Language' . ($user->languages->found > 1 ? 's' : ''); ?>
-						<a href="user/<?php echo $user->id; ?>/card-languages"
-							data-action="modal" data-target="#modal-card">
+						<a href="user/<?php echo $user->id; ?>/card-languages" target="#modal-card"
+							data-action="modal" data-target="#modal-card-languages">
 							<?php echo $user->languages->found . $label; ?>
 						</a>
 					<?php else : ?>
 						<em>No Languages</em>
 					<?php endif; ?>
+					<a href="user/<?php echo $user->id; ?>/form-languages" target="#modal-card"
+						data-action="modal" data-target="#modal-form-languages">
+						<i class="fa fa-edit"></i>
+					</a>
 				</td>
 			</tr>
 		<?php endforeach; ?>
 	</tbody>
 </table>
 <p><?php $this->pagination($users->found); ?></p>
-<div class="card blue modal" id="modal-form"></div>
-<div class="card cyan modal" id="modal-card"></div>
+<div id="modal-card"></div>

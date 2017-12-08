@@ -5,7 +5,7 @@
 			<p>And how <em>is it that</em> we hear, each in our own language in which we were born?</p>
 			<footer>Acts 2:8 <cite>NKJV</cite></footer>
 		</blockquote>
-		<div class="card blue">
+		<div class="card primary">
 			<form action="login" method="POST">
 				<header>Member Login</header>
 
@@ -22,7 +22,7 @@
 				</div>
 
 				<footer>
-					<button type="submit" class="btn blue"><i class="fa fa-sign-in"></i> Login</button>
+					<button type="submit" class="btn primary"><i class="fa fa-sign-in"></i> Login</button>
 				</footer>
 			</form>
 		</div>

@@ -78,7 +78,7 @@ class list_controller extends controller {
 					'list_term'        => $list->id,
 					'language_term'    => $lang_id,
 					'term`.`master_id' => $terms->keys,
-					'revision'         => 0
+					'term`.`revision'  => 0
 				)
 			), 'term')->get_result();
 
