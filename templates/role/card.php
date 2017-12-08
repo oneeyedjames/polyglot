@@ -11,7 +11,7 @@
         <input type="hidden" name="permission">
     </form>
 
-    <a class="txt-btn success pull-right"
+    <a class="btn sm text success pull-right"
         href="role/<?php echo $role->id; ?>/form-permission"
         data-action="modal" data-target="#modal-form">
         <i class="fa fa-plus"></i> Add
@@ -26,7 +26,7 @@
 
                     echo $permission->action;
                 ?></div>
-                <a class="txt-btn danger"
+                <a class="btn sm text danger"
                     data-action="submit" data-target="#<?php echo $form_id ?>"
                     data-input-permission="<?php echo $permission->id; ?>">
         			<i class="fa fa-minus"></i> Remove

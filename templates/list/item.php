@@ -87,7 +87,7 @@ $delete_term_nonce = $this->create_nonce('delete', 'term');
 									<div class="small"><?php echo $translation->descrip; ?></div>
 								<?php else : ?>
 									<a href="term/<?php echo $term->id; ?>/form-meta/translation/<?php echo $language->id; ?>"
-										target="#modal-card" class="txt-btn success"
+										target="#modal-card" class="btn sm text success"
 										data-action="modal" data-target="#modal-form-meta">
 										<i class="fa fa-plus"></i> Add Translation
 									</a>

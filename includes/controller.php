@@ -184,7 +184,21 @@ class controller extends controller_base {
 			if (!$user->verify_action_token(@$_POST['nonce'], $action, $resource))
 				return false;
 
-			return $user->has_permission($action, $resource);
+			if ($user->admin)
+				return true;
+
+			if ($permission = $user->get_permission($action, $resource)) {
+				if ($resource_id = get_resource_id()) {
+					if ($permission->override)
+						return true;
+
+					$record = $this->get_record($resource_id);
+
+					return $record->user_id == $user->id;
+				} else {
+					return true;
+				}
+			}
 		}
 
 		return false;
