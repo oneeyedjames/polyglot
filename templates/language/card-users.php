@@ -1,4 +1,4 @@
-<div class="modal card cyan" id="modal-card-users">
+<div class="modal card info" id="modal-card-users">
     <header>
         <i class="fa fa-flag"></i> <?php echo $language->name; ?>
         <a class="pull-right cancel"><i class="fa fa-close"></i></a>

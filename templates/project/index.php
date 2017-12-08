@@ -5,13 +5,13 @@
 </ol>
 <h2><i class="fa fa-folder-open"></i> Projects</h2>
 <p>
-	<a href="project/form-meta" target="#modal-card" class="btn green"
+	<a href="project/form-meta" target="#modal-card" class="btn success"
 		data-action="modal" data-target="#modal-form-meta">
 		<i class="fa fa-plus"></i> Add New Project
 	</a>
 </p>
 <p><?php $this->load('page-limit'); ?></p>
-<table class="blue">
+<table class="primary">
 	<thead>
 		<tr>
 			<th class="snap"></th>
@@ -29,13 +29,13 @@
 					<form action="project/<?php echo $project->id; ?>/delete" method="POST" class="btn-group pull-left"
 						data-confirm="Are you sure you want to delete this project?">
 						<a href="project/<?php echo $project->id; ?>/form-meta" target="#modal-card"
-							class="btn blue" data-action="modal" data-target="#modal-form-meta">
+							class="btn primary" data-action="modal" data-target="#modal-form-meta">
 							<i class="fa fa-edit"></i>
 						</a>
 
 			            <input type="hidden" name="nonce" value="<?php echo $delete_nonce; ?>">
 
-						<button type="submit" class="btn red">
+						<button type="submit" class="btn danger">
 			    			<i class="fa fa-trash"></i>
 			    		</button>
 					</form>

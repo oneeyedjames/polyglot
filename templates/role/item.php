@@ -8,12 +8,12 @@
 <h3><i class="fa fa-key"></i> Permissions</h3>
 <p>
 	<a href="role/<?php echo $role->id; ?>/form-permission" target="#modal-card"
-        class="btn green" data-action="modal" data-target="#modal-form-permission">
+        class="btn success" data-action="modal" data-target="#modal-form-permission">
 		<i class="fa fa-plus"></i> Add Permission
 	</a>
 </p>
 <p><?php $this->load('page-limit'); ?></p>
-<table class="blue striped">
+<table class="primary">
     <thead>
         <tr>
             <th>Resource</th>

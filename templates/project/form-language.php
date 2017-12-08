@@ -1,7 +1,7 @@
 <form action="project/<?php echo $project->id; ?>/add-language" method="POST">
 	<?php $nonce = $this->create_nonce('add-language', 'project'); ?>
 	<input type="hidden" name="nonce" value="<?php echo $nonce; ?>">
-	<div class="modal card cyan" id="modal-form-language">
+	<div class="modal card primary" id="modal-form-language">
 		<header>Add Language</header>
 
 		<label><i class="fa fa-folder-open"></i> Project</label>
@@ -17,7 +17,7 @@
 
 		<footer>
 			<button type="button" class="btn cancel">Cancel</button>
-			<button type="submit" class="btn blue">Save</button>
+			<button type="submit" class="btn primary">Save</button>
 		</footer>
 	</div>
 </form>
