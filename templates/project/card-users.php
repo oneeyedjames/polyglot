@@ -10,7 +10,7 @@
 		<?php foreach ($project->users as $user) : ?>
 			<li>
 				<strong><?php echo $user->name;?></strong>
-				<a class="txt-btn danger pull-right"
+				<a class="btn sm text danger pull-right"
 					data-action="submit" data-target="#remove-user-form"
 					data-input-user="<?php echo $user->id; ?>">
 					<i class="fa fa-minus"></i> Remove
