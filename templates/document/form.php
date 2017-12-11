@@ -21,7 +21,7 @@ $nonce = $this->create_nonce('save', 'document');
 	<div class="col-sm-12 col-md-8 col-md-push-4 col-lg-9 col-lg-push-3">
 		<h2><i class="fa fa-edit"></i> Edit Document</h2>
 		<p>
-			<a class="btn primary" data-action="submit" data-target="#document-form">
+			<a class="btn primary" data-action="submit" data-target="#edit-document-form">
 				<i class="fa fa-save"></i> Save
 			</a>
 			<a href="document/<?php echo $document->id; ?>" class="btn">
