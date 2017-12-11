@@ -1,0 +1,37 @@
+{
+    "user": [
+        "form-meta",
+        "form-projects",
+        "form-langauges",
+        "card-projects",
+        "card-langauges"
+    ],
+    "role": [
+        "form-meta",
+        "form-permission",
+        "card-permissions"
+    ],
+    "language": [
+        "form-meta",
+        "card-projects",
+        "card-users"
+    ],
+    "project": [
+        "form-meta",
+        "form-language",
+        "form-user",
+        "modal-languages",
+        "modal-users",
+        "modal-documents",
+        "modal-lists"
+    ],
+    "document": [
+        "form-meta"
+    ],
+    "list": [
+        "form-meta"
+    ],
+    "form": [
+        "form-meta"
+    ]
+}

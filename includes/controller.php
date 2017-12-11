@@ -102,7 +102,7 @@ class controller extends controller_base {
 				error_log(build_url(array(
 					'view' => 'reset-password',
 					'filter' => array(
-						'token' => $$user->reset_nonce;
+						'token' => $$user->reset_nonce
 					)
 				)));
 			}

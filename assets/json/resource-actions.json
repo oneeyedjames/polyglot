@@ -1,0 +1,12 @@
+{
+    "role": [
+        "add-permission",
+        "remove-permission"
+    ],
+    "project": [
+        "add-language",
+        "remove-language",
+        "add-user",
+        "remove-user"
+    ]
+}
