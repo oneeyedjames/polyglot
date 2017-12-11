@@ -1,0 +1,9 @@
+{
+    "user": "users",
+    "role": "roles",
+    "project": "projects",
+    "language": "languages",
+    "document": "documents",
+    "list": "lists",
+    "term": "terms"
+}
