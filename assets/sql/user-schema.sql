@@ -4,6 +4,8 @@ CREATE TABLE IF NOT EXISTS `user` (
     `password` varchar(128) NOT NULL,
     `email` varchar(255) NOT NULL,
     `admin` tinyint(3) unsigned NOT NULL DEFAULT 0,
+    `reset_token` varchar (255) NULL,
+	`reset_expire` datetime NULL,
     PRIMARY KEY (`id`),
     UNIQUE KEY `email` (`email`)
 ) DEFAULT CHARSET=utf8;
