@@ -7,6 +7,8 @@
 
 .permission-resource-actions { display: none; }
 
+.card.modal footer { text-align: right; }
+
 th.snap, td.snap { width: 5em; }
 
 @media only screen and (max-width: 767px) {

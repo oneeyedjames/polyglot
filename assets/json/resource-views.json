@@ -1,10 +1,10 @@
 {
     "user": [
         "form-meta",
-        "form-projects",
-        "form-langauges",
+        "form-project",
+        "form-language",
         "card-projects",
-        "card-langauges"
+        "card-languages"
     ],
     "role": [
         "form-meta",

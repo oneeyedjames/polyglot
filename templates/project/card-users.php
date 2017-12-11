@@ -1,7 +1,7 @@
 <div class="card info">
 	<header>
 		<i class="fa fa-user"></i> Users
-		<a href="project/<?php echo $project->id; ?>/form-user" target="#modal-form"
+		<a href="project/<?php echo $project->id; ?>/form-user" target="#modal-card"
 			class="pull-right" data-action="modal" data-target="#modal-form-user">
 			<i class="fa fa-plus"></i> Add
 		</a>
@@ -9,7 +9,9 @@
 	<ul>
 		<?php foreach ($project->users as $user) : ?>
 			<li>
-				<strong><?php echo $user->name;?></strong>
+				<a href="user/<?php echo $user->id; ?>">
+					<strong><?php echo $user->name;?></strong>
+				</a>
 				<a class="btn sm text danger pull-right"
 					data-action="submit" data-target="#remove-user-form"
 					data-input-user="<?php echo $user->id; ?>">

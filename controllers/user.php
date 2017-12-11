@@ -39,6 +39,63 @@ class user_controller extends controller {
 		return array('resource' => 'user', 'id' => $user->id);
 	}
 
+	public function add_language_action($get, $post) {
+		if ($user_id = get_resource_id()) {
+			if (isset($post['language'])) {
+				$this->put_record(new object(array(
+					'user_id' => $user_id,
+					'language_id' => intval($post['language'])
+				)), 'user_language_map');
+			}
+
+			return array('resource' => 'user', 'id' => $user_id);
+		}
+
+		return array('resource' => 'users');
+	}
+
+	public function remove_language_action($get, $post) {
+		if ($user_id = get_resource_id()) {
+			if (isset($post['language'])) {
+				$sql = 'DELETE FROM `user_language_map` WHERE `user_id` = ? AND `language_id` = ?';
+				$this->execute($sql, $user_id, intval($post['language']));
+			}
+
+			return array('resource' => 'user', 'id' => $user_id);
+		}
+
+		return array('resource' => 'users');
+	}
+
+	public function add_project_action($get, $post) {
+		if ($user_id = get_resource_id()) {
+			if (isset($post['project'], $post['role'])) {
+				$this->put_record(new object(array(
+					'user_id' => $user_id,
+					'project_id' => intval($post['project']),
+					'role_id' => intval($post['role'])
+				)), 'user_project_map');
+			}
+
+			return array('resource' => 'user', 'id' => $user_id);
+		}
+
+		return array('resource' => 'users');
+	}
+
+	public function remove_project_action($get, $post) {
+		if ($user_id = get_resource_id()) {
+			if (isset($post['project'])) {
+				$sql = 'DELETE FROM `user_project_map` WHERE `user_id` = ? AND `project_id` = ?';
+				$this->execute($sql, $user_id, intval($post['project']));
+			}
+
+			return array('resource' => 'user', 'id' => $user_id);
+		}
+
+		return array('resource' => 'users');
+	}
+
 	public function index_view($vars) {
 		$limit  = get_per_page();
 		$offset = get_offset(get_page(), $limit);
@@ -76,7 +133,35 @@ class user_controller extends controller {
 	}
 
 	public function item_view($vars) {
-		$vars['user'] = $this->get_record(get_resource_id());
+		if ($user_id = get_resource_id()) {
+			$user = $this->get_record(get_resource_id());
+
+			$user->languages = $this->make_query(array(
+				'bridge' => 'ul_language',
+				'args'   => array(
+					'ul_user' => $user->id
+				)
+			), 'language')->get_result();
+
+			$user->projects = $this->make_query(array(
+				'bridge' => 'up_project',
+				'args'   => array(
+					'up_user' => $user->id
+				)
+			), 'project')->get_result();
+
+			$user->projects->walk(function(&$project) {
+				$project->role = $this->make_query(array(
+					'bridge' => 'up_role',
+					'args'   => array(
+						'up_user'    => $user->id,
+						'up_project' => $project->id
+					)
+				), 'role')->get_result()->first;
+			});
+
+			$vars['user'] = $user;
+		}
 
 		return $vars;
 	}
@@ -90,47 +175,24 @@ class user_controller extends controller {
 		return $vars;
 	}
 
-	public function form_projects_view($vars) {
-		$user = $this->get_record(get_resource_id());
+	public function form_project_view($vars) {
+		if ($user_id = get_resource_id())
+			$vars['user'] = $this->get_record($user_id);
+		else
+			$vars['user'] = new object();
 
-		$user->projects = $this->make_query(array(
-			'bridge' => 'up_project',
-			'args'   => array(
-				'up_user' => $user->id
-			)
-		), 'project')->get_result()->key_map(function($project) {
-			return $project->id;
-		});
-
-		$user->projects->walk(function(&$project) {
-			$project->role = $this->make_query(array(
-				'bridge' => 'up_role',
-				'args'   => array(
-					'up_user'    => $user->id,
-					'up_project' => $project->id
-				)
-			), 'role')->get_result()->first;
-		});
-
-		$vars['user'] = $user;
 		$vars['projects'] = $this->make_query(array(), 'project')->get_result();
 		$vars['roles'] = $this->make_query(array(), 'role')->get_result();
 
 		return $vars;
 	}
 
-	public function form_languages_view($vars) {
-		$user = $this->get_record(get_resource_id());
-		$user->languages = $this->make_query(array(
-			'bridge' => 'ul_language',
-			'args'   => array(
-				'ul_user' => $user->id
-			)
-		), 'language')->get_result()->key_map(function($language) {
-			return $language->id;
-		});
+	public function form_language_view($vars) {
+		if ($user_id = get_resource_id())
+			$vars['user'] = $this->get_record($user_id);
+		else
+			$vars['user'] = new object();
 
-		$vars['user'] = $user;
 		$vars['languages'] = $this->make_query(array(), 'language')->get_result();
 
 		return $vars;
