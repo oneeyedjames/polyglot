@@ -1,0 +1,87 @@
+{
+    "project_document": {
+        "ptable": "project",
+        "ftable": "document",
+        "fkey": "project_id"
+    },
+    "project_list": {
+        "ptable": "project",
+        "ftable": "list",
+        "fkey": "project_id"
+    },
+    "language_document": {
+        "ptable": "language",
+        "ftable": "document",
+        "fkey": "language_id"
+    },
+    "language_term": {
+        "ptable": "language",
+        "ftable": "term",
+        "fkey": "language_id"
+    },
+    "list_term": {
+        "ptable": "list",
+        "ftable": "term",
+        "fkey": "list_id"
+    },
+    "user_document": {
+        "ptable": "user",
+        "ftable": "document",
+        "fkey": "user_id"
+    },
+    "user_list": {
+        "ptable": "user",
+        "ftable": "list",
+        "fkey": "user_id"
+    },
+    "user_term": {
+        "ptable": "user",
+        "ftable": "term",
+        "fkey": "user_id"
+    },
+    "pl_project": {
+        "ptable": "project",
+        "ftable": "project_language_map",
+        "fkey": "project_id"
+    },
+    "pl_language": {
+        "ptable": "language",
+        "ftable": "project_language_map",
+        "fkey": "language_id"
+    },
+    "up_user": {
+        "ptable": "user",
+        "ftable": "user_project_map",
+        "fkey": "user_id"
+    },
+    "up_project": {
+        "ptable": "project",
+        "ftable": "user_project_map",
+        "fkey": "project_id"
+    },
+    "up_role": {
+        "ptable": "role",
+        "ftable": "user_project_map",
+        "fkey": "role_id"
+    },
+    "ul_user": {
+        "ptable": "user",
+        "ftable": "user_language_map",
+        "fkey": "user_id"
+    },
+    "ul_language": {
+        "ptable": "language",
+        "ftable": "user_language_map",
+        "fkey": "language_id"
+    },
+    "rp_role": {
+        "ptable": "role",
+        "ftable": "role_permission_map",
+        "fkey": "role_id"
+    },
+    "rp_permission": {
+        "ptable": "permission",
+        "ftable": "role_permission_map",
+        "fkey": "permission_id"
+    }
+}
