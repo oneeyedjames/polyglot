@@ -1,4 +1,10 @@
 {
+    "user": [
+        "add-language",
+        "remove-language",
+        "add-project",
+        "remove-project"
+    ],
     "role": [
         "add-permission",
         "remove-permission"
