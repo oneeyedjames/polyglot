@@ -15,7 +15,8 @@
 		<?php endif; endforeach; ?>
 	</ul>
 	<footer>
-		<a class="btn primary" href="lists/<?php echo $list->id; ?>/form">
+		<a href="lists/<?php echo $list->id; ?>/form-meta" target="#modal-card"
+			class="btn primary" data-action="modal" data-target="#modal-form-meta">
 			<i class="fa fa-edit"></i> Edit
 		</a>
 		<a class="btn danger">
