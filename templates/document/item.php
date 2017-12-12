@@ -1,4 +1,10 @@
-<?php $master = $document->master ?: $document; ?>
+<?php
+
+$master = $document->master ?: $document;
+
+$delete_nonce = $this->create_nonce('delete', 'document');
+
+?>
 <ol class="breadcrumb">
 	<li><a href="home"><i class="fa fa-home"></i> Home</a></li>
 	<li><a href="projects">Projects</a></li>
@@ -28,16 +34,18 @@
 					</a>
 				</span>
 			<?php endif; ?>
+			<form action="document/<?php echo $document->id; ?>/delete" method="POST" class="btn-group pull-right"
+				data-confirm="Are you sure you want to delete this term list?">
+				<a href="document/<?php echo $document->id; ?>/form" class="btn primary">
+					<i class="fa fa-edit"></i> Edit
+				</a>
+				<input type="hidden" name="nonce" value="<?php echo $delete_nonce; ?>">
+				<button type="submit" class="btn danger">
+					<i class="fa fa-trash"></i> Delete
+				</button>
+			</form>
 		</h2>
 		<p class="lead"><?php echo $document->descrip; ?></p>
-		<p>
-			<a href="document/<?php echo $document->id; ?>/form" title="Edit" class="btn primary">
-				<i class="fa fa-edit"></i> Edit
-			</a>
-			<a class="btn danger">
-				<i class="fa fa-trash"></i> Delete
-			</a>
-		</p>
 		<p style="white-space: pre-wrap"><?php echo $document->content; ?></p>
 	</div>
 	<div class="col-sm-12 col-md-4 col-md-pull-8 col-lg-3 col-lg-pull-9">
