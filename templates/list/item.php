@@ -114,4 +114,3 @@ $delete_term_nonce = $this->create_nonce('delete', 'term');
 		?>
 	</div>
 </div>
-<div id="modal-card"></div>

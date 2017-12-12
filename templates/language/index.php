@@ -5,7 +5,7 @@
 </ol>
 <h2><i class="fa fa-flag"></i> Languages</h2>
 <p>
-	<a href="language/form-meta" target="#modal-form" class="btn success"
+	<a href="language/form-meta" target="#modal-card" class="btn success"
 		data-action="modal" data-target="#modal-form-language">
 		<i class="fa fa-plus"></i> Add New Language
 	</a>
@@ -27,7 +27,7 @@
 				<td class="snap">
 					<form action="language/<?php echo $language->id; ?>/delete" method="POST" class="btn-group pull-left"
 						data-confirm="Are you sure you want to delete this language?">
-						<a href="language/<?php echo $language->id; ?>/form-meta" target="#modal-form"
+						<a href="language/<?php echo $language->id; ?>/form-meta" target="#modal-card"
 							class="btn primary" data-action="modal" data-target="#modal-form-language">
 							<i class="fa fa-edit"></i>
 						</a>
@@ -44,7 +44,7 @@
 				<td>
 					<?php if ($language->projects->found) :
 						$label = ' Project' . ($language->projects->found > 1 ? 's' : ''); ?>
-						<a href="language/<?php echo $language->id; ?>/card-projects" target="#modal-form"
+						<a href="language/<?php echo $language->id; ?>/card-projects" target="#modal-card"
 							data-action="modal" data-target="#modal-card-projects">
 							<?php echo $language->projects->found . $label; ?>
 						</a>
@@ -55,7 +55,7 @@
 				<td>
 					<?php if ($language->users->found) :
 						$label = ' User' . ($language->users->found > 1 ? 's' : ''); ?>
-						<a href="language/<?php echo $language->id; ?>/card-users" target="#modal-form"
+						<a href="language/<?php echo $language->id; ?>/card-users" target="#modal-card"
 							data-action="modal" data-target="#modal-card-users">
 							<?php echo $language->users->found . $label; ?>
 						</a>
@@ -68,4 +68,3 @@
 	</tbody>
 </table>
 <p><?php $this->pagination($languages->found); ?></p>
-<div class="col-md-8 col-lg-6" id="modal-form"></div>

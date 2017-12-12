@@ -49,4 +49,3 @@
 		?>
 	</div>
 </div>
-<div id="modal-card"></div>

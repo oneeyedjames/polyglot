@@ -1,7 +1,7 @@
 <div class="card info">
 	<header>
 		<i class="fa fa-flag"></i> Languages
-		<a href="project/<?php echo $project->id; ?>/form-language" target="#modal-form"
+		<a href="project/<?php echo $project->id; ?>/form-language" target="#modal-card"
 			class="pull-right" data-action="modal" data-target="#modal-form-language">
 			<i class="fa fa-plus"></i> Add
 		</a>

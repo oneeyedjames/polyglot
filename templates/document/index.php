@@ -55,4 +55,3 @@
 	</tbody>
 </table>
 <p><?php $this->pagination($documents->found); ?></p>
-<div id="modal-card"></div>

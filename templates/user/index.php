@@ -71,4 +71,3 @@
 	</tbody>
 </table>
 <p><?php $this->pagination($users->found); ?></p>
-<div id="modal-card"></div>

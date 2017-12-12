@@ -52,4 +52,3 @@
 	</tbody>
 </table>
 <p><?php $this->pagination($lists->found); ?></p>
-<div id="modal-card"></div>

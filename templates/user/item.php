@@ -1,4 +1,4 @@
-<?php $nonce = $this->create_nonce('delete', 'user'); ?>
+<?php $delete_nonce = $this->create_nonce('delete', 'user'); ?>
 <ol class="breadcrumb">
 	<li><a href="home"><i class="fa fa-home"></i> Home</a></li>
     <li><a href="users">Users</a></li>
@@ -13,7 +13,7 @@
 					class="btn primary" data-action="modal" data-target="#modal-form-meta">
 					<i class="fa fa-edit"></i> Edit
 				</a>
-				<input type="hidden" name="nonce" value="<?php echo $nonce; ?>">
+				<input type="hidden" name="nonce" value="<?php echo $delete_nonce; ?>">
 				<button type="submit" class="btn danger">
 					<i class="fa fa-trash"></i> Delete
 				</button>
@@ -27,4 +27,3 @@
         ?>
     </div>
 </div>
-<div id="modal-card"></div>

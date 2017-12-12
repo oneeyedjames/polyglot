@@ -42,4 +42,3 @@
     </tbody>
 </table>
 <p><?php $this->pagination($role->permissions->found); ?></p>
-<div id="modal-card"></div>

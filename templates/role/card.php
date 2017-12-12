@@ -13,7 +13,7 @@
 
     <a class="btn sm text success pull-right"
         href="role/<?php echo $role->id; ?>/form-permission"
-        data-action="modal" data-target="#modal-form">
+        data-action="modal" data-target="#modal-card">
         <i class="fa fa-plus"></i> Add
     </a>
     <strong>Permissions</strong>
@@ -41,7 +41,7 @@
             <input type="hidden" name="nonce" value="<?php echo $nonce; ?>">
 
             <a class="btn primary" href="role/<?php echo $role->id; ?>/form-meta"
-    			data-action="modal" data-target="#modal-form">
+    			data-action="modal" data-target="#modal-card">
     			<i class="fa fa-edit"></i> Edit
     		</a>
 

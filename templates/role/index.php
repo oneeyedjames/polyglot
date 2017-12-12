@@ -56,4 +56,3 @@
 	</tbody>
 </table>
 <p><?php $this->pagination($roles->found); ?></p>
-<div id="modal-card"></div>
