@@ -32,9 +32,7 @@
 							class="btn primary" data-action="modal" data-target="#modal-form-meta">
 							<i class="fa fa-edit"></i>
 						</a>
-
 			            <input type="hidden" name="nonce" value="<?php echo $delete_nonce; ?>">
-
 						<button type="submit" class="btn danger">
 			    			<i class="fa fa-trash"></i>
 			    		</button>
