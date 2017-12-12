@@ -109,8 +109,8 @@ $delete_term_nonce = $this->create_nonce('delete', 'term');
 	</div>
 	<div class="col-sm-12 col-md-4 col-md-pull-8 col-lg-3 col-lg-pull-9">
 		<?php
-			$this->load('card-meta', 'list', compact('list'));
-			$this->load('card-translation', 'list', compact('list'));
+			$this->load('item-meta', 'list', compact('list'));
+			$this->load('item-translation', 'list', compact('list'));
 		?>
 	</div>
 </div>

@@ -20,10 +20,10 @@
         "form-meta",
         "form-language",
         "form-user",
-        "modal-languages",
-        "modal-users",
-        "modal-documents",
-        "modal-lists"
+        "card-languages",
+        "card-users",
+        "card-documents",
+        "card-lists"
     ],
     "document": [
         "form-meta"

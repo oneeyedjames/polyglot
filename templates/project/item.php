@@ -44,8 +44,8 @@
 	</div>
 	<div class="col-sm-12 col-md-4 col-md-pull-8 col-lg-3 col-lg-pull-9">
 		<?php
-			$this->load('card-languages', 'project', compact('project'));
-			$this->load('card-users', 'project', compact('project'));
+			$this->load('item-languages', 'project', compact('project'));
+			$this->load('item-users', 'project', compact('project'));
 		?>
 	</div>
 </div>

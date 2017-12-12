@@ -42,9 +42,9 @@
 	</div>
 	<div class="col-sm-12 col-md-4 col-md-pull-8 col-lg-3 col-lg-pull-9">
 		<?php
-			$this->load('card-meta', 'document', compact('document'));
-			$this->load('card-translation', 'document', compact('document'));
-			$this->load('card-revision', 'document', compact('document'));
+			$this->load('item-meta', 'document', compact('document'));
+			$this->load('item-translation', 'document', compact('document'));
+			$this->load('item-revision', 'document', compact('document'));
 		?>
 	</div>
 </div>

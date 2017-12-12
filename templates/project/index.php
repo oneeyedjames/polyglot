@@ -44,7 +44,7 @@
 				<td>
 					<?php if ($project->languages->found) :
 						$label = ' Language' . ($project->languages->found > 1 ? 's' : ''); ?>
-						<a href="project/<?php echo $project->id; ?>/modal-languages" target="#modal-card"
+						<a href="project/<?php echo $project->id; ?>/card-languages" target="#modal-card"
 							data-action="modal" data-target="#modal-card-languages">
 							<?php echo $project->languages->found . $label; ?>
 						</a>
@@ -55,7 +55,7 @@
 				<td>
 					<?php if ($project->users->found) :
 						$label = ' User' . ($project->users->found > 1 ? 's' : ''); ?>
-						<a href="project/<?php echo $project->id; ?>/modal-users" target="#modal-card"
+						<a href="project/<?php echo $project->id; ?>/card-users" target="#modal-card"
 							data-action="modal" data-target="#modal-card-users">
 							<?php echo $project->users->found . $label; ?>
 						</a>
@@ -66,7 +66,7 @@
 				<td>
 					<?php if ($project->documents->found) :
 						$label = ' Document' . ($project->documents->found > 1 ? 's' : ''); ?>
-						<a href="project/<?php echo $project->id; ?>/modal-documents" target="#modal-card"
+						<a href="project/<?php echo $project->id; ?>/card-documents" target="#modal-card"
 							data-action="modal" data-target="#modal-card-documents">
 							<?php echo $project->documents->found . $label; ?>
 						</a>
@@ -77,7 +77,7 @@
 				<td>
 					<?php if ($project->lists->found) :
 						$label = ' Term List' . ($project->lists->found > 1 ? 's' : ''); ?>
-						<a href="project/<?php echo $project->id; ?>/modal-lists" target="#modal-card"
+						<a href="project/<?php echo $project->id; ?>/card-lists" target="#modal-card"
 							data-action="modal" data-target="#modal-card-lists">
 							<?php echo $project->lists->found . $label; ?>
 						</a>
