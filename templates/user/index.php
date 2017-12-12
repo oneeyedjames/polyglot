@@ -32,9 +32,7 @@
 							class="btn primary" data-action="modal" data-target="#modal-form-meta">
 							<i class="fa fa-edit"></i>
 						</a>
-
 			            <input type="hidden" name="nonce" value="<?php echo $delete_nonce; ?>">
-
 						<button type="submit" class="btn danger">
 			    			<i class="fa fa-trash"></i>
 			    		</button>
@@ -42,7 +40,10 @@
 				</td>
 				<td><a href="user/<?php echo $user->id; ?>"><?php echo $user->name; ?></a></td>
 				<td><?php echo $user->email; ?></td>
-				<td><i class="fa fa-check"></i></td>
+				<td>
+					<?php $icon = $user->admin ? 'check' : 'times'; ?>
+					<i class="fa fa-<?php echo $icon; ?>"></i>
+				</td>
 				<td>
 					<?php if ($user->projects->found) :
 						$label = ' Project' . ($user->projects->found > 1 ? 's' : ''); ?>

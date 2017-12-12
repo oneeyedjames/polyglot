@@ -18,9 +18,6 @@
                 <div><?php echo $language->code; ?></div>
             </li>
         <?php endforeach; ?>
-        <?php if ($user->languages->found > count($user->languages)) : ?>
-            <li><em>more</em></li>
-        <?php endif; ?>
     </ul>
     <form action="user/<?php echo $user->id; ?>/remove-language" method="POST" id="remove-language-form"
         data-confirm="Are you sure you want to remove this language from the user?">
