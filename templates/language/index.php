@@ -3,14 +3,14 @@
 	<li><a href="home"><i class="fa fa-home"></i> Home</a></li>
 	<li class="active">Languages</li>
 </ol>
-<h2><i class="fa fa-flag"></i> Languages</h2>
-<p>
-	<a href="language/form-meta" target="#modal-form" class="btn success"
+<h2 class="page-title"><i class="fa fa-flag"></i> Languages</h2>
+<div class="btn-toolbar">
+	<a href="language/form-meta" target="#modal-card" class="btn success"
 		data-action="modal" data-target="#modal-form-language">
 		<i class="fa fa-plus"></i> Add New Language
 	</a>
-</p>
-<p><?php $this->load('page-limit'); ?></p>
+	<div class="pull-right"><?php $this->load('page-limit'); ?></div>
+</div>
 <table class="primary">
 	<thead>
 		<tr>
@@ -27,13 +27,11 @@
 				<td class="snap">
 					<form action="language/<?php echo $language->id; ?>/delete" method="POST" class="btn-group pull-left"
 						data-confirm="Are you sure you want to delete this language?">
-						<a href="language/<?php echo $language->id; ?>/form-meta" target="#modal-form"
+						<a href="language/<?php echo $language->id; ?>/form-meta" target="#modal-card"
 							class="btn primary" data-action="modal" data-target="#modal-form-language">
 							<i class="fa fa-edit"></i>
 						</a>
-
 			            <input type="hidden" name="nonce" value="<?php echo $delete_nonce; ?>">
-
 						<button type="submit" class="btn danger">
 			    			<i class="fa fa-trash"></i>
 			    		</button>
@@ -44,7 +42,7 @@
 				<td>
 					<?php if ($language->projects->found) :
 						$label = ' Project' . ($language->projects->found > 1 ? 's' : ''); ?>
-						<a href="language/<?php echo $language->id; ?>/card-projects" target="#modal-form"
+						<a href="language/<?php echo $language->id; ?>/card-projects" target="#modal-card"
 							data-action="modal" data-target="#modal-card-projects">
 							<?php echo $language->projects->found . $label; ?>
 						</a>
@@ -55,7 +53,7 @@
 				<td>
 					<?php if ($language->users->found) :
 						$label = ' User' . ($language->users->found > 1 ? 's' : ''); ?>
-						<a href="language/<?php echo $language->id; ?>/card-users" target="#modal-form"
+						<a href="language/<?php echo $language->id; ?>/card-users" target="#modal-card"
 							data-action="modal" data-target="#modal-card-users">
 							<?php echo $language->users->found . $label; ?>
 						</a>
@@ -67,5 +65,6 @@
 		<?php endforeach; ?>
 	</tbody>
 </table>
-<p><?php $this->pagination($languages->found); ?></p>
-<div class="col-md-8 col-lg-6" id="modal-form"></div>
+<div class="btn-toolbar">
+	<div class="pull-right"><?php $this->pagination($languages->found); ?></div>
+</div>

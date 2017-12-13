@@ -5,14 +5,22 @@
 	<li><a href="project/<?php echo $project->id; ?>"><?php echo $project->title; ?></a></li>
 	<li class="active">Documents</li>
 </ol>
-<h2><i class="fa fa-file"></i> <?php echo $project->title; ?> &raquo; Documents</h2>
-<p>
+<h2 class="page-title">
+	<i class="fa fa-file"></i> Documents
+	<div class="small">
+		<i class="fa fa-folder-open"></i> In Project
+		<a href="project/<?php echo $project->id; ?>">
+			<?php echo $project->title; ?>
+		</a>
+	</div>
+</h2>
+<div class="btn-toolbar">
 	<a href="project/<?php echo $project->id; ?>/documents/form-meta" target="#modal-card"
 		class="btn success" data-action="modal" data-target="#modal-form-meta">
 		<i class="fa fa-plus"></i> Add New Document
 	</a>
-</p>
-<p><?php $this->load('page-limit'); ?></p>
+	<div class="pull-right"><?php $this->load('page-limit'); ?></div>
+</div>
 <table class="primary">
 	<thead>
 		<tr>
@@ -29,16 +37,10 @@
 				<td class="snap">
 					<form action="document/<?php echo $document->id; ?>/delete" method="POST" class="btn-group pull-left"
 						data-confirm="Are you sure you want to delete this document?">
-						<!-- <a href="document/<?php echo $document->id; ?>/form-meta" target="#modal-card"
-							class="btn primary" data-action="modal" data-target="#modal-form-meta">
-							<i class="fa fa-edit"></i>
-						</a> -->
 						<a href="document/<?php echo $document->id; ?>/form" class="btn primary">
 							<i class="fa fa-edit"></i>
 						</a>
-
 			            <input type="hidden" name="nonce" value="<?php echo $delete_nonce; ?>">
-
 						<button type="submit" class="btn danger">
 			    			<i class="fa fa-trash"></i>
 			    		</button>
@@ -54,5 +56,6 @@
 		<?php endforeach; ?>
 	</tbody>
 </table>
-<p><?php $this->pagination($documents->found); ?></p>
-<div id="modal-card"></div>
+<div class="btn-toolbar">
+	<div class="pull-right"><?php $this->pagination($documents->found); ?></div>
+</div>

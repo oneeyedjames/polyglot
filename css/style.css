@@ -5,6 +5,10 @@
 	padding-right: 0;
 }
 
+.page-title div.small { margin-top: .5em; }
+
+.btn-toolbar { margin-bottom: 1.5em; }
+
 .permission-resource-actions { display: none; }
 
 .card.modal footer { text-align: right; }

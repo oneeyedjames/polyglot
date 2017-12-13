@@ -1,4 +1,4 @@
-<?php $nonce = $this->create_nonce('delete', 'user'); ?>
+<?php $delete_nonce = $this->create_nonce('delete', 'user'); ?>
 <ol class="breadcrumb">
 	<li><a href="home"><i class="fa fa-home"></i> Home</a></li>
     <li><a href="users">Users</a></li>
@@ -6,14 +6,15 @@
 </ol>
 <div class="row">
 	<div class="col-sm-12 col-md-8 col-md-push-4 col-lg-9 col-lg-push-3">
-        <h2>
+        <h2 class="page-title">
             <i class="fa fa-user"></i> <?php echo $user->name; ?>
-            <form action="user/<?php echo $user->id; ?>/delete" method="POST" class="btn-group pull-right">
+            <form action="user/<?php echo $user->id; ?>/delete" method="POST" class="btn-group pull-right"
+				data-confirm="Are you sure you want to delete this user?">
 				<a href="users/<?php echo $user->id; ?>/form-meta" target="#modal-card"
 					class="btn primary" data-action="modal" data-target="#modal-form-meta">
 					<i class="fa fa-edit"></i> Edit
 				</a>
-				<input type="hidden" name="nonce" value="<?php echo $nonce; ?>">
+				<input type="hidden" name="nonce" value="<?php echo $delete_nonce; ?>">
 				<button type="submit" class="btn danger">
 					<i class="fa fa-trash"></i> Delete
 				</button>
@@ -27,4 +28,3 @@
         ?>
     </div>
 </div>
-<div id="modal-card"></div>

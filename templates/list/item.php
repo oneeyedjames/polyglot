@@ -13,9 +13,10 @@ $delete_term_nonce = $this->create_nonce('delete', 'term');
 </ol>
 <div class="row">
 	<div class="col-sm-12 col-md-8 col-md-push-4 col-lg-9 col-lg-push-3">
-		<h2>
+		<h2 class="page-title">
 			<i class="fa fa-list"></i> <?php echo $list->title; ?>
-			<form action="list/<?php echo $list->id; ?>/delete" method="POST" class="btn-group pull-right">
+			<form action="list/<?php echo $list->id; ?>/delete" method="POST" class="btn-group pull-right"
+				data-confirm="Are you sure you want to delete this term list?">
 				<a href="lists/<?php echo $list->id; ?>/form-meta" target="#modal-card"
 					class="btn primary" data-action="modal" data-target="#modal-form-meta">
 					<i class="fa fa-edit"></i> Edit
@@ -28,13 +29,13 @@ $delete_term_nonce = $this->create_nonce('delete', 'term');
 		</h2>
 		<p class="lead"><?php echo $list->descrip; ?></p>
 		<h3><i class="fa fa-terminal"></i> Terms</h3>
-		<p class="pull-right">
+		<div class="btn-toolbar">
 			<a href="list/<?php echo $list->id; ?>/terms/form-meta" target="#modal-card"
 				class="btn success" data-action="modal" data-target="#modal-form-meta">
 				<i class="fa fa-plus"></i> Add New Term
 			</a>
-		</p>
-		<p><?php $this->load('page-limit'); ?></p>
+			<div class="pull-right"><?php $this->load('page-limit'); ?></div>
+		</div>
 		<table class="primary">
 			<thead>
 				<tr>
@@ -105,13 +106,14 @@ $delete_term_nonce = $this->create_nonce('delete', 'term');
 				<?php endforeach; ?>
 			</tbody>
 		</table>
-		<p><?php $this->pagination($list->terms->found); ?></p>
+		<div class="btn-toolbar">
+			<div class="pull-right"><?php $this->pagination($list->terms->found); ?></div>
+		</div>
 	</div>
 	<div class="col-sm-12 col-md-4 col-md-pull-8 col-lg-3 col-lg-pull-9">
 		<?php
-			$this->load('card-meta', 'list', compact('list'));
-			$this->load('card-translation', 'list', compact('list'));
+			$this->load('item-meta', 'list', compact('list'));
+			$this->load('item-translation', 'list', compact('list'));
 		?>
 	</div>
 </div>
-<div id="modal-card"></div>

@@ -3,14 +3,16 @@
 	<li><a href="home"><i class="fa fa-home"></i> Home</a></li>
 	<li class="active">Projects</li>
 </ol>
-<h2><i class="fa fa-folder-open"></i> Projects</h2>
-<p>
+<h2 class="page-title">
+	<i class="fa fa-folder-open"></i> Projects
+</h2>
+<div class="btn-toolbar">
 	<a href="project/form-meta" target="#modal-card" class="btn success"
 		data-action="modal" data-target="#modal-form-meta">
 		<i class="fa fa-plus"></i> Add New Project
 	</a>
-</p>
-<p><?php $this->load('page-limit'); ?></p>
+	<div class="pull-right"><?php $this->load('page-limit'); ?></div>
+</div>
 <table class="primary">
 	<thead>
 		<tr>
@@ -32,9 +34,7 @@
 							class="btn primary" data-action="modal" data-target="#modal-form-meta">
 							<i class="fa fa-edit"></i>
 						</a>
-
 			            <input type="hidden" name="nonce" value="<?php echo $delete_nonce; ?>">
-
 						<button type="submit" class="btn danger">
 			    			<i class="fa fa-trash"></i>
 			    		</button>
@@ -44,7 +44,7 @@
 				<td>
 					<?php if ($project->languages->found) :
 						$label = ' Language' . ($project->languages->found > 1 ? 's' : ''); ?>
-						<a href="project/<?php echo $project->id; ?>/modal-languages" target="#modal-card"
+						<a href="project/<?php echo $project->id; ?>/card-languages" target="#modal-card"
 							data-action="modal" data-target="#modal-card-languages">
 							<?php echo $project->languages->found . $label; ?>
 						</a>
@@ -55,7 +55,7 @@
 				<td>
 					<?php if ($project->users->found) :
 						$label = ' User' . ($project->users->found > 1 ? 's' : ''); ?>
-						<a href="project/<?php echo $project->id; ?>/modal-users" target="#modal-card"
+						<a href="project/<?php echo $project->id; ?>/card-users" target="#modal-card"
 							data-action="modal" data-target="#modal-card-users">
 							<?php echo $project->users->found . $label; ?>
 						</a>
@@ -66,7 +66,7 @@
 				<td>
 					<?php if ($project->documents->found) :
 						$label = ' Document' . ($project->documents->found > 1 ? 's' : ''); ?>
-						<a href="project/<?php echo $project->id; ?>/modal-documents" target="#modal-card"
+						<a href="project/<?php echo $project->id; ?>/card-documents" target="#modal-card"
 							data-action="modal" data-target="#modal-card-documents">
 							<?php echo $project->documents->found . $label; ?>
 						</a>
@@ -77,7 +77,7 @@
 				<td>
 					<?php if ($project->lists->found) :
 						$label = ' Term List' . ($project->lists->found > 1 ? 's' : ''); ?>
-						<a href="project/<?php echo $project->id; ?>/modal-lists" target="#modal-card"
+						<a href="project/<?php echo $project->id; ?>/card-lists" target="#modal-card"
 							data-action="modal" data-target="#modal-card-lists">
 							<?php echo $project->lists->found . $label; ?>
 						</a>
@@ -89,5 +89,6 @@
 		<?php endforeach; ?>
 	</tbody>
 </table>
-<p><?php $this->pagination($projects->found); ?></p>
-<div class="col-md-8 col-lg-6" id="modal-card"></div>
+<div class="btn-toolbar">
+	<div class="pull-right"><?php $this->pagination($projects->found); ?></div>
+</div>
