@@ -14,26 +14,8 @@ $delete_nonce = $this->create_nonce('delete', 'document');
 </ol>
 <div class="row">
 	<div class="col-sm-12 col-md-8 col-md-push-4 col-lg-9 col-lg-push-3">
-		<h2>
-			<i class="fa fa-file"></i>
-			<?php echo $document->title; ?>
-			<?php if ($document->revision) : ?>
-				<span class="small">
-					<i class="fa fa-chevron-left"></i>
-					Revision of
-					<a href="document/<?php echo $master->id; ?>">
-						<?php echo $master->title; ?>
-					</a>
-				</span>
-			<?php elseif ($document->master) : ?>
-				<span class="small">
-					<i class="fa fa-chevron-left"></i>
-					Translation of
-					<a href="document/<?php echo $master->id; ?>">
-						<?php echo $master->title; ?>
-					</a>
-				</span>
-			<?php endif; ?>
+		<h2 class="page-title">
+			<i class="fa fa-file"></i> <?php echo $document->title; ?>
 			<form action="document/<?php echo $document->id; ?>/delete" method="POST" class="btn-group pull-right"
 				data-confirm="Are you sure you want to delete this term list?">
 				<a href="document/<?php echo $document->id; ?>/form" class="btn primary">
@@ -44,6 +26,21 @@ $delete_nonce = $this->create_nonce('delete', 'document');
 					<i class="fa fa-trash"></i> Delete
 				</button>
 			</form>
+			<?php if ($document->revision) : ?>
+				<div class="small">
+					<i class="fa fa-clock-o"></i> Revision of
+					<a href="document/<?php echo $master->id; ?>">
+						<?php echo $master->title; ?>
+					</a>
+				</div>
+			<?php elseif ($document->master) : ?>
+				<div class="small">
+					<i class="fa fa-flag"></i> Translation of
+					<a href="document/<?php echo $master->id; ?>">
+						<?php echo $master->title; ?>
+					</a>
+				</div>
+			<?php endif; ?>
 		</h2>
 		<p class="lead"><?php echo $document->descrip; ?></p>
 		<p style="white-space: pre-wrap"><?php echo $document->content; ?></p>

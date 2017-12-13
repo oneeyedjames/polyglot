@@ -19,15 +19,17 @@ $nonce = $this->create_nonce('save', 'document');
 </ol>
 <div class="row">
 	<div class="col-sm-12 col-md-8 col-md-push-4 col-lg-9 col-lg-push-3">
-		<h2><i class="fa fa-edit"></i> Edit Document</h2>
-		<p>
-			<a class="btn primary" data-action="submit" data-target="#edit-document-form">
-				<i class="fa fa-save"></i> Save
-			</a>
-			<a href="document/<?php echo $document->id; ?>" class="btn">
-				<i class="fa fa-close"></i> Cancel
-			</a>
-		</p>
+		<h2 class="page-title">
+			<i class="fa fa-edit"></i> Edit Document
+			<div class="btn-group pull-right">
+				<a class="btn primary" data-action="submit" data-target="#edit-document-form">
+					<i class="fa fa-save"></i> Save
+				</a>
+				<a href="document/<?php echo $document->id; ?>" class="btn">
+					<i class="fa fa-close"></i> Cancel
+				</a>
+			</div>
+		</h2>
 		<form action="<?php echo $url; ?>" method="POST" id="edit-document-form">
 			<input type="hidden" name="nonce" value="<?php echo $nonce; ?>">
 

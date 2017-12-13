@@ -3,14 +3,14 @@
 	<li><a href="home"><i class="fa fa-home"></i> Home</a></li>
 	<li class="active">Languages</li>
 </ol>
-<h2><i class="fa fa-flag"></i> Languages</h2>
-<p>
+<h2 class="page-title"><i class="fa fa-flag"></i> Languages</h2>
+<div class="btn-toolbar">
 	<a href="language/form-meta" target="#modal-card" class="btn success"
 		data-action="modal" data-target="#modal-form-language">
 		<i class="fa fa-plus"></i> Add New Language
 	</a>
-</p>
-<p><?php $this->load('page-limit'); ?></p>
+	<div class="pull-right"><?php $this->load('page-limit'); ?></div>
+</div>
 <table class="primary">
 	<thead>
 		<tr>
@@ -65,4 +65,6 @@
 		<?php endforeach; ?>
 	</tbody>
 </table>
-<p><?php $this->pagination($languages->found); ?></p>
+<div class="btn-toolbar">
+	<div class="pull-right"><?php $this->pagination($languages->found); ?></div>
+</div>

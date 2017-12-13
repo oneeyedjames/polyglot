@@ -3,14 +3,16 @@
 	<li><a href="home"><i class="fa fa-home"></i> Home</a></li>
 	<li class="active">Projects</li>
 </ol>
-<h2><i class="fa fa-folder-open"></i> Projects</h2>
-<p>
+<h2 class="page-title">
+	<i class="fa fa-folder-open"></i> Projects
+</h2>
+<div class="btn-toolbar">
 	<a href="project/form-meta" target="#modal-card" class="btn success"
 		data-action="modal" data-target="#modal-form-meta">
 		<i class="fa fa-plus"></i> Add New Project
 	</a>
-</p>
-<p><?php $this->load('page-limit'); ?></p>
+	<div class="pull-right"><?php $this->load('page-limit'); ?></div>
+</div>
 <table class="primary">
 	<thead>
 		<tr>
@@ -87,5 +89,6 @@
 		<?php endforeach; ?>
 	</tbody>
 </table>
-<p><?php $this->pagination($projects->found); ?></p>
-<div class="col-md-8 col-lg-6" id="modal-card"></div>
+<div class="btn-toolbar">
+	<div class="pull-right"><?php $this->pagination($projects->found); ?></div>
+</div>

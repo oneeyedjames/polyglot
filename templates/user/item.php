@@ -6,7 +6,7 @@
 </ol>
 <div class="row">
 	<div class="col-sm-12 col-md-8 col-md-push-4 col-lg-9 col-lg-push-3">
-        <h2>
+        <h2 class="page-title">
             <i class="fa fa-user"></i> <?php echo $user->name; ?>
             <form action="user/<?php echo $user->id; ?>/delete" method="POST" class="btn-group pull-right"
 				data-confirm="Are you sure you want to delete this user?">

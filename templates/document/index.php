@@ -5,14 +5,22 @@
 	<li><a href="project/<?php echo $project->id; ?>"><?php echo $project->title; ?></a></li>
 	<li class="active">Documents</li>
 </ol>
-<h2><i class="fa fa-file"></i> <?php echo $project->title; ?> &raquo; Documents</h2>
-<p>
+<h2 class="page-title">
+	<i class="fa fa-file"></i> Documents
+	<div class="small">
+		<i class="fa fa-folder-open"></i> In Project
+		<a href="project/<?php echo $project->id; ?>">
+			<?php echo $project->title; ?>
+		</a>
+	</div>
+</h2>
+<div class="btn-toolbar">
 	<a href="project/<?php echo $project->id; ?>/documents/form-meta" target="#modal-card"
 		class="btn success" data-action="modal" data-target="#modal-form-meta">
 		<i class="fa fa-plus"></i> Add New Document
 	</a>
-</p>
-<p><?php $this->load('page-limit'); ?></p>
+	<div class="pull-right"><?php $this->load('page-limit'); ?></div>
+</div>
 <table class="primary">
 	<thead>
 		<tr>
@@ -48,4 +56,6 @@
 		<?php endforeach; ?>
 	</tbody>
 </table>
-<p><?php $this->pagination($documents->found); ?></p>
+<div class="btn-toolbar">
+	<div class="pull-right"><?php $this->pagination($documents->found); ?></div>
+</div>
