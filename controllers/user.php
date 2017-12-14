@@ -181,8 +181,8 @@ class user_controller extends controller {
 		else
 			$vars['user'] = new object();
 
-		$vars['projects'] = $this->make_query(array(), 'project')->get_result();
-		$vars['roles'] = $this->make_query(array(), 'role')->get_result();
+		$vars['projects'] = $this->make_query([], 'project')->get_result();
+		$vars['roles'] = $this->make_query([], 'role')->get_result();
 
 		return $vars;
 	}
@@ -193,7 +193,7 @@ class user_controller extends controller {
 		else
 			$vars['user'] = new object();
 
-		$vars['languages'] = $this->make_query(array(), 'language')->get_result();
+		$vars['languages'] = $this->make_query([], 'language')->get_result();
 
 		return $vars;
 	}

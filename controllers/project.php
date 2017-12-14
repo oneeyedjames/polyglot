@@ -119,7 +119,7 @@ class project_controller extends controller {
 			$vars['project'] = new object();
 		}
 
-		$vars['languages'] = $this->make_query(array(), 'language')->get_result();
+		$vars['languages'] = $this->make_query([], 'language')->get_result();
 
 		return $vars;
 	}
@@ -131,7 +131,7 @@ class project_controller extends controller {
 		});
 
 		$vars['project'] = $project;
-		$vars['languages'] = $this->make_query(array(), 'language')->get_result();
+		$vars['languages'] = $this->make_query([], 'language')->get_result();
 
 		return $vars;
 	}
@@ -143,7 +143,7 @@ class project_controller extends controller {
 		});
 
 		$vars['project'] = $project;
-		$vars['users'] = $this->make_query(array(), 'user')->get_result();
+		$vars['users'] = $this->make_query([], 'user')->get_result();
 		$vars['roles'] = $this->query('SELECT * FROM role');
 
 		return $vars;
