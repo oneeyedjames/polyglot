@@ -15,7 +15,8 @@ class language_controller extends controller {
         if (isset($post['language']['name']))
             $language->name = $post['language']['name'];
 
-        $this->put_record($language);
+		if (!empty($language->code) && !empty($language->name))
+			$this->put_record($language);
 
 		return ['resource' => 'language'];
 	}
@@ -33,24 +34,13 @@ class language_controller extends controller {
 
 		$args = compact('limit', 'offset');
 
-		$vars['languages'] = $this->make_query($args)->get_result();
-		$vars['languages']->walk(function(&$language) {
-			$language->projects = $this->make_query([
-				'bridge' => 'pl_project',
-				'limit'  => 3,
-				'args'   => [
-					'pl_language' => $language->id
-				]
-			], 'project')->get_result();
-
-			$language->users = $this->make_query([
-				'bridge' => 'ul_user',
-				'limit'  => 3,
-				'args'   => [
-					'ul_language' => $language->id
-				]
-			], 'user')->get_result();
+		$languages = $this->make_query($args)->get_result();
+		$languages->walk(function(&$language) {
+			$language->projects = $this->get_projects($language->id);
+			$language->users    = $this->get_users($language->id);
 		});
+
+		$vars['languages'] = $languages;
 
 		return $vars;
 	}
@@ -67,13 +57,7 @@ class language_controller extends controller {
 	public function card_projects_view($vars) {
 		if ($lang_id = get_resource_id()) {
 			$language = $this->get_record($lang_id);
-			$language->projects = $this->make_query([
-				'bridge' => 'pl_project',
-				'limit'  => 3,
-				'args'   => [
-					'pl_language' => $language->id
-				]
-			], 'project')->get_result();
+			$language->projects = $this->get_projects($lang_id);
 
 			$vars['language'] = $language;
 		}
@@ -84,17 +68,27 @@ class language_controller extends controller {
 	public function card_users_view($vars) {
 		if ($lang_id = get_resource_id()) {
 			$language = $this->get_record($lang_id);
-			$language->users = $this->make_query([
-				'bridge' => 'ul_user',
-				'limit'  => 3,
-				'args'   => [
-					'ul_language' => $language->id
-				]
-			], 'user')->get_result();
+			$language->users = $this->get_users($lang_id);
 
 			$vars['language'] = $language;
 		}
 
 		return $vars;
+	}
+
+	protected function get_projects($lang_id, $limit = DEFAULT_PER_PAGE, $offset = 0) {
+		$args = compact('limit', 'offset');
+		$args['bridge'] = 'pl_project';
+		$args['args'] = ['pl_language' => $lang_id];
+
+		return $this->make_query($args, 'project')->get_result();
+	}
+
+	protected function get_users($lang_id, $limit = DEFAULT_PER_PAGE, $offset = 0) {
+		$args = compact('limit', 'offset');
+		$args['bridge'] = 'ul_user';
+		$args['args'] = ['ul_language' => $lang_id];
+
+		return $this->make_query($args, 'user')->get_result();
 	}
 }
