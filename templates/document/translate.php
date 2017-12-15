@@ -13,11 +13,11 @@ if ($translation) {
 } else {
 	$action_url = "documents/save";
 
-	$translation = (object) array(
+	$translation = (object) [
 		'title'   => '',
 		'summary' => '',
 		'content' => ''
-	);
+	];
 }
 
 $user = get_session_user();

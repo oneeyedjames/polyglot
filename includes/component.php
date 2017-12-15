@@ -148,7 +148,7 @@ function init_language() {
 
 	preg_match_all($regex, $header, $matches, PREG_SET_ORDER);
 
-	$lang = array();
+	$lang = [];
 
 	foreach ($matches as $match) {
 		foreach (explode(',', $match[1]) as $slug) {
@@ -213,18 +213,18 @@ function setup_admin_user($database) {
 }
 
 function setup_user_roles($database) {
-	$role_data = array(
-		'Manager' => array(
-			'project' => array('save', 'add-user', 'remove-user'),
-			'document' => array('save')
-		),
-		'Editor' => array(
-			'document' => array('save')
-		),
-		'Translator' => array(
-			'document' => array('save')
-		)
-	);
+	$role_data = [
+		'Manager' => [
+			'project' => ['save', 'add-user', 'remove-user'],
+			'document' => ['save']
+		],
+		'Editor' => [
+			'document' => ['save']
+		],
+		'Translator' => [
+			'document' => ['save']
+		]
+	];
 
 	if ($roles = $database->query("SELECT * FROM `role`")) {
 		if (!$roles->found) {
@@ -242,7 +242,7 @@ function setup_user_roles($database) {
 
 	if ($perms = $database->query("SELECT * FROM `permission`")) {
 		if (!$perms->found) {
-			$perm_data = $all_perm_data = array();
+			$perm_data = $all_perm_data = [];
 
 			foreach ($role_data as $role_meta) {
 				foreach ($role_meta as $resource => $actions) {
@@ -275,7 +275,7 @@ function setup_user_roles($database) {
 
 	if ($acl = $database->query("SELECT * FROM `role_permission_map`")) {
 		if (!$acl->found) {
-			$role_ids = $perm_ids = array();
+			$role_ids = $perm_ids = [];
 
 			foreach ($roles as $role) {
 				$role_ids[$role->title] = $role->id;
@@ -285,7 +285,7 @@ function setup_user_roles($database) {
 				$perm_ids["$perm->resource:$perm->action"] = $perm->id;
 			}
 
-			$grant_data = array();
+			$grant_data = [];
 
 			foreach ($role_data as $role_title => $perm_data) {
 				$role_id = $role_ids[$role_title];

@@ -5,7 +5,7 @@ class controller extends controller_base {
 	private static $_default_database   = false;
 	private static $_default_cache      = false;
 
-	private static $_controllers = array();
+	private static $_controllers = [];
 
 	public static function init($database = false, $cache = false) {
 		if (!self::$_default_database)
@@ -42,7 +42,7 @@ class controller extends controller_base {
 	}
 
 	public function do_action($action) {
-		if (in_array($action, array('login', 'logout', 'reset-password')))
+		if (in_array($action, ['login', 'logout', 'reset-password']))
 			return parent::do_action($action);
 
 		if ($this->is_authorized($action))
@@ -54,10 +54,10 @@ class controller extends controller_base {
 	public function login_action($get, $post) {
 		extract(@$post['login'], EXTR_SKIP);
 
-		$result = $this->make_query(array(
+		$result = $this->make_query([
 			'args'  => compact('email'),
 			'limit' => 1
-		), 'user')->get_result();
+		], 'user')->get_result();
 
 		if ($record = $result->first) {
 			if (password_verify($password, $record->password)) {
@@ -71,7 +71,7 @@ class controller extends controller_base {
 
 				$this->execute($sql, intval($user->id), $token, date('Y-m-d H:i:s', $expire));
 
-				return array('view' => 'home');
+				return ['view' => 'home'];
 			}
 		}
 
@@ -81,17 +81,17 @@ class controller extends controller_base {
 	public function logout_action($get, $post) {
 		setcookie('user_token', null, time() - 300);
 
-		return array('view', 'login-form');
+		return ['view', 'login-form'];
 	}
 
 	public function reset_password_action($get, $post) {
 		if (isset($post['email'])) {
-			$user = $this->make_query(array(
+			$user = $this->make_query([
 				'limit' => 1,
-				'args'  => array(
+				'args'  => [
 					'email' => $post['email']
-				)
-			), 'user')->get_result()->first;
+				]
+			], 'user')->get_result()->first;
 
 			if ($user) {
 				$user->reset_nonce = create_nonce(16);
@@ -99,80 +99,83 @@ class controller extends controller_base {
 
 				$this->update_record($user, 'user');
 
-				error_log(build_url(array(
+				error_log(build_url([
 					'view' => 'reset-password',
-					'filter' => array(
+					'filter' => [
 						'token' => $$user->reset_nonce
-					)
-				)));
+					]
+				]));
 			}
 		}
 
-		return array();
+		return [];
 	}
 
 	public function index_view($vars) {
-		$vars['projects'] = $this->make_query(array(
+		$vars['projects'] = $this->make_query([
 			'limit' => 3
-		), 'project')->get_result();
+		], 'project')->get_result();
+
 		$vars['projects']->walk(function(&$project) {
-			$project->languages = $this->make_query(array(
+			$project->languages = $this->make_query([
 				'bridge' => 'pl_language',
 				'limit'  => 3,
-				'args'   => array(
+				'args'   => [
 					'pl_project' => $project->id
-				)
-			), 'language')->get_result();
+				]
+			], 'language')->get_result();
 
-			$project->users = $this->make_query(array(
+			$project->users = $this->make_query([
 				'bridge' => 'up_user',
 				'limit'  => 3,
-				'args'   => array(
+				'args'   => [
 					'up_project' => $project->id
-				)
-			), 'user')->get_result();
+				]
+			], 'user')->get_result();
 		});
 
-		$vars['languages'] = $this->make_query(array(
+		$vars['languages'] = $this->make_query([
 			'limit' => 3
-		), 'language')->get_result();
+		], 'language')->get_result();
+
 		$vars['languages']->walk(function(&$language) {
-			$language->projects = $this->make_query(array(
+			$language->projects = $this->make_query([
 				'bridge' => 'pl_project',
 				'limit'  => 3,
-				'args'   => array(
+				'args'   => [
 					'pl_language' => $language->id
-				)
-			), 'project')->get_result();
+				]
+			], 'project')->get_result();
 
-			$language->users = $this->make_query(array(
+			$language->users = $this->make_query([
 				'bridge' => 'ul_user',
 				'limit'  => 3,
-				'args'   => array(
+				'args'   => [
 					'ul_language' => $language->id
-				)
-			), 'user')->get_result();
+				]
+			], 'user')->get_result();
 		});
 
-		$vars['users'] = $this->make_query(array(
+		$vars['users'] = $this->make_query([
 			'limit' => 3
-		), 'user')->get_result();
+		], 'user')->get_result();
+
 		$vars['users']->walk(function(&$user) {
-			$user->projects = $this->make_query(array(
+			$user->projects = $this->make_query([
 				'bridge' => 'up_project',
 				'limit'  => 3,
-				'args'   => array(
+				'args'   => [
 					'up_user' => $user->id
-				)
-			), 'project')->get_result();
+				]
+			], 'project')->get_result();
 
-			$user->languages = $this->make_query(array(
+			$user->languages = $this->make_query([
 				'bridge' => 'ul_language',
 				'limit'  => 3,
-				'args'   => array(
+				'args'   => [
 					'ul_user' => $user->id
-				)
-			), 'language')->get_result();
+				]
+			], 'language')->get_result();
 		});
 
 		return $vars;
@@ -180,12 +183,12 @@ class controller extends controller_base {
 
 	public function reset_password_form_view($vars) {
 		if ($token = get_filter('token')) {
-			$user = $this->make_query(array(
+			$user = $this->make_query([
 				'limit' => 1,
-				'args'  => array(
+				'args'  => [
 					'reset_token' => $token
-				)
-			), 'user')->get_result()->first;
+				]
+			], 'user')->get_result()->first;
 
 			if ($user) {
 				if (strtotime($user->reset_expire) < time())
@@ -261,9 +264,9 @@ class controller extends controller_base {
 		return $user->create_action_token($action, $resource ?: $this->resource);
 	}
 
-	public function build_url($params = array(), $resource = false) {
+	public function build_url($params = [], $resource = false) {
 		if (is_scalar($params) && is_numeric($params))
-			$params = array('id' => intval($params));
+			$params = ['id' => intval($params)];
 
 		$params['resource'] = $resource ?: $this->resource;
 

@@ -1,21 +1,21 @@
 <?php
 
 class template extends template_base {
-	private $_controllers = array();
+	private $_controllers = [];
 
 	public function __call($func, $args) {
 		if ($count = count($this->_controllers)) {
 			$controller = $this->_controllers[$count - 1];
 
 			if (method_exists($controller, $func))
-				return call_user_func_array(array($controller, $func), $args);
+				return call_user_func_array([$controller, $func], $args);
 		}
 
 		trigger_error("Call to undefined method template::$func()", E_USER_WARNING);
 	}
 
-	public function load($view, $resource = false, $vars = array()) {
-		$granted = in_array($view, array('header', 'footer', 'login-form'));
+	public function load($view, $resource = false, $vars = []) {
+		$granted = in_array($view, ['header', 'footer', 'login-form']);
 
 		if (!$granted && $user = get_session_user())
 			$granted = $user->has_permission($view, $resource);
@@ -30,7 +30,7 @@ class template extends template_base {
 		}
 	}
 
-	public function pagination($item_count, $vars = array()) {
+	public function pagination($item_count, $vars = []) {
 		$vars['item_count'] = $item_count;
 
 		$this->load('pagination', false, $vars);

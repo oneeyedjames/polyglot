@@ -11,11 +11,11 @@ function get_languages($limit = DEFAULT_PER_PAGE, $offset = 0) {
 function get_records($resource, $limit, $offset) {
 	global $database;
 
-	$query = new database_query($database, array(
-		'table' => $resource,
-		'limit' => $limit,
+	$query = new database_query($database, [
+		'table'  => $resource,
+		'limit'  => $limit,
 		'offset' => $offset
-	));
+	]);
 
 	return $query->get_result();
 }
@@ -24,26 +24,26 @@ function get_user($user_id) {
 	global $database;
 
 	if ($record = $database->get_record('user', $user_id)) {
-		$query = new database_query($database, array(
+		$query = new database_query($database, [
 			'table'  => 'role',
 			'limit'  => 1,
 			'bridge' => 'up_role',
-			'args' => array(
+			'args'   => [
 				'up_user'    => $user_id,
 				'up_project' => get_project_id()
-			)
-		));
+			]
+		]);
 
 		if ($role = $query->get_result()->first) {
-			$query = new database_query($database, array(
+			$query = new database_query($database, [
 				'table'  => 'permission',
 				'bridge' => 'rp_permission',
-				'args'   => array(
+				'args'   => [
 					'rp_role'  => $role->id,
 					'action'   => $action,
 					'resource' => $resource
-				)
-			));
+				]
+			]);
 
 			$role->permissions = $query->get_result();
 		}

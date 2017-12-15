@@ -17,14 +17,14 @@ class language_controller extends controller {
 
         $this->put_record($language);
 
-		return array('resource' => 'language');
+		return ['resource' => 'language'];
 	}
 
 	public function delete_action($get, $post) {
 		if ($id = get_resource_id())
 			$this->remove_record($id);
 
-		return array('resource' => 'language');
+		return ['resource' => 'language'];
 	}
 
 	public function index_view($vars) {
@@ -35,21 +35,21 @@ class language_controller extends controller {
 
 		$vars['languages'] = $this->make_query($args)->get_result();
 		$vars['languages']->walk(function(&$language) {
-			$language->projects = $this->make_query(array(
+			$language->projects = $this->make_query([
 				'bridge' => 'pl_project',
 				'limit'  => 3,
-				'args'   => array(
+				'args'   => [
 					'pl_language' => $language->id
-				)
-			), 'project')->get_result();
+				]
+			], 'project')->get_result();
 
-			$language->users = $this->make_query(array(
+			$language->users = $this->make_query([
 				'bridge' => 'ul_user',
 				'limit'  => 3,
-				'args'   => array(
+				'args'   => [
 					'ul_language' => $language->id
-				)
-			), 'user')->get_result();
+				]
+			], 'user')->get_result();
 		});
 
 		return $vars;
@@ -67,13 +67,13 @@ class language_controller extends controller {
 	public function card_projects_view($vars) {
 		if ($lang_id = get_resource_id()) {
 			$language = $this->get_record($lang_id);
-			$language->projects = $this->make_query(array(
+			$language->projects = $this->make_query([
 				'bridge' => 'pl_project',
 				'limit'  => 3,
-				'args'   => array(
+				'args'   => [
 					'pl_language' => $language->id
-				)
-			), 'project')->get_result();
+				]
+			], 'project')->get_result();
 
 			$vars['language'] = $language;
 		}
@@ -84,13 +84,13 @@ class language_controller extends controller {
 	public function card_users_view($vars) {
 		if ($lang_id = get_resource_id()) {
 			$language = $this->get_record($lang_id);
-			$language->users = $this->make_query(array(
+			$language->users = $this->make_query([
 				'bridge' => 'ul_user',
 				'limit'  => 3,
-				'args'   => array(
+				'args'   => [
 					'ul_language' => $language->id
-				)
-			), 'user')->get_result();
+				]
+			], 'user')->get_result();
 
 			$vars['language'] = $language;
 		}

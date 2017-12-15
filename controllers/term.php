@@ -50,7 +50,7 @@ class term_controller extends controller {
 			$term->id = $this->put_record($term);
 		}
 
-		$params = array('resource' => 'list', 'id' => $term->list_id);
+		$params = ['resource' => 'list', 'id' => $term->list_id];
 
 		if ($term->language_id)
 			$params['filter']['translation'] = $term->language_id;
@@ -84,11 +84,11 @@ class term_controller extends controller {
 
 	public function api_view() {
 		if (isset($_REQUEST['filter']['list'])) {
-			$terms = $this->make_query(array(
+			$terms = $this->make_query([
 				'list_id'     => get_filter('list'),
 				'language_id' => 1,
 				'revision'    => 0
-			))->get_result();
+			])->get_result();
 
 			echo json_encode($terms);
 		}
@@ -96,13 +96,13 @@ class term_controller extends controller {
 
 	public function get_term($term_id, $lang_id = false) {
 		if ($lang_id) {
-			$query = $this->make_query(array(
-				'args' => array(
+			$query = $this->make_query([
+				'args' => [
 					'language_term' => $lang_id,
 					'master_id'     => $term_id,
 					'revision'      => 0
-				)
-			));
+				]
+			]);
 
 			if ($term = $query->get_result()->first)
 				return $term;

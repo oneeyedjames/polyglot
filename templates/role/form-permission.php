@@ -2,11 +2,11 @@
 
 $nonce = $this->create_nonce('add-permission', 'role');
 
-$actions = array();
+$actions = [];
 
 ksort($resources);
 foreach ($resources as $resource => $resource_meta) {
-    $actions[$resource] = array();
+    $actions[$resource] = [];
 
     sort($resource_meta['actions']);
     foreach ($resource_meta['actions'] as $action) {

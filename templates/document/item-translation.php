@@ -13,7 +13,7 @@
 				</div>
 			</li>
 		<?php endif; foreach ($document->project->languages as $language) :
-			if (!in_array($language->id, array($document->language->id, $master->language->id))) : ?>
+			if (!in_array($language->id, [$document->language->id, $master->language->id])) : ?>
 			<li>
 				<?php if ($translation = $document->translations[$language->code]) : ?>
 					<a href="document/<?php echo $master->id; ?>/translation/<?php echo $language->id; ?>">

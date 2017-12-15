@@ -21,23 +21,23 @@ trait authorization {
 	}
 
     protected function get_role($user_id = SESSION_USER_ID, $proj_id = 0) {
-		$role = $this->make_query(array(
+		$role = $this->make_query([
 			'limit'  => 1,
 			'bridge' => 'up_role',
-			'args' => array(
+			'args' => [
 				'up_user'    => $user_id,
 				'up_project' => $proj_id
-			)
-		), 'role')->get_result()->first;
+			]
+		], 'role')->get_result()->first;
 
-		$role->permissions = $this->make_query(array(
+		$role->permissions = $this->make_query([
 			'bridge' => 'rp_permission',
-			'args'   => array(
+			'args'   => [
 				'rp_role'  => $role->id,
 				'action'   => $action,
 				'resource' => $resource
-			)
-		), 'permission')->get_result();
+			]
+		], 'permission')->get_result();
 
 		return $role;
 	}
