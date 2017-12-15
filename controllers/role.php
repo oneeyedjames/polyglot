@@ -17,26 +17,26 @@ class role_controller extends controller {
 
         $this->put_record($role);
 
-        return array('resource' => 'role');
+        return ['resource' => 'role'];
     }
 
     public function delete_action($get, $post) {
         if ($role_id = get_resource_id())
             $this->execute('DELETE FROM `role` WHERE `id` = ?', $role_id);
 
-        return array('resource' => 'role');
+        return ['resource' => 'role'];
     }
 
     public function add_permission_action($get, $post) {
         $role_id = get_resource_id();
 
         if (isset($post['permission']['resource'], $post['permission']['action'])) {
-            $permissions = $this->make_query(array(
-                'args' => array(
+            $permissions = $this->make_query([
+                'args' => [
                     'resource' => $post['permission']['resource'],
                     'action'   => $post['permission']['action']
-                )
-            ), 'permission')->get_result();
+                ]
+            ], 'permission')->get_result();
 
             if ($permissions->found) {
                 $permission = $permissions->first;
@@ -47,13 +47,13 @@ class role_controller extends controller {
                 $permission->id       = $this->put_record($permission, 'permission');
             }
 
-			$this->put_record(new object(array(
+			$this->put_record(new object([
 				'role_id'       => $role_id,
                 'permission_id' => $permission->id
-			)), 'role_permission_map');
+			]), 'role_permission_map');
         }
 
-        return array('resource' => 'role', 'id' => $role_id);
+        return ['resource' => 'role', 'id' => $role_id];
     }
 
     public function remove_permission_action($get, $post) {
@@ -67,7 +67,7 @@ class role_controller extends controller {
             $this->execute($sql, $role_id, $permission_id);
         }
 
-        return array('resource' => 'role', 'id' => $role_id);
+        return ['resource' => 'role', 'id' => $role_id];
     }
 
     public function index_view($vars) {
@@ -78,12 +78,12 @@ class role_controller extends controller {
 
         $roles = $this->make_query($args)->get_result();
 		$roles->walk(function(&$role) {
-            $role->permissions = $this->make_query(array(
+            $role->permissions = $this->make_query([
 				'bridge' => 'rp_permission',
-				'args'   => array(
+				'args'   => [
 					'rp_role' => $role->id
-				)
-			), 'permission')->get_result();
+				]
+			], 'permission')->get_result();
 		});
 
 		$vars['roles'] = $roles;
@@ -97,14 +97,14 @@ class role_controller extends controller {
 
         if ($role_id = get_resource_id()) {
             $role = $this->get_record($role_id);
-            $role->permissions = $this->make_query(array(
+            $role->permissions = $this->make_query([
 				'bridge' => 'rp_permission',
                 'limit'  => $limit,
                 'offset' => $offset,
-				'args'   => array(
+				'args'   => [
 					'rp_role' => $role->id
-				)
-			), 'permission')->get_result();
+				]
+			], 'permission')->get_result();
 
             $vars['role'] = $role;
         }
@@ -133,12 +133,12 @@ class role_controller extends controller {
     public function card_permissions_view($vars) {
         if ($role_id = get_resource_id()) {
             $role = $this->get_record(get_resource_id());
-            $role->permissions = $this->make_query(array(
+            $role->permissions = $this->make_query([
 				'bridge' => 'rp_permission',
-				'args'   => array(
+				'args'   => [
 					'rp_role' => $role->id
-				)
-			), 'permission')->get_result();
+				]
+			], 'permission')->get_result();
 
             $vars['role'] = $role;
         }

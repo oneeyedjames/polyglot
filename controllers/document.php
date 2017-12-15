@@ -50,7 +50,7 @@ class document_controller extends controller {
 			$document->id = $this->put_record($document);
 		}
 
-		return array('resource' => 'document', 'id' => $document->id);
+		return ['resource' => 'document', 'id' => $document->id];
 	}
 
 	public function index_view($vars) {
@@ -79,13 +79,13 @@ class document_controller extends controller {
 				if ($document = $this->get_document($master->id, $lang_id)) {
 					$url = $this->build_url($document->id);
 				} else {
-					$url = $this->build_url(array(
+					$url = $this->build_url([
 						'id'     => $master->id,
 						'view'   => 'form',
-						'filter' => array(
+						'filter' => [
 							'translation' => $lang_id
-						)
-					));
+						]
+					]);
 				}
 			}
 
@@ -147,27 +147,27 @@ class document_controller extends controller {
 
 	public function get_documents($proj_id, $lang_id, $limit = DEFAULT_PER_PAGE, $offset = 0) {
 		$args = compact('limit', 'offset');
-		$args['args'] = array(
+		$args['args'] = [
 			'project_document'  => $proj_id,
 			'language_document' => $lang_id,
 			'revision'          => 0
-		);
+		];
 
 		$documents = $this->make_query($args)->get_result();
-		$documents->walk(array($this, 'fill_document'));
+		$documents->walk([$this, 'fill_document']);
 
 		return $documents;
 	}
 
 	public function get_document($doc_id, $lang_id = false) {
 		if ($lang_id) {
-			$query = $this->make_query(array(
-				'args' => array(
+			$query = $this->make_query([
+				'args' => [
 					'language_document' => $lang_id,
 					'master_id'         => $doc_id,
 					'revision'          => 0
-				)
-			));
+				]
+			]);
 
 			if ($document = $query->get_result()->first)
 				return $this->fill_document($document);
@@ -189,12 +189,12 @@ class document_controller extends controller {
 	}
 
 	protected function get_project($proj_id) {
-		$args = array(
+		$args = [
 			'bridge' => 'pl_language',
-			'args'   => array(
+			'args'   => [
 				'pl_project' => $proj_id
-			)
-		);
+			]
+		];
 
 		$project = $this->get_record($proj_id, 'project');
 		$project->languages = $this->make_query($args, 'language')->get_result();
@@ -203,32 +203,32 @@ class document_controller extends controller {
 	}
 
 	protected function get_revisions($doc_id) {
-		$query = $this->make_query(array(
-			'args' => array(
+		$query = $this->make_query([
+			'args' => [
 				'master_id' => $doc_id,
 				'revision'  => 1
-			),
-			'sort' => array(
+			],
+			'sort' => [
 				'created' => 'desc'
-			)
+			]
 		));
 
 		$result = $query->get_result();
-		$result->walk(array($this, 'fill_document'));
+		$result->walk([$this, 'fill_document']);
 
 		return $result;
 	}
 
 	protected function get_translations($doc_id) {
-		$query = $this->make_query(array(
-			'args' => array(
+		$query = $this->make_query([
+			'args' => [
 				'master_id' => $doc_id,
 				'revision'  => 0
-			)
-		));
+			]
+		]);
 
 		$result = $query->get_result();
-		$result->walk(array($this, 'fill_document'));
+		$result->walk([$this, 'fill_document']);
 
 		return $result;
 	}

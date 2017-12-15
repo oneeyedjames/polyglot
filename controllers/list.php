@@ -45,7 +45,7 @@ class list_controller extends controller {
 			}
 		}
 
-		return array('resource' => 'list', 'id' => $list->id);
+		return ['resource' => 'list', 'id' => $list->id];
 	}
 
 	public function index_view($vars) {
@@ -73,14 +73,14 @@ class list_controller extends controller {
 		if ($lang_id = get_filter('translation')) {
 			$vars['language'] = $this->get_record($lang_id, 'language');
 
-			$trans = $this->make_query(array(
-				'args' => array(
+			$trans = $this->make_query([
+				'args' => [
 					'list_term'        => $list->id,
 					'language_term'    => $lang_id,
 					'term`.`master_id' => $terms->keys,
 					'term`.`revision'  => 0
-				)
-			), 'term')->get_result();
+				]
+			], 'term')->get_result();
 
 			$trans = $trans->key_map(function($term) {
 				return $term->master_id;
@@ -114,12 +114,10 @@ class list_controller extends controller {
 
 	public function get_lists($proj_id, $limit = DEFAULT_PER_PAGE, $offset = 0) {
 		$args = compact('limit', 'offset');
-		$args['args'] = array(
-			'project_list' => $proj_id
-		);
+		$args['args'] = ['project_list' => $proj_id];
 
 		$lists = $this->make_query($args, 'list')->get_result();
-		$lists->walk(array($this, 'fill_list'));
+		$lists->walk([$this, 'fill_list']);
 
 		return $lists;
 	}
@@ -139,12 +137,12 @@ class list_controller extends controller {
 	}
 
 	protected function get_project($proj_id) {
-		$args = array(
+		$args = [
 			'bridge' => 'pl_language',
-			'args'   => array(
+			'args'   => [
 				'pl_project' => $proj_id
-			)
-		);
+			]
+		];
 
 		$project = $this->get_record($proj_id, 'project');
 		$project->languages = $this->make_query($args, 'language')->get_result();
@@ -154,11 +152,11 @@ class list_controller extends controller {
 
 	protected function get_terms($list_id, $lang_id, $limit = DEFAULT_PER_PAGE, $offset = 0) {
 		$args = compact('limit', 'offset');
-		$args['args'] = array(
+		$args['args'] = [
 			'list_term'       => $list_id,
 			'language_term'   => $lang_id,
 			'term`.`revision' => 0
-		);
+		];
 
 		$terms = $this->make_query($args, 'term')->get_result();
 		$terms->walk(function(&$term) {
