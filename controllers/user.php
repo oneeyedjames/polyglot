@@ -9,33 +9,6 @@ class user_controller extends controller {
 		$user = new object();
 		$user->id = get_resource_id();
 
-		if ($user->id && isset($post['projects'])) {
-			$sql = 'DELETE FROM `user_project_map` WHERE `user_id` = ?';
-			$this->execute($sql, $user->id);
-
-			foreach ($post['projects'] as $proj_id => $role_id) {
-				$this->put_record([
-					'user_id'    => $user->id,
-					'project_id' => intval($proj_id),
-					'role_id'    => intval($role_id)
-				], 'user_project_map');
-			}
-		}
-
-		if ($user->id && isset($post['languages'])) {
-			$sql = 'DELETE FROM `user_language_map` WHERE `user_id` = ?';
-			$this->execute($sql, $user->id);
-
-			foreach ($post['languages'] as $lang_id) {
-				$record = new object([
-					'user_id' => $user->id,
-					'language_id' => intval($lang_id)
-				]);
-
-				$this->put_record($record, 'user_language_map');
-			}
-		}
-
 		return ['resource' => 'user', 'id' => $user->id];
 	}
 
@@ -104,19 +77,8 @@ class user_controller extends controller {
 
 		$users = $this->make_query($args)->get_result();
 		$users->walk(function(&$user) {
-			$user->projects = $this->make_query([
-				'bridge' => 'up_project',
-				'args'   => [
-					'up_user' => $user->id
-				]
-			], 'project')->get_result();
-
-			$user->languages = $this->make_query([
-				'bridge' => 'ul_language',
-				'args'   => [
-					'ul_user' => $user->id
-				]
-			], 'language')->get_result();
+			$user->languages = $this->get_languages($user->id);
+			$user->projects  = $this->get_projects($user->id);
 		});
 
 		$vars['users'] = $users;
@@ -126,31 +88,9 @@ class user_controller extends controller {
 
 	public function item_view($vars) {
 		if ($user_id = get_resource_id()) {
-			$user = $this->get_record(get_resource_id());
-
-			$user->languages = $this->make_query([
-				'bridge' => 'ul_language',
-				'args'   => [
-					'ul_user' => $user->id
-				]
-			], 'language')->get_result();
-
-			$user->projects = $this->make_query([
-				'bridge' => 'up_project',
-				'args'   => [
-					'up_user' => $user->id
-				]
-			], 'project')->get_result();
-
-			$user->projects->walk(function(&$project) {
-				$project->role = $this->make_query([
-					'bridge' => 'up_role',
-					'args'   => [
-						'up_user'    => $user->id,
-						'up_project' => $project->id
-					]
-				], 'role')->get_result()->first;
-			});
+			$user = $this->get_record($user_id);
+			$user->languages = $this->get_languages($user_id);
+			$user->projects  = $this->get_projects($user_id);
 
 			$vars['user'] = $user;
 		}
@@ -222,5 +162,32 @@ class user_controller extends controller {
 		}
 
 		return $vars;
+	}
+
+	protected function get_languages($user_id, $limit = DEFAULT_PER_PAGE, $offset = 0) {
+		$args = compact('limit', 'offset');
+		$args['bridge'] = 'ul_language';
+		$args['args'] = ['ul_user' => $user->id];
+
+		return $this->make_query($args, 'language')->get_result();
+	}
+
+	protected function get_projects($user_id, $limit = DEFAULT_PER_PAGE, $offset = 0) {
+		$args = compact('limit', 'offset');
+		$args['bridge'] = 'up_project';
+		$args['args'] = ['up_user' => $user->id];
+
+		$projects = $this->make_query($args, 'project')->get_result();
+		$projects->walk(function(&$project) {
+			$project->role = $this->make_query([
+				'bridge' => 'up_role',
+				'args'   => [
+					'up_user'    => $user_id,
+					'up_project' => $project->id
+				]
+			], 'role')->get_result()->first;
+		});
+
+		return $projects;
 	}
 }

@@ -93,10 +93,7 @@ class document_controller extends controller {
 		}
 
 		$document->revisions = $this->get_revisions($document->revision ? $document->master_id : $document->id);
-		$document->translations = new object();
-
-		foreach ($this->get_translations($document->master_id ?: $document->id) as $translation)
-			$document->translations[$translation->language->code] = $translation;
+		$document->translations = $this->get_translations($document->master_id ?: $document->id);
 
 		$vars['document'] = $document;
 
@@ -105,24 +102,21 @@ class document_controller extends controller {
 
 	public function form_view($vars) {
 		$document = $this->get_document(get_resource_id());
-		$master_id = $document->master_id ?: $document->id;
 
 		if ($lang_id = get_filter('translation')) {
 			if ($lang_id != $document->language_id) {
-				$master = $document;
+				$vars['master'] = $master = $document;
 
-				$vars['master'] = $master;
-
-				$document = $this->get_document($master->id, $lang_id);
-
-				if (!$document) {
+				if (!$document = $this->get_document($master->id, $lang_id)) {
 					$document = new object();
-					$document->master_id = $master_id;
-					$document->master   = $master;
-					$document->project  = $master->project;
+					$document->master_id   = $master->id;
+					$document->master      = $master;
+					$document->project_id  = $master->project->id;
+					$document->project     = $master->project;
 					$document->language_id = $lang_id;
-					$document->language = $this->get_record($lang_id, 'language');
-					$document->user     = $this->get_record(SESSION_USER_ID, 'user');
+					$document->language    = $this->get_record($lang_id, 'language');
+					$document->user_id     = SESSION_USER_ID;
+					$document->user        = $this->get_record(SESSION_USER_ID, 'user');
 				}
 			}
 		}
@@ -189,15 +183,13 @@ class document_controller extends controller {
 	}
 
 	protected function get_project($proj_id) {
-		$args = [
+		$project = $this->get_record($proj_id, 'project');
+		$project->languages = $this->make_query([
 			'bridge' => 'pl_language',
 			'args'   => [
 				'pl_project' => $proj_id
 			]
-		];
-
-		$project = $this->get_record($proj_id, 'project');
-		$project->languages = $this->make_query($args, 'language')->get_result();
+		], 'language')->get_result();
 
 		return $project;
 	}
@@ -211,7 +203,7 @@ class document_controller extends controller {
 			'sort' => [
 				'created' => 'desc'
 			]
-		));
+		]);
 
 		$result = $query->get_result();
 		$result->walk([$this, 'fill_document']);
@@ -229,6 +221,9 @@ class document_controller extends controller {
 
 		$result = $query->get_result();
 		$result->walk([$this, 'fill_document']);
+		$result = $result->key_map(function($record) {
+			return $record->language->code;
+		});
 
 		return $result;
 	}

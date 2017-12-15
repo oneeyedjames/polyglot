@@ -35,16 +35,6 @@ class list_controller extends controller {
 			$list->id = $this->put_record($list);
 		}
 
-		if (is_array(@$post['term'])) {
-			foreach ($post['term'] as $term) {
-				if ($term_id = intval($term['id'])) {
-
-				} else {
-
-				}
-			}
-		}
-
 		return ['resource' => 'list', 'id' => $list->id];
 	}
 
@@ -68,7 +58,6 @@ class list_controller extends controller {
 		$offset = get_offset(get_page(), $limit);
 
 		$terms = $this->get_terms($list->id, $list->project->default_language_id, $limit, $offset);
-		$terms = $terms->key_map(function($term) { return $term->id; });
 
 		if ($lang_id = get_filter('translation')) {
 			$vars['language'] = $this->get_record($lang_id, 'language');
@@ -137,15 +126,13 @@ class list_controller extends controller {
 	}
 
 	protected function get_project($proj_id) {
-		$args = [
+		$project = $this->get_record($proj_id, 'project');
+		$project->languages = $this->make_query([
 			'bridge' => 'pl_language',
 			'args'   => [
 				'pl_project' => $proj_id
 			]
-		];
-
-		$project = $this->get_record($proj_id, 'project');
-		$project->languages = $this->make_query($args, 'language')->get_result();
+		], 'language')->get_result();
 
 		return $project;
 	}
@@ -159,6 +146,7 @@ class list_controller extends controller {
 		];
 
 		$terms = $this->make_query($args, 'term')->get_result();
+		$terms = $terms->key_map(function($term) { return $term->id; });
 		$terms->walk(function(&$term) {
 			$term->user = $this->get_record($term->user_id, 'user');
 		});

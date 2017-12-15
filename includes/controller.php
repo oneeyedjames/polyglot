@@ -111,6 +111,13 @@ class controller extends controller_base {
 		return [];
 	}
 
+	public function delete_action($get, $post) {
+		if ($id = get_resource_id())
+			$this->remove_record($id);
+
+		return ['resource' => $this->resource];
+	}
+
 	public function index_view($vars) {
 		$vars['projects'] = $this->make_query([
 			'limit' => 3
