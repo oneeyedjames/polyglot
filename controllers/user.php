@@ -76,7 +76,10 @@ class user_controller extends controller {
 		$args = compact('limit', 'offset');
 
 		$users = $this->make_query($args)->get_result();
-		$users->walk([$this, 'fill_user']);
+		$users->walk(function(&$user) {
+			$user->languages = $this->get_languages($user->id);
+			$user->projects  = $this->get_projects($user->id);
+		});
 
 		$vars['users'] = $users;
 
@@ -86,8 +89,10 @@ class user_controller extends controller {
 	public function item_view($vars) {
 		if ($user_id = get_resource_id()) {
 			$user = $this->get_record($user_id);
+			$user->languages = $this->get_languages($user_id);
+			$user->projects  = $this->get_projects($user_id);
 
-			$vars['user'] = $this->fill_user($user);
+			$vars['user'] = $user;
 		}
 
 		return $vars;
@@ -159,22 +164,15 @@ class user_controller extends controller {
 		return $vars;
 	}
 
-	public function fill_user(&$user) {
-		$user->languages = $this->get_languages($user_id);
-		$user->projects = $this->get_projects($user_id);
-
-		return $user;
-	}
-
-	protected function get_languages($user_id, $limit = DEFAULT_PER_PAGE, $offset) {
+	protected function get_languages($user_id, $limit = DEFAULT_PER_PAGE, $offset = 0) {
 		$args = compact('limit', 'offset');
 		$args['bridge'] = 'ul_language';
 		$args['args'] = ['ul_user' => $user->id];
 
-		$this->make_query($args, 'language')->get_result();
+		return $this->make_query($args, 'language')->get_result();
 	}
 
-	protected function get_projects($user_id, $limit = DEFAULT_PER_PAGE, $offset) {
+	protected function get_projects($user_id, $limit = DEFAULT_PER_PAGE, $offset = 0) {
 		$args = compact('limit', 'offset');
 		$args['bridge'] = 'up_project';
 		$args['args'] = ['up_user' => $user->id];

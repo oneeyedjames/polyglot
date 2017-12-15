@@ -70,9 +70,6 @@ class role_controller extends controller {
     }
 
     public function item_view($vars) {
-        $limit  = get_per_page();
-		$offset = get_offset(get_page(), $limit);
-
         if ($role_id = get_resource_id()) {
             $role = $this->get_record($role_id);
             $role->permissions = $this->get_permissions($role_id);
@@ -104,7 +101,7 @@ class role_controller extends controller {
     public function card_permissions_view($vars) {
         if ($role_id = get_resource_id()) {
             $role = $this->get_record(get_resource_id());
-            $role->permissions = $this->get_permissions($proj_id);
+            $role->permissions = $this->get_permissions($role_id);
 
             $vars['role'] = $role;
         }
@@ -126,7 +123,7 @@ class role_controller extends controller {
     protected function get_permissions($role_id, $limit = DEFAULT_PER_PAGE, $offset = 0) {
         $args = compact('limit', 'offset');
         $args['bridge'] = 'rp_permission';
-        $args['args'] = ['rp_role' => $role->id];
+        $args['args'] = ['rp_role' => $role_id];
 
         return $this->make_query($args, 'permission')->get_result();
     }
