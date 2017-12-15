@@ -67,9 +67,12 @@ class term_controller extends controller {
 					$master = $term;
 
 					$term = $this->get_term($term_id, $lang_id) ?: $term = new object();
-					$term->master = $master;
-					$term->list = $this->get_record($master->list_id, 'list');
-					$term->language = $this->get_record($lang_id, 'language');
+					$term->master_id   = $master->id;
+					$term->master      = $master;
+					$term->list_id     = $master->list_id;
+					$term->list        = $this->get_record($master->list_id, 'list');
+					$term->language_id = $lang_id;
+					$term->language    = $this->get_record($lang_id, 'language');
 				}
 			}
 		} elseif ($list_id = get_filter('list')) {
