@@ -20,13 +20,6 @@ class role_controller extends controller {
         return ['resource' => 'role'];
     }
 
-    public function delete_action($get, $post) {
-        if ($role_id = get_resource_id())
-            $this->execute('DELETE FROM `role` WHERE `id` = ?', $role_id);
-
-        return ['resource' => 'role'];
-    }
-
     public function add_permission_action($get, $post) {
         $role_id = get_resource_id();
 

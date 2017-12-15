@@ -21,13 +21,6 @@ class language_controller extends controller {
 		return ['resource' => 'language'];
 	}
 
-	public function delete_action($get, $post) {
-		if ($id = get_resource_id())
-			$this->remove_record($id);
-
-		return ['resource' => 'language'];
-	}
-
 	public function index_view($vars) {
 		$vars['limit']  = $limit  = get_per_page();
 		$vars['offset'] = $offset = get_offset(get_page(), $limit);
