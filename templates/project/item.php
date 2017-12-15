@@ -29,7 +29,7 @@
 						class="btn success" data-action="modal" data-target="#modal-form-meta">
 						<i class="fa fa-plus"></i> Add New Document
 					</a>
-					<a href="project/<?php echo $project->id; ?>/documents" class="btn">
+					<a href="project/<?php echo $project->id; ?>/documents" class="btn text primary pull-right">
 						See More <i class="fa fa-chevron-right"></i>
 					</a>
 				</div>
@@ -45,7 +45,7 @@
 						class="btn success" data-action="modal" data-target="#modal-form-meta">
 						<i class="fa fa-plus"></i> Add New Term List
 					</a>
-					<a href="project/<?php echo $project->id; ?>/lists" class="btn">
+					<a href="project/<?php echo $project->id; ?>/lists" class="btn text primary pull-right">
 						See More <i class="fa fa-chevron-right"></i>
 					</a>
 				</div>
