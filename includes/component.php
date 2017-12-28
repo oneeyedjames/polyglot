@@ -39,6 +39,7 @@ function init_database() {
 	}
 
 	setup_languages($database);
+	setup_projects($database);
 	setup_admin_user($database);
 	setup_user_roles($database);
 
@@ -178,7 +179,7 @@ function error_page($code) {
 }
 
 function setup_languages($database) {
-	if ($result = $database->query("SELECT * FROM `language`")) {
+	if ($result = $database->query('SELECT * FROM `language`')) {
 		if ($result->found == 0) {
 			$sql = file_get_contents(ASSET_PATH . '/sql/language-data.sql');
 			$database->execute($sql);
@@ -188,8 +189,19 @@ function setup_languages($database) {
 	return false;
 }
 
+function setup_projects($database) {
+	if ($result = $database->query('SELECT * FROM `project`')) {
+		if ($result->found == 0) {
+			$sql = file_get_contents(ASSET_PATH . '/sql/project-data.sql');
+			$database->execute($sql);
+		}
+	}
+
+	return false;
+}
+
 function setup_admin_user($database) {
-	if ($result = $database->query("SELECT * FROM `user`")) {
+	if ($result = $database->query('SELECT * FROM `user`')) {
 		if ($result->found)
 			return $result->first;
 
