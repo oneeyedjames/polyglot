@@ -325,17 +325,18 @@ function setup_user_roles($database) {
 				$role = $roles[$role_key];
 
 				foreach ($perm_meta as $resource => $actions) {
-					foreach ($actions as $action) {
+					foreach ($actions as $action => $override) {
 						$perm = $perms["$resource:$action"];
 
 						$params[] = $role->id;
 						$params[] = $perm->id;
+						$params[] = intval($override);
 					}
 				}
 			}
 
-			$sql = 'INSERT INTO `role_permission_map` (`role_id`, `permission_id`) VALUES '
-				. implode(', ', array_fill(0, count($params) / 2, '(?, ?)'));
+			$sql = 'INSERT INTO `role_permission_map` (`role_id`, `permission_id`, `override`) VALUES '
+				. implode(', ', array_fill(0, count($params) / 3, '(?, ?, ?)'));
 
 			return $database->execute($sql, $params);
 		}
