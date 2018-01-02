@@ -8,6 +8,7 @@ header('Content-type: text/html; charset=utf-8');
 		<base href="/">
 
 		<script type="text/javascript" src="lib/jquery/dist/jquery.min.js"></script>
+		<script type="text/javascript" src="lib/tinymce/tinymce.min.js"></script>
 		<script type="text/javascript" src="lib/barista/dist/js/barista.js"></script>
 		<script type="text/javascript" src="js/script.js"></script>
 

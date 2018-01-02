@@ -13,6 +13,7 @@
     "lib/"
   ],
   "dependencies": {
-    "barista": "git@github.com:oneeyedjames/barista.git"
+    "barista": "git@github.com:oneeyedjames/barista.git",
+    "tinymce": "^4.7.4"
   }
 }

@@ -76,11 +76,11 @@ $nonce = $this->create_nonce('save', 'document');
 						<div class="card alert" style="white-space: pre-wrap;"><?php echo $master->content; ?></div>
 					</div>
 					<div class="col-md-6">
-						<textarea name="document[content]" rows="24"><?php echo $document->content; ?></textarea>
+						<textarea name="document[content]" id="document-content"><?php echo $document->content; ?></textarea>
 					</div>
 				</div>
 			<?php else : ?>
-				<textarea name="document[content]" rows="24"><?php echo $document->content; ?></textarea>
+				<textarea name="document[content]" id="document-content"><?php echo $document->content; ?></textarea>
 			<?php endif; ?>
 		</form>
 	</div>
@@ -88,3 +88,11 @@ $nonce = $this->create_nonce('save', 'document');
 		<?php $this->load('item-meta', 'document', compact('document')); ?>
 	</div>
 </div>
+<script type="text/javascript">
+	tinymce.init({
+		selector: '#document-content',
+		toolbar: 'undo redo | styleselect | bold italic underline strikethrough | subscript superscript | alignleft aligncenter alignright alignjustify | bullist numlist | outdent indent | blockquote link | removeformat',
+		menubar: false,
+		plugins: 'lists, link'
+	});
+</script>
