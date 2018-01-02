@@ -38,10 +38,6 @@ function init_database() {
 		$database->execute($source);
 	}
 
-	setup_languages($database);
-	setup_admin_user($database);
-	setup_user_roles($database);
-
 	$database->execute('DELETE FROM session WHERE expire < NOW()');
 
 	$tables    = json_decode(file_get_contents(ASSET_PATH . '/json/tables.json'));
@@ -56,6 +52,10 @@ function init_database() {
 
 	foreach ($relations as $rel_name => $rel_meta)
 		$database->add_relation($rel_name, $rel_meta->ptable, $rel_meta->ftable, $rel_meta->fkey);
+
+	setup_languages($database);
+	setup_admin_user($database);
+	setup_user_roles($database);
 
 	return $database;
 }
@@ -91,6 +91,7 @@ function init_url() {
 
 	$res_actions = json_decode(file_get_contents(ASSET_PATH . '/json/resource-actions.json'));
 	$res_views = json_decode(file_get_contents(ASSET_PATH . '/json/resource-views.json'));
+
 	foreach ($resources as $resource => $alias)
 		$url_schema->add_resource($resource, $alias);
 
@@ -178,7 +179,7 @@ function error_page($code) {
 }
 
 function setup_languages($database) {
-	if ($result = $database->query("SELECT * FROM `language`")) {
+	if ($result = $database->query("SELECT * FROM `language` LIMIT 1")) {
 		if ($result->found == 0) {
 			$sql = file_get_contents(ASSET_PATH . '/sql/language-data.sql');
 			$database->execute($sql);
@@ -189,7 +190,7 @@ function setup_languages($database) {
 }
 
 function setup_admin_user($database) {
-	if ($result = $database->query("SELECT * FROM `user`")) {
+	if ($result = $database->query("SELECT * FROM `user` LIMIT 1")) {
 		if ($result->found)
 			return $result->first;
 
@@ -213,98 +214,118 @@ function setup_admin_user($database) {
 }
 
 function setup_user_roles($database) {
-	$role_data = [
-		'Manager' => [
-			'project' => ['save', 'add-user', 'remove-user'],
-			'document' => ['save']
-		],
-		'Editor' => [
-			'document' => ['save']
-		],
-		'Translator' => [
-			'document' => ['save']
-		]
-	];
-
-	if ($roles = $database->query("SELECT * FROM `role`")) {
+	if ($roles = $database->query("SELECT * FROM `role` LIMIT 1")) {
 		if (!$roles->found) {
-			$values = implode(', ', array_fill(0, count($role_data), '(?)'));
-
-			$sql = "INSERT INTO `role` (`title`) VALUES $values";
-
-			$database->execute($sql, array_keys($role_data));
-
-			$roles = $database->query("SELECT * FROM `role`");
+			$database->execute(file_get_contents(ASSET_PATH . '/sql/role-data.sql'));
 		}
 	} else {
 		return false;
 	}
 
-	if ($perms = $database->query("SELECT * FROM `permission`")) {
+	if ($perms = $database->query("SELECT * FROM `permission` LIMIT 1")) {
 		if (!$perms->found) {
-			$perm_data = $all_perm_data = [];
+			$actions = json_decode(file_get_contents(ASSET_PATH . '/json/actions.json'));
+			$views   = json_decode(file_get_contents(ASSET_PATH . '/json/views.json'));
+			$params  = array_merge($actions, $views);
 
-			foreach ($role_data as $role_meta) {
-				foreach ($role_meta as $resource => $actions) {
-					foreach ($actions as $action) {
-						$all_perm_data[$resource][] = $action;
-					}
+			sort($params);
 
-					$all_perm_data[$resource] = array_unique($all_perm_data[$resource]);
+			$sql = 'INSERT INTO `permission` (`action`) VALUES '
+				. implode(', ', array_fill(0, count($params), '(?)'));
+
+			$database->execute($sql, $params);
+
+			$params = [];
+
+			$resources = json_decode(file_get_contents(ASSET_PATH . '/json/resources.json'), true);
+			$actions   = json_decode(file_get_contents(ASSET_PATH . '/json/resource-actions.json'), true);
+			$views     = json_decode(file_get_contents(ASSET_PATH . '/json/resource-views.json'), true);
+
+			foreach ($resources as $resource => $alias) {
+				foreach (['save', 'delete', 'index', 'item', 'form'] as $action) {
+					$params[] = $resource;
+					$params[] = $action;
 				}
 			}
 
-			foreach ($all_perm_data as $resource => $actions) {
-				foreach ($actions as $action) {
-					$perm_data[] = $resource;
-					$perm_data[] = $action;
+			foreach ($actions as $resource => $res_actions) {
+				foreach ($res_actions as $action) {
+					$params[] = $resource;
+					$params[] = $action;
 				}
 			}
 
-			$values = implode(', ', array_fill(0, count($perm_data) / 2, '(?, ?)'));
+			foreach ($views as $resource => $res_views) {
+				foreach ($res_views as $view) {
+					$params[] = $resource;
+					$params[] = $view;
+				}
+			}
 
-			$sql = "INSERT INTO `permission` (`resource`, `action`) VALUES $values";
+			$sql = 'INSERT INTO `permission` (`resource`, `action`) VALUES '
+				. implode(', ', array_fill(0, count($params) / 2, '(?, ?)'));
 
-			$database->execute($sql, $perm_data);
-
-			$perms = $database->query("SELECT * FROM permission");
+			$database->execute($sql, $params);
 		}
 	} else {
 		return false;
 	}
 
-	if ($acl = $database->query("SELECT * FROM `role_permission_map`")) {
+	if ($acl = $database->query("SELECT * FROM `role_permission_map` LIMIT 1")) {
 		if (!$acl->found) {
-			$role_ids = $perm_ids = [];
+			$data = json_decode(file_get_contents(ASSET_PATH . '/json/role-permissions.json'), true);
 
-			foreach ($roles as $role) {
-				$role_ids[$role->title] = $role->id;
-			}
+			$resources = [];
 
-			foreach ($perms as $perm) {
-				$perm_ids["$perm->resource:$perm->action"] = $perm->id;
-			}
+			foreach ($data as $role => $perms)
+				$resources += array_keys($perms);
 
-			$grant_data = [];
+			$query = new database_query($database, [
+				'table' => 'role',
+				'args'  => [
+					'title' => array_keys($data)
+				]
+			]);
 
-			foreach ($role_data as $role_title => $perm_data) {
-				$role_id = $role_ids[$role_title];
+			$roles = $query->get_result()->key_map(function($role) {
+				return $role->title;
+			});
 
-				foreach ($perm_data as $resource => $actions) {
+			$query = new database_query($database, [
+				'table' => 'permission',
+				'args'  => [
+					'resource' => array_unique($resources)
+				]
+			]);
+
+			$perms = $query->get_result()->key_map(function($perm) {
+				$action = $perm->action;
+
+				if ($resource = $perm->resource)
+					$action = "$resource:$action";
+
+				return $action;
+			});
+
+			$params = [];
+
+			foreach ($data as $role_key => $perm_meta) {
+				$role = $roles[$role_key];
+
+				foreach ($perm_meta as $resource => $actions) {
 					foreach ($actions as $action) {
-						$perm_id = $perm_ids["$resource:$action"];
+						$perm = $perms["$resource:$action"];
 
-						$grant_data[] = $role_id;
-						$grant_data[] = $perm_id;
+						$params[] = $role->id;
+						$params[] = $perm->id;
 					}
 				}
 			}
 
-			$values = implode(', ', array_fill(0, count($grant_data) / 2, '(?, ?)'));
+			$sql = 'INSERT INTO `role_permission_map` (`role_id`, `permission_id`) VALUES '
+				. implode(', ', array_fill(0, count($params) / 2, '(?, ?)'));
 
-			$sql = "INSERT INTO `role_permission_map` (`role_id`, `permission_id`) VALUES $values";
-
-			$database->execute($sql, $grant_data);
+			return $database->execute($sql, $params);
 		}
 	}
 
