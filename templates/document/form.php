@@ -80,7 +80,7 @@ $nonce = $this->create_nonce('save', 'document');
 					</div>
 				</div>
 			<?php else : ?>
-				<textarea name="document[content]" rows="24"><?php echo $document->content; ?></textarea>
+				<textarea id="document-content" name="document[content]"><?php echo $document->content; ?></textarea>
 			<?php endif; ?>
 		</form>
 	</div>
@@ -88,3 +88,10 @@ $nonce = $this->create_nonce('save', 'document');
 		<?php $this->load('item-meta', 'document', compact('document')); ?>
 	</div>
 </div>
+<script type="text/javascript">
+	tinymce.init({
+		selector: '#document-content',
+		toolbar: 'bold italic underline strikethrough | subscript superscript | styleselect | alignleft aligncenter alignright alignjustify | outdent indent | bullist numlist | blockquote link | removeformat',
+		menubar: false
+	});
+</script>
