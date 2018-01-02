@@ -56,10 +56,10 @@ function get_user($user_id) {
 				]
 			]);
 
-			$result = $query->get_result();
+			$mappings = $query->get_result();
 
-			foreach ($result as $record)
-				$perms[$record->permission_id]->override = boolval($record->override);
+			foreach ($mappings as $mapping)
+				$perms[$mapping->permission_id]->override = boolval($mapping->override);
 
 			$role->permissions = $perms;
 		}
