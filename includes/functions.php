@@ -45,7 +45,23 @@ function get_user($user_id) {
 				]
 			]);
 
-			$role->permissions = $query->get_result();
+			$perms = $query->get_result()->key_map(function($perm) {
+				return $perm->id;
+			});
+
+			$query = new database_query($database, [
+				'table' => 'role_permission_map',
+				'args'  => [
+					'role_id' => $role->id
+				]
+			]);
+
+			$result = $query->get_result();
+
+			foreach ($result as $record)
+				$perms[$record->permission_id]->override = boolval($record->override);
+
+			$role->permissions = $perms;
 		}
 
 		$user = new user($record, $role);
