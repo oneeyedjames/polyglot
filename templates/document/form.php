@@ -91,7 +91,8 @@ $nonce = $this->create_nonce('save', 'document');
 <script type="text/javascript">
 	tinymce.init({
 		selector: '#document-content',
-		toolbar: 'bold italic underline strikethrough | subscript superscript | styleselect | alignleft aligncenter alignright alignjustify | outdent indent | bullist numlist | blockquote link | removeformat',
-		menubar: false
+		toolbar: 'undo redo | styleselect | bold italic underline strikethrough | subscript superscript | alignleft aligncenter alignright alignjustify | bullist numlist | outdent indent | blockquote link | removeformat',
+		menubar: false,
+		plugins: 'lists, link'
 	});
 </script>
