@@ -1,0 +1,12 @@
+{
+    "Manager": {
+        "project": ["save", "add-user", "remove-user"],
+        "document": ["save", "delete"]
+    },
+    "Editor": {
+        "document": ["save", "delete"]
+    },
+    "Translator": {
+        "document": ["save"]
+    }
+}
