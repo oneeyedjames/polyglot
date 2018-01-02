@@ -54,6 +54,7 @@ function init_database() {
 		$database->add_relation($rel_name, $rel_meta->ptable, $rel_meta->ftable, $rel_meta->fkey);
 
 	setup_languages($database);
+	setup_projects($database);
 	setup_admin_user($database);
 	setup_user_roles($database);
 
@@ -182,6 +183,17 @@ function setup_languages($database) {
 	if ($result = $database->query("SELECT * FROM `language` LIMIT 1")) {
 		if ($result->found == 0) {
 			$sql = file_get_contents(ASSET_PATH . '/sql/language-data.sql');
+			$database->execute($sql);
+		}
+	}
+
+	return false;
+}
+
+function setup_projects($database) {
+	if ($result = $database->query('SELECT * FROM `project`')) {
+		if ($result->found == 0) {
+			$sql = file_get_contents(ASSET_PATH . '/sql/project-data.sql');
 			$database->execute($sql);
 		}
 	}
