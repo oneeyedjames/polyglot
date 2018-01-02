@@ -76,11 +76,11 @@ $nonce = $this->create_nonce('save', 'document');
 						<div class="card alert" style="white-space: pre-wrap;"><?php echo $master->content; ?></div>
 					</div>
 					<div class="col-md-6">
-						<textarea name="document[content]" rows="24"><?php echo $document->content; ?></textarea>
+						<textarea name="document[content]" id="document-content"><?php echo $document->content; ?></textarea>
 					</div>
 				</div>
 			<?php else : ?>
-				<textarea id="document-content" name="document[content]"><?php echo $document->content; ?></textarea>
+				<textarea name="document[content]" id="document-content"><?php echo $document->content; ?></textarea>
 			<?php endif; ?>
 		</form>
 	</div>
