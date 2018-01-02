@@ -10,8 +10,8 @@ class user extends user_base {
 	public function __construct($record, $role = false) {
 		parent::__construct($record->email, $record->password);
 
-		$this->_id = (int)$record->id;
-		$this->_admin = (bool)$record->admin;
+		$this->_id = intval($record->id);
+		$this->_admin = boolval($record->admin);
 
 		$this->display_name = $record->name;
 
