@@ -15,30 +15,6 @@
 
 th.snap, td.snap { width: 5em; }
 
-/* TinyMCE overrides */
-
-.mce-tinymce {
-	border-color: #999999 !important;
-	border-radius: .5em;
-}
-
-.mce-tinymce button:hover { box-shadow: none; }
-.mce-tinymce button:active { background: none; }
-
-.mce-toolbar-grp:first-child {
-	border-top-left-radius: .5em;
-	border-top-right-radius: .5em;
-}
-
-.mce-stack-layout-item.mce-last {
-	border-bottom-left-radius: .5em;
-	border-bottom-right-radius: .5em;
-}
-
-.mce-btn {
-	border-radius: .375em;
-}
-
 @media only screen and (max-width: 767px) {
 	.navlbl { display: none; }
 }
