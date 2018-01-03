@@ -9,7 +9,7 @@
 				</a>
 				<div class="row">
 					<div class="col-xs-6"><i class="fa fa-flag"></i>  <?php echo $document->master->language->name; ?></div>
-					<div class="col-xs-6"><i class="fa fa-user"></i> <?php echo $document->master->user->name; ?></div>
+					<div class="col-xs-6"><i class="fa fa-user"></i> <?php echo $document->master->user->alias; ?></div>
 				</div>
 			</li>
 		<?php endif; foreach ($document->project->languages as $language) :
@@ -21,7 +21,7 @@
 					</a>
 					<div class="row">
 						<div class="col-xs-6"><i class="fa fa-flag"></i> <?php echo $language->name; ?></div>
-						<div class="col-xs-6"><i class="fa fa-user"></i> <?php echo $translation->user->name; ?></div>
+						<div class="col-xs-6"><i class="fa fa-user"></i> <?php echo $translation->user->alias; ?></div>
 					</div>
 				<?php else : ?>
 					<a href="document/<?php echo $master->id; ?>/form/translation/<?php echo $language->id; ?>"

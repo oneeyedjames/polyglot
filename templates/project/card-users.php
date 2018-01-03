@@ -8,7 +8,7 @@
         <?php foreach ($project->users as $user) : ?>
             <li>
                 <a href="user/<?php echo $user->id; ?>">
-                    <?php echo $user->name; ?>
+                    <?php echo $user->alias; ?>
                 </a>
             </li>
         <?php endforeach; ?>

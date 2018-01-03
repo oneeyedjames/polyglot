@@ -8,7 +8,7 @@
 	<p><?php echo $list->language->name; ?></p>
 
 	<strong><i class="fa fa-user"></i> Author</strong>
-	<p><?php echo $list->user->name; ?></p>
+	<p><?php echo $list->user->alias; ?></p>
 
 	<strong><i class="fa fa-calendar"></i> Created</strong>
 	<p><?php echo $list->created; ?></p>

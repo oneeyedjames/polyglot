@@ -6,7 +6,7 @@
 				<?php if ($revision->id == $document->id) : ?><strong><?php endif; ?>
 				<a href="document/<?php echo $revision->id; ?>"><?php echo $revision->created; ?></a>
 				<?php if ($revision->id == $document->id) : ?></strong><?php endif; ?>
-				<div><i class="fa fa-user"></i> <?php echo $revision->user->name; ?></div>
+				<div><i class="fa fa-user"></i> <?php echo $revision->user->alias; ?></div>
 			</li>
 		<?php endforeach; ?>
 	</ul>

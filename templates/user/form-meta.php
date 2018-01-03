@@ -7,7 +7,7 @@ else
 
 $url .= '/save';
 
-$nonce = $this->create_nonce('save', 'language');
+$nonce = $this->create_nonce('save', 'user');
 
 ?>
 <form action="<?php echo $url; ?>" method="POST">
@@ -15,8 +15,8 @@ $nonce = $this->create_nonce('save', 'language');
 	<div class="modal card primary" id="modal-form-meta">
 		<header>Edit User</header>
 
-		<label>Username</label>
-		<input type="text" name="user[username]" value="<?php echo $user->name; ?>">
+		<label>Name</label>
+		<input type="text" name="user[name]" value="<?php echo $user->name; ?>">
 
 		<label>Email Address</label>
 		<input type="text" name="user[email]" value="<?php echo $user->email; ?>">

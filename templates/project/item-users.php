@@ -10,7 +10,7 @@
 		<?php foreach ($project->users as $user) : ?>
 			<li>
 				<a href="user/<?php echo $user->id; ?>">
-					<strong><?php echo $user->name;?></strong>
+					<strong><?php echo $user->alias;?></strong>
 				</a>
 				<a class="btn sm text danger pull-right"
 					data-action="submit" data-target="#remove-user-form"

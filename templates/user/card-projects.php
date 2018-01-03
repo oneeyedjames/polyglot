@@ -1,6 +1,6 @@
 <div class="modal card info" id="modal-card-projects">
     <header>
-        <i class="fa fa-user"></i> <?php echo $user->name; ?>
+        <i class="fa fa-user"></i> <?php echo $user->alias; ?>
         <a class="cancel pull-right"><i class="fa fa-close"></i></a>
     </header>
     <strong><i class="fa fa-folder-open"></i> Projects</strong>

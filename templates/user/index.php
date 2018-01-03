@@ -38,7 +38,7 @@
 			    		</button>
 					</form>
 				</td>
-				<td><a href="user/<?php echo $user->id; ?>"><?php echo $user->name; ?></a></td>
+				<td><a href="user/<?php echo $user->id; ?>"><?php echo $user->alias; ?></a></td>
 				<td><?php echo $user->email; ?></td>
 				<td>
 					<?php $icon = $user->admin ? 'check' : 'times'; ?>

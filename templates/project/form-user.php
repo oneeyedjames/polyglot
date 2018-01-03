@@ -11,7 +11,7 @@
 	    <select name="user" class="form-control">
 	    	<?php foreach ($users as $user) : if (!isset($project->users[$user->id])) : ?>
 	    		<option value="<?php echo $user->id; ?>">
-	                <?php echo $user->name; ?>
+	                <?php echo $user->alias; ?>
 	            </option>
 	    	<?php endif; endforeach; ?>
 	    </select>

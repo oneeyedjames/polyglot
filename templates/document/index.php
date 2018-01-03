@@ -49,7 +49,7 @@
 				<td>
 					<a href="document/<?php echo $document->id; ?>"><?php echo $document->title; ?></a>
 				</td>
-				<td><?php echo $document->user->name; ?></td>
+				<td><?php echo $document->user->alias; ?></td>
 				<td><?php echo $document->created; ?></td>
 				<td><?php echo $document->updated; ?></td>
 			</tr>

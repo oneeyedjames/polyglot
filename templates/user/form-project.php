@@ -2,7 +2,7 @@
 <form action="user/<?php echo $user->id; ?>/add-project" method="POST">
 	<input type="hidden" name="nonce" value="<?php echo $nonce; ?>">
 	<div class="modal card primary" id="modal-form-project">
-		<header><i class="fa fa-user"></i> <?php echo $user->name; ?></header>
+		<header><i class="fa fa-user"></i> <?php echo $user->alias; ?></header>
 
 		<label><i class="fa fa-folder-open"></i> Project</label>
 		<select name="project">
