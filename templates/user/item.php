@@ -20,6 +20,53 @@
 				</button>
 			</form>
         </h2>
+
+		<h3><i class="fa fa-newspaper-o"></i> Profile</h3>
+		<div class="row">
+			<p class="col-xs-12 col-sm-6">
+				<label>Name</label>
+				<span><?php echo $user->name; ?></span>
+			</p>
+			<p class="col-xs-12 col-sm-6">
+				<label>Email Address</label>
+				<span><?php echo $user->email; ?></span>
+			</p>
+		</div>
+
+		<h3><i class="fa fa-lock"></i> Security</h3>
+		<div class="row">
+			<p class="col-xs-12 col-sm-6">
+				<label>Administrator</label>
+				<span>
+					<?php if ($user->admin) : ?>
+						<i class="fa fa-check-square-o"></i> Is Administrator
+					<?php else : ?>
+						<i class="fa fa-square-o"></i> Is <em>NOT</em> Administrator
+					<?php endif; ?>
+				</span>
+			</p>
+			<p class="col-xs-12 col-sm-6">
+				<label>Password</label>
+				<?php if (empty($user->reset_token) || strtotime($user->reset_expire) < time()) : ?>
+					<i class="fa fa-refresh"></i> Reset
+				<?php else : ?>
+					<i class="fa fa-ban"></i> Cancel
+				<?php endif; ?>
+			</p>
+		</div>
+		<?php if (!empty($user->reset_token) && strtotime($user->reset_expire) >= time()) : ?>
+			<div class="row">
+				<p class="col-xs-12 col-sm-6">
+					<label>Password Reset Token</label>
+					<span><?php echo $user->reset_token; ?></span>
+					<a class="btn text danger"><i class="fa fa-ban"></i> Cancel</a>
+				</p>
+				<p class="col-xs-12 col-sm-6">
+					<label>Token Expiration</label>
+					<span><?php echo $user->reset_expire; ?></span>
+				</p>
+			</div>
+		<?php endif; ?>
     </div>
     <div class="col-sm-12 col-md-4 col-md-pull-8 col-lg-3 col-lg-pull-9">
 		<?php
