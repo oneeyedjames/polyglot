@@ -14,6 +14,7 @@ header('Content-type: text/html; charset=utf-8');
 
 		<link rel="stylesheet" type="text/css" href="lib/fontawesome/css/font-awesome.min.css">
 		<link rel="stylesheet" type="text/css" href="lib/barista/dist/css/barista.css">
+		<link rel="stylesheet" type="text/css" href="lib/barista/dist/css/barista-tinymce.css">
 		<link rel="stylesheet" type="text/css" href="css/style.css">
 	</head>
 	<body>
