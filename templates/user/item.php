@@ -47,7 +47,19 @@
 			</p>
 			<p class="col-xs-12 col-sm-6">
 				<label>Password</label>
-				<span><?php echo str_repeat('<i class="fa fa-asterisk"></i>', 12); ?></span>
+				<?php if ($session_user->admin || $session_user->id = $user->id) :
+					if ($user->reset_token && strtotime($user->reset_expire) > time()) : ?>
+					<a href="reset-password-form/token/<?php echo $user->reset_token; ?>" class="btn sm">
+						<i class="fa fa-refresh"></i> Reset
+					</a>
+				<?php else : ?>
+					<form action="reset-password" method="POST" data-confirm="Are you sure you want to reset this password?">
+						<input type="hidden" name="email" value="<?php echo $user->email; ?>">
+						<button type="submit" class="btn sm"><i class="fa fa-refresh"></i> Reset</button>
+					</form>
+				<?php endif; else : ?>
+					<span><?php echo str_repeat('*', 12); ?></span>
+				<?php endif; ?>
 			</p>
 		</div>
     </div>

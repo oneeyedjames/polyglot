@@ -94,17 +94,37 @@ class controller extends controller_base {
 			], 'user')->get_result()->first;
 
 			if ($user) {
-				$user->reset_nonce = create_nonce(16);
+				$user->reset_token  = create_nonce(16);
 				$user->reset_expire = date('Y-m-d H:i:s', time() + 1800);
 
-				$this->update_record($user, 'user');
+				$this->put_record($user, 'user');
+			}
+		} elseif (isset($post['token'], $post['login']['password'], $post['login']['password-confirm'])) {
+			$password         = $post['login']['password'];
+			$password_confirm = $post['login']['password-confirm'];
 
-				error_log(build_url([
-					'view' => 'reset-password',
-					'filter' => [
-						'token' => $$user->reset_nonce
+			if (!empty($password) && $password == $password_confirm) {
+				$user = $this->make_query([
+					'limit' => 1,
+					'args'  => [
+						'reset_token' => $post['token']
 					]
-				]));
+				], 'user')->get_result()->first;
+
+				if ($user) {
+					if (strtotime($user->reset_expire) <= time()) {
+						// TODO error, expired token
+					} else {
+						$user->password = password_hash($password, PASSWORD_DEFAULT);
+					}
+
+					$user->reset_token  = null;
+					$user->reset_expire = null;
+
+					$this->put_record($user, 'user');
+				}
+			} else {
+				// TODO error, invalid password
 			}
 		}
 
@@ -198,15 +218,23 @@ class controller extends controller_base {
 			], 'user')->get_result()->first;
 
 			if ($user) {
-				if (strtotime($user->reset_expire) < time())
+				if (strtotime($user->reset_expire) > time()) {
 					$vars['user'] = $user;
-				else
+				} else {
 					$vars['error'] = "Expired token.";
+
+					$user->reset_token  = null;
+					$user->reset_expire = null;
+
+					$this->put_record($user, 'user');
+				}
 
 				$vars['token'] = $token;
 			} else {
 				$vars['error'] = "Invalid token.";
 			}
+		} else {
+			$vars['error'] = "Invalid token.";
 		}
 
 		return $vars;

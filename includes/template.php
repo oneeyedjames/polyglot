@@ -15,7 +15,7 @@ class template extends template_base {
 	}
 
 	public function load($view, $resource = false, $vars = []) {
-		$granted = in_array($view, ['header', 'footer', 'login-form']);
+		$granted = in_array($view, ['header', 'footer', 'login-form', 'reset-password-form']);
 
 		if (!$granted && $user = get_session_user())
 			$granted = $user->has_permission($view, $resource);
@@ -23,6 +23,8 @@ class template extends template_base {
 		if ($granted) {
 			$controller = $this->_controllers[] = controller::load($resource);
 			$controller->pre_view($view, $vars);
+
+			$vars['session_user'] = get_session_user();
 
 			parent::load($view, $resource, $vars);
 
