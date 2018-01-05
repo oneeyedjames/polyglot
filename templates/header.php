@@ -18,7 +18,7 @@ header('Content-type: text/html; charset=utf-8');
 		<link rel="stylesheet" type="text/css" href="css/style.css">
 	</head>
 	<body>
-		<header class="navbar orange">
+		<header class="navbar cyan">
 			<div class="wrapper">
 				<div class="icon">
 					<a href="/"><i class="fa fa-comments"></i> Polyglot</a>
