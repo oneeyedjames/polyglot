@@ -1,6 +1,8 @@
 <?php
 
 class controller extends controller_base {
+	use password;
+
 	private static $_default_controller = false;
 	private static $_default_database   = false;
 	private static $_default_cache      = false;
@@ -86,46 +88,12 @@ class controller extends controller_base {
 
 	public function reset_password_action($get, $post) {
 		if (isset($post['email'])) {
-			$user = $this->make_query([
-				'limit' => 1,
-				'args'  => [
-					'email' => $post['email']
-				]
-			], 'user')->get_result()->first;
-
-			if ($user) {
-				$user->reset_token  = create_nonce(16);
-				$user->reset_expire = date('Y-m-d H:i:s', time() + 1800);
-
-				$this->put_record($user, 'user');
-			}
+			$this->create_reset_token($post['email']);
 		} elseif (isset($post['token'], $post['login']['password'], $post['login']['password-confirm'])) {
-			$password         = $post['login']['password'];
-			$password_confirm = $post['login']['password-confirm'];
+			$this->reset_password($post['token'], $post['login']['password'],
+				$post['login']['password-confirm']);
 
-			if (!empty($password) && $password == $password_confirm) {
-				$user = $this->make_query([
-					'limit' => 1,
-					'args'  => [
-						'reset_token' => $post['token']
-					]
-				], 'user')->get_result()->first;
-
-				if ($user) {
-					if (strtotime($user->reset_expire) <= time()) {
-						// TODO error, expired token
-					} else {
-						$user->password = password_hash($password, PASSWORD_DEFAULT);
-					}
-
-					$user->reset_token  = null;
-					$user->reset_expire = null;
-
-					$this->put_record($user, 'user');
-				}
-			} else {
-				// TODO error, invalid password
-			}
+			return ['view' => 'login-form'];
 		}
 
 		return [];

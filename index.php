@@ -21,6 +21,8 @@ if (!function_exists('require_all')) {
 	}
 }
 
+require_all('includes/trait.*.php');
+require_all('includes/class.*.php');
 require_all('includes/*.php');
 require_all('controllers/*.php');
 
