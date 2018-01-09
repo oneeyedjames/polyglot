@@ -2,10 +2,10 @@
 	<?php $nonce = $this->create_nonce('add-language', 'project'); ?>
 	<input type="hidden" name="nonce" value="<?php echo $nonce; ?>">
 	<div class="modal card primary" id="modal-form-language">
-		<header>Add Language</header>
-
-		<label><i class="fa fa-folder-open"></i> Project</label>
-		<em><?php echo $project->title; ?></em>
+		<header>
+			<i class="fa fa-folder-open"></i> <?php echo $project->title; ?>
+			<a class="pull-right cancel"><i class="fa fa-close"></i></a>
+		</header>
 
 		<label><i class="fa fa-flag"></i> Language</label>
 		<select name="language" class="checkbox">
@@ -15,7 +15,7 @@
 			<?php endif; endforeach; ?>
 		</select>
 
-		<footer>
+		<footer class="btns">
 			<button type="button" class="btn cancel">Cancel</button>
 			<button type="submit" class="btn primary">Save</button>
 		</footer>

@@ -18,10 +18,13 @@ foreach ($resources as $resource => $resource_meta) {
 <form action="role/<?php echo $role->id; ?>/add-permission" method="POST">
     <input type="hidden" name="nonce" value="<?php echo $nonce; ?>">
     <div class="modal card primary" id="modal-form-permission">
-        <header>Add Permission</header>
+        <header>
+			<i class="fa fa-key"></i> Add Permission
+			<a class="pull-right cancel"><i class="fa fa-close"></i></a>
+		</header>
 
-        <label><i class="fa fa-users"></i> Role</label>
-        <em><?php echo $role->title; ?></em>
+		<label><i class="fa fa-users"></i> Role</label>
+		<input type="text" value="<?php echo $role->title; ?>" readonly>
 
         <label>Resource</label>
         <select id="permission-resource" name="permission[resource]">
@@ -40,9 +43,9 @@ foreach ($resources as $resource => $resource_meta) {
             </div>
         <?php endforeach; ?>
 
-        <footer>
+        <footer class="btns">
+			<button type="button" class="btn cancel">Cancel</button>
     		<button type="submit" class="btn primary">Save</button>
-    		<button type="button" class="btn cancel">Cancel</button>
     	</footer>
     </div>
 </form>
