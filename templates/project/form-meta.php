@@ -13,7 +13,10 @@ $nonce = $this->create_nonce('save', 'project');
 <form action="<?php echo $url; ?>" method="POST">
 	<input type="hidden" name="nonce" value="<?php echo $nonce; ?>">
 	<div class="modal card primary" id="modal-form-meta">
-		<header>Edit Project</header>
+		<header>
+			<i class="fa fa-folder-open"></i> Edit Project
+			<a class="pull-right cancel"><i class="fa fa-close"></i></a>
+		</header>
 
 		<label class="control-label">Title</label>
 		<input type="text" name="project[title]" value="<?php echo $project->title; ?>" class="form-control">
@@ -28,7 +31,7 @@ $nonce = $this->create_nonce('save', 'project');
 			<?php endforeach; ?>
 		</select>
 
-		<footer>
+		<footer class="btns">
 			<button type="button" class="btn cancel">Cancel</button>
 			<button type="submit" class="btn primary">Save</button>
 		</footer>

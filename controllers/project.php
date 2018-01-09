@@ -132,7 +132,7 @@ class project_controller extends controller {
 	public function form_user_view($vars) {
 		if ($proj_id = get_resource_id()) {
 			$project = $this->get_record($proj_id);
-			$project->users = $project->get_users($proj_id)->key_map(function($user) {
+			$project->users = $this->get_users($proj_id)->key_map(function($user) {
 				return $user->id;
 			});
 

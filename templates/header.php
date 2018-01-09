@@ -19,7 +19,7 @@ header('Content-type: text/html; charset=utf-8');
 	</head>
 	<body>
 		<header class="navbar cyan">
-			<div class="wrapper">
+			<div class="wrapper fluid">
 				<div class="icon">
 					<a href="/"><i class="fa fa-comments"></i> Polyglot</a>
 				</div>
@@ -72,4 +72,4 @@ header('Content-type: text/html; charset=utf-8');
 				<?php endif; ?>
 			</div>
 	    </header>
-		<article class="wrapper">
+		<article class="wrapper fluid">

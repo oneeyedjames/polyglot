@@ -11,7 +11,10 @@ $nonce = $this->create_nonce('save', 'document');
 <form action="<?php echo $url; ?>" method="POST">
 	<input type="hidden" name="nonce" value="<?php echo $nonce; ?>">
 	<div class="modal card primary" id="modal-form-meta">
-		<header><i class="fa fa-file"></i> Edit Document</header>
+		<header>
+			<i class="fa fa-file"></i> Edit Document
+			<a class="pull-right cancel"><i class="fa fa-close"></i></a>
+		</header>
 
 		<label>Title</label>
 		<input type="text" name="document[title]" value="<?php echo $document->title; ?>">
@@ -25,7 +28,7 @@ $nonce = $this->create_nonce('save', 'document');
 		<label>Description</label>
 		<textarea name="document[description]" rows="2"><?php echo $document->descrip; ?></textarea>
 
-		<footer>
+		<footer class="btns">
 			<button type="button" class="btn cancel">Cancel</button>
 			<button type="submit" class="btn primary">Save</button>
 		</footer>
