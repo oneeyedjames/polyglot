@@ -13,7 +13,10 @@ $nonce = $this->create_nonce('save', 'term');
 <form action="<?php echo $url; ?>" method="POST">
 	<input type="hidden" name="nonce" value="<?php echo $nonce; ?>">
 	<div class="modal card primary" id="modal-form-meta">
-		<header><i class="fa fa-terminal"></i> Edit Term</header>
+		<header>
+			<i class="fa fa-terminal"></i> Edit Term
+			<a class="pull-right cancel"><i class="fa fa-close"></i></a>
+		</header>
 
 		<?php if ($term->language) : ?>
 			<label>Language</label>
@@ -37,7 +40,7 @@ $nonce = $this->create_nonce('save', 'term');
 		<?php endif; ?>
 		<textarea id="term-description" name="term[description]" rows="2"><?php echo $term->descrip; ?></textarea>
 
-		<footer>
+		<footer class="btns">
 			<button type="button" class="btn cancel">Cancel</button>
 			<button type="submit" class="btn primary">Save</button>
 		</footer>

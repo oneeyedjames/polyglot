@@ -2,10 +2,10 @@
 	<?php $nonce = $this->create_nonce('add-user', 'project'); ?>
 	<input type="hidden" name="nonce" value="<?php echo $nonce; ?>">
 	<div class="modal card primary" id="modal-form-user">
-		<header>Add User</header>
-
-		<label><i class="fa fa-folder-open"></i> Project</label>
-		<em><?php echo $project->title; ?></em>
+		<header>
+			<i class="fa fa-folder-open"></i> <?php echo $project->title; ?>
+			<a class="pull-right cancel"><i class="fa fa-close"></i></a>
+		</header>
 
 	    <label class="control-label"><i class="fa fa-user"></i> User</label>
 	    <select name="user" class="form-control">
@@ -25,7 +25,7 @@
 			<?php endforeach; ?>
 		</select>
 
-		<footer>
+		<footer class="btns">
 			<button type="button" class="btn cancel">Cancel</button>
 			<button type="submit" class="btn primary">Save</button>
 		</footer>

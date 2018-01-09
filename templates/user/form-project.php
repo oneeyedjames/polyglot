@@ -2,7 +2,10 @@
 <form action="user/<?php echo $user->id; ?>/add-project" method="POST">
 	<input type="hidden" name="nonce" value="<?php echo $nonce; ?>">
 	<div class="modal card primary" id="modal-form-project">
-		<header><i class="fa fa-user"></i> <?php echo $user->alias; ?></header>
+		<header>
+			<i class="fa fa-user"></i> <?php echo $user->alias; ?>
+			<a class="pull-right cancel"><i class="fa fa-close"></i></a>
+		</header>
 
 		<label><i class="fa fa-folder-open"></i> Project</label>
 		<select name="project">
@@ -18,7 +21,7 @@
 			<?php endforeach; ?>
 		</select>
 
-		<footer>
+		<footer class="btns">
 			<button type="button" class="btn cancel">Cancel</button>
 			<button type="submit" class="btn primary">Save</button>
 		</footer>
