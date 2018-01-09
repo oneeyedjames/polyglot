@@ -94,11 +94,11 @@ $delete_term_nonce = $this->create_nonce('delete', 'term');
 									</a>
 								<?php endif; ?>
 							</td>
-							<td><?php echo $term->translation->user->name; ?></td>
+							<td><?php echo $term->translation->user->alias; ?></td>
 							<td><?php echo $term->translation->created; ?></td>
 							<td><?php echo $term->translation->updated; ?></td>
 						<?php else : ?>
-							<td><?php echo $term->user->name; ?></td>
+							<td><?php echo $term->user->alias; ?></td>
 							<td><?php echo $term->created; ?></td>
 							<td><?php echo $term->updated; ?></td>
 						<?php endif; ?>

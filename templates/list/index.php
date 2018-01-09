@@ -52,7 +52,7 @@
 						<?php echo $list->title; ?>
 					</a>
 				</td>
-				<td><?php echo $list->user->name; ?></td>
+				<td><?php echo $list->user->alias; ?></td>
 				<td><?php echo $list->created; ?></td>
 				<td><?php echo $list->updated; ?></td>
 			</tr>

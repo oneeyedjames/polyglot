@@ -7,7 +7,7 @@ else
 
 $url .= '/save';
 
-$nonce = $this->create_nonce('save', 'language');
+$nonce = $this->create_nonce('save', 'user');
 
 ?>
 <form action="<?php echo $url; ?>" method="POST">
@@ -18,8 +18,8 @@ $nonce = $this->create_nonce('save', 'language');
 			<a class="pull-right cancel"><i class="fa fa-close"></i></a>
 		</header>
 
-		<label>Username</label>
-		<input type="text" name="user[username]" value="<?php echo $user->name; ?>">
+		<label>Name</label>
+		<input type="text" name="user[name]" value="<?php echo $user->name; ?>">
 
 		<label>Email Address</label>
 		<input type="text" name="user[email]" value="<?php echo $user->email; ?>">

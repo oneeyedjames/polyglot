@@ -3,7 +3,7 @@
 	<input type="hidden" name="nonce" value="<?php echo $nonce; ?>">
 	<div class="modal card primary" id="modal-form-language">
 		<header>
-			<i class="fa fa-user"></i> <?php echo $user->name; ?>
+			<i class="fa fa-user"></i> <?php echo $user->alias; ?>
 			<a class="pull-right cancel"><i class="fa fa-close"></i></a>
 		</header>
 

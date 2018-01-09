@@ -13,7 +13,7 @@ class user extends user_base {
 		$this->_id = intval($record->id);
 		$this->_admin = boolval($record->admin);
 
-		$this->display_name = $record->name;
+		$this->display_name = $record->alias;
 
 		if ($role)
 			$this->_role = $role;

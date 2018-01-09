@@ -214,12 +214,14 @@ function setup_admin_user($database) {
 			require $config;
 
 		$name     = $admin->name('Administrator');
+		$alias    = $admin->alias('admin');
 		$password = $admin->password('Password1!');
 		$email    = $admin->email('admin@polyglot.dev');
 
-		$sql = 'INSERT INTO `user` (`name`, `password`, `email`, `admin`) VALUES (?, ?, ?, ?)';
+		$sql = 'INSERT INTO `user` (`name`, `alias`, `email`, `admin`, `password`) VALUES (?, ?, ?, ?, ?)';
 
-		return $database->execute($sql, $name, password_hash($password, PASSWORD_DEFAULT), $email, 1);
+		return $database->execute($sql, $name, $alias, $email, 1,
+			password_hash($password, PASSWORD_DEFAULT));
 	}
 
 	return false;

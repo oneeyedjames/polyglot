@@ -21,7 +21,7 @@
                         <a href="<?php echo $url; ?>"><?php echo $translation->title; ?></a>
                         <div class="row">
                             <div class="col-xs-6"><i class="fa fa-flag"></i>  <?php echo $language->name; ?></div>
-                            <div class="col-xs-6"><i class="fa fa-user"></i> <?php echo $translation->user->name; ?></div>
+                            <div class="col-xs-6"><i class="fa fa-user"></i> <?php echo $translation->user->alias; ?></div>
                         </div>
                     <?php else : ?>
                         <a href="<?php echo $url; ?>" class="btn sm text success">
