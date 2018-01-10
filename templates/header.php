@@ -24,7 +24,7 @@ header('Content-type: text/html; charset=utf-8');
 					<a href="/"><i class="fa fa-comments"></i> Polyglot</a>
 				</div>
 				<?php if ($user = get_session_user()) : ?>
-					<div id="main-menu">
+					<div id="main-menu" class="menu">
 						<ul class="nav">
 							<li>
 								<a href="projects">
