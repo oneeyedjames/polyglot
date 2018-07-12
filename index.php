@@ -49,16 +49,15 @@ define('SESSION_USER_ID', init_session());
 
 
 // Route back-end and API requests
-if ($action = get_action()) {
+if (is_api()) {
+	controller::load(get_resource())->api_view();
+	exit;
+} elseif ($action = get_action()) {
 	$params = controller::load(get_resource())->do_action($action);
 
 	if (is_array($params))
 		header('Location: ' . $url_schema->build($params));
 
-	exit;
-} elseif (is_api()) {
-	header('Content-type: text/json');
-	controller::load(get_resource())->api_view();
 	exit;
 }
 

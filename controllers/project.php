@@ -188,19 +188,34 @@ class project_controller extends controller {
 		return $vars;
 	}
 
-	public function api_view() {
-		if ($id = get_resource_id()) {
-			$project = $this->get_record($id);
+	public function api_index_view() {
+		$limit  = get_per_page();
+		$offset = get_offset(get_page(), $limit);
 
-			echo json_encode($project);
-		} else {
-			$limit  = get_per_page();
-			$offset = get_offset(get_page(), $limit);
+		$args = compact('limit', 'offset');
 
-			$projects = $this->make_query(compact('limit', 'offset'))->get_result();
+		$projects = $this->make_query($args)->get_result();
+		$projects->walk([$this, 'add_links']);
 
-			echo json_encode($projects);
+		return $projects;
+	}
+
+	public function api_item_view() {
+		if ($record_id = get_resource_id()) {
+			if ($project = $this->get_record($record_id))
+				return $this->add_links($project);
+
+			return $this->api_error('api_record_not_found', 'The specified record could not be found', [
+				'status'   => 404,
+				'resource' => $this->resource,
+				'id'       => get_resource_id()
+			]);
 		}
+
+		return $this->api_error('api_record_id_not_specified', 'No record ID was specified', [
+			'status'   => 400,
+			'resource' => $this->resource
+		]);
 	}
 
 	public function fill_project(&$project) {
