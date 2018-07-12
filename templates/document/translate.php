@@ -23,7 +23,7 @@ if ($translation) {
 $user = get_session_user();
 
 ?><ol class="breadcrumb">
-	<li><a href="home">Home</a></li>
+	<li><a href="home"><i class="fa fa-home"></i> Home</a></li>
 	<li><a href="projects">Projects</a></li>
 	<li class="active"><?php echo $document->title; ?></li>
 </ol>

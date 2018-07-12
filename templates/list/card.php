@@ -14,14 +14,14 @@
 			</a>
 		</p>
 	<?php endif; endforeach; ?>
-	<footer style="text-align: right">
+	<footer class="align-right">
 		<form action="list/<?php echo $list->id; ?>/delete" method="POST"
 			data-confirm="Are you sure you want to delete this list?">
+			<input type="hidden" name="nonce" value="<?php echo $delete_nonce; ?>">
 			<a href="lists/<?php echo $list->id; ?>/form-meta" target="#modal-card"
 				class="btn primary" data-action="modal" data-target="#modal-form-meta">
 				<i class="fa fa-edit"></i> Edit
 			</a>
-			<input type="hidden" name="nonce" value="<?php echo $delete_nonce; ?>">
 			<button type="submit" class="btn danger">
 				<i class="fa fa-trash"></i> Delete
 			</button>

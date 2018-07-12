@@ -21,13 +21,13 @@
 			<i class="fa fa-flag"></i> <?php echo $language->name; ?>
 		</p>
 	<?php endif; endforeach; ?>
-	<footer style="text-align: right">
+	<footer class="align-right">
 		<form action="document/<?php echo $document->id; ?>/delete" method="POST"
 			data-confirm="Are you sure you want to delete this document?">
+			<input type="hidden" name="nonce" value="<?php echo $delete_nonce; ?>">
 			<a href="document/<?php echo $document->id; ?>/form" class="btn primary">
 				<i class="fa fa-edit"></i> Edit
 			</a>
-			<input type="hidden" name="nonce" value="<?php echo $delete_nonce; ?>">
 			<button type="submit" class="btn danger">
 				<i class="fa fa-trash"></i> Delete
 			</button>

@@ -1,9 +1,16 @@
 /* Add custom styles here */
 
+table, .card { border-width: 0 1px 1px; }
+
+.card header a { cursor: pointer; }
+
 .page-title div.small { margin-top: .5em; }
 
 .btn-toolbar { margin-bottom: 1.5em; }
 
 .permission-resource-actions { display: none; }
+
+.align-left { text-align: left; }
+.align-right { text-align: right; }
 
 th.snap, td.snap { width: 5em; }
