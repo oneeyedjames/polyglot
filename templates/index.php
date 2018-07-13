@@ -1,10 +1,45 @@
+<ol class="breadcrumb">
+	<li class="active"><i class="fa fa-home"></i> Home</li>
+</ol>
 <div class="row">
-	<div class="col-sm-2 col-md-3 col-lg-4">&nbsp;</div>
-	<div class="col-sm-8 col-md-6 col-lg-4">
-		<blockquote>
-			<p>And how <em>is it that</em> we hear, each in our own language in which we were born?</p>
-			<footer>Acts 2:8 <cite>NKJV</cite></footer>
-		</blockquote>
+	<div class="col-md-4 col-lg-3">
+		<div class="card info">
+			<header><i class="fa fa-folder-open"></i> My Projects</header>
+			<ul>
+				<li><a href="#">Project Name</a></li>
+			</ul>
+			<div class="align-right">
+				<a href="projects" class="btn sm text primary">
+					See More <i class="fa fa-chevron-right"></i>
+				</a>
+			</div>
+		</div>
+		<div class="card info">
+			<header><i class="fa fa-file"></i> My Documents</header>
+			<ul>
+				<li>
+					<a href="#">Document</a>
+					<div>
+						<i class="fa fa-folder-open"></i>
+						in <a href="project/1">Project</a>
+					</div>
+				</li>
+			</ul>
+		</div>
+		<div class="card info">
+			<header><i class="fa fa-list"></i> My Term Lists</header>
+			<ul>
+				<li>
+					<a href="#">Term List</a>
+					<div>
+						<i class="fa fa-folder-open"></i>
+						in <a href="project/1">Project</a>
+					</div>
+				</li>
+			</ul>
+		</div>
 	</div>
-	<div class="col-sm-2 col-md-3 col-lg-4">&nbsp;</div>
+	<div class="col-md-8 col-lg-9">
+		<h2><i class="fa fa-home"></i> Home</h2>
+	</div>
 </div>
