@@ -1,8 +1,7 @@
 <?php
 
 function get_resource() {
-	global $url_schema;
-	return $url_schema->is_resource(@$_GET['resource']);
+	return init_url()->is_resource(@$_GET['resource']);
 }
 
 function get_resource_id() {
@@ -36,13 +35,11 @@ function get_project_id() {
 }
 
 function get_action() {
-	global $url_schema;
-	return $url_schema->is_action(@$_GET['action'], @$_GET['resource']);
+	return init_url()->is_action(@$_GET['action'], @$_GET['resource']);
 }
 
 function get_view() {
-	global $url_schema;
-	return $url_schema->is_view(@$_GET['view'], @$_GET['resource']);
+	return init_url()->is_view(@$_GET['view'], @$_GET['resource']);
 }
 
 /**

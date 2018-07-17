@@ -38,8 +38,6 @@ if (!($cache = init_cache()))
 
 controller::init($database, $cache);
 
-$url_schema = init_url();
-
 
 
 // Verify user authentication and session status
@@ -48,15 +46,13 @@ define('SESSION_USER_ID', init_session());
 
 
 
-// Route back-end and API requests
-if (is_api()) {
-	controller::load(get_resource())->api_view();
-	exit;
-} elseif ($action = get_action()) {
+// Route back-end requests
+
+if ($action = get_action()) {
 	$params = controller::load(get_resource())->do_action($action);
 
 	if (is_array($params))
-		header('Location: ' . $url_schema->build($params));
+		header('Location: ' . build_url($params));
 
 	exit;
 }
@@ -65,21 +61,23 @@ if (is_api()) {
 
 // Render requested view
 
-$template = new template(TEMPLATE_PATH);
-
-if (!is_ajax())
-	$template->load('header');
-
-if ($resource = get_resource()) {
-	if (!($view = get_view()))
-		$view = get_resource_id() ? 'item' : 'index';
-
-	$template->load($view, $resource);
+if (is_api()) {
+	controller::load(get_resource())->api_view();
 } else {
-	$view = $url_schema->is_view(@$_GET['view']) ?: 'index';
+	$template = new template(TEMPLATE_PATH);
 
-	$template->load($view);
+	if (!is_ajax())
+		$template->load('header');
+
+	if ($resource = get_resource()) {
+		if (!($view = get_view()))
+			$view = get_resource_id() ? 'item' : 'index';
+
+		$template->load($view, $resource);
+	} else {
+		$template->load(get_view() ?: 'index');
+	}
+
+	if (!is_ajax())
+		$template->load('footer');
 }
-
-if (!is_ajax())
-	$template->load('footer');

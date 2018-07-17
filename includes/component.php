@@ -77,47 +77,51 @@ function init_cache() {
 }
 
 function init_url() {
-	$url_path = $_SERVER['REQUEST_URI'];
+	static $url_schema = false;
 
-	if (($pos = strpos($url_path, '?')) !== false)
-		$url_path = substr($url_path, 0, $pos);
-	elseif (($pos = strpos($url_path, '#')) !== false)
-		$url_path = substr($url_path, 0, $pos);
+	if (!$url_schema) {
+		$url_path = $_SERVER['REQUEST_URI'];
 
-	$url_schema = new url_schema($_SERVER['HTTP_HOST']);
+		if (($pos = strpos($url_path, '?')) !== false)
+			$url_path = substr($url_path, 0, $pos);
+		elseif (($pos = strpos($url_path, '#')) !== false)
+			$url_path = substr($url_path, 0, $pos);
 
-	$resources = json_decode(file_get_contents(ASSET_PATH . '/json/resources.json'), true);
-	$actions = json_decode(file_get_contents(ASSET_PATH . '/json/actions.json'));
-	$views = json_decode(file_get_contents(ASSET_PATH . '/json/views.json'));
+		$url_schema = new url_schema($_SERVER['HTTP_HOST']);
 
-	$res_actions = json_decode(file_get_contents(ASSET_PATH . '/json/resource-actions.json'));
-	$res_views = json_decode(file_get_contents(ASSET_PATH . '/json/resource-views.json'));
+		$resources = json_decode(file_get_contents(ASSET_PATH . '/json/resources.json'), true);
+		$actions = json_decode(file_get_contents(ASSET_PATH . '/json/actions.json'));
+		$views = json_decode(file_get_contents(ASSET_PATH . '/json/views.json'));
 
-	foreach ($resources as $resource => $alias)
-		$url_schema->add_resource($resource, $alias);
+		$res_actions = json_decode(file_get_contents(ASSET_PATH . '/json/resource-actions.json'));
+		$res_views = json_decode(file_get_contents(ASSET_PATH . '/json/resource-views.json'));
 
-	foreach ($actions as $action)
-		$url_schema->add_action($action);
+		foreach ($resources as $resource => $alias)
+			$url_schema->add_resource($resource, $alias);
 
-	foreach ($views as $view)
-		$url_schema->add_view($view);
-
-	foreach ($res_actions as $resource => $actions) {
 		foreach ($actions as $action)
-			$url_schema->add_action($action, $resource);
-	}
+			$url_schema->add_action($action);
 
-	foreach ($res_views as $resource => $views) {
 		foreach ($views as $view)
-			$url_schema->add_view($view, $resource);
+			$url_schema->add_view($view);
+
+		foreach ($res_actions as $resource => $actions) {
+			foreach ($actions as $action)
+				$url_schema->add_action($action, $resource);
+		}
+
+		foreach ($res_views as $resource => $views) {
+			foreach ($views as $view)
+				$url_schema->add_view($view, $resource);
+		}
+
+		$url_params = $url_schema->parse_path($url_path);
+
+		foreach ($url_params as $key => $value)
+			$_GET[$key] = $_REQUEST[$key] = $value;
+
+		$_GET['ajax'] = $_REQUEST['ajax'] = @$_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest';
 	}
-
-	$url_params = $url_schema->parse_path($url_path);
-
-	foreach ($url_params as $key => $value)
-		$_GET[$key] = $_REQUEST[$key] = $value;
-
-	$_GET['ajax'] = $_REQUEST['ajax'] = @$_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest';
 
 	return $url_schema;
 }

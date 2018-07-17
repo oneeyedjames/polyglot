@@ -90,7 +90,7 @@ class role_controller extends controller {
     }
 
     public function form_permission_view($vars) {
-        global $url_schema;
+        $url_schema = init_url();
 
         $vars['role'] = $this->get_record(get_resource_id());
         $vars['resources'] = $url_schema->resources;

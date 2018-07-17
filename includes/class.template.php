@@ -67,7 +67,6 @@ function per_page_url($params, $per_page) {
 	return build_url($params);
 }
 
-function build_url($url_params) {
-	global $url_schema;
-	return $url_schema->build($url_params);
+function build_url($params) {
+	return init_url()->build($params);
 }
