@@ -9,7 +9,7 @@ function get_languages($limit = DEFAULT_PER_PAGE, $offset = 0) {
 }
 
 function get_records($resource, $limit, $offset) {
-	global $database;
+	$database = init_database();
 
 	$query = new database_query($database, [
 		'table'  => $resource,
@@ -21,7 +21,7 @@ function get_records($resource, $limit, $offset) {
 }
 
 function get_user($user_id) {
-	global $database;
+	$database = init_database();
 
 	if ($record = $database->get_record('user', $user_id)) {
 		$query = new database_query($database, [
@@ -80,7 +80,7 @@ function get_session_user() {
 }
 
 function get_session($token) {
-	global $database;
+	$database = init_database();
 
 	$sql = "SELECT * FROM session WHERE token = ?";
 

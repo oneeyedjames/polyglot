@@ -9,7 +9,7 @@ function get_resource_id() {
 }
 
 function get_project_id() {
-	global $database;
+	$database = init_database();
 
 	$resource = get_resource();
 	$resource_id = get_resource_id();

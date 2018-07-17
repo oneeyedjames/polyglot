@@ -1,79 +1,89 @@
 <?php
 
 function init_database() {
-	$mysql = new object();
+	static $database = false;
 
-	if (is_file($config = CONFIG_PATH . '/mysql.php'))
-		require $config;
+	if (!$database) {
+		$mysql = new object();
 
-	$host = $mysql->hostname('localhost');
-	$user = $mysql->username;
-	$pass = $mysql->password;
-	$db   = $mysql->database('polyglot');
+		if (is_file($config = CONFIG_PATH . '/mysql.php'))
+			require $config;
 
-	$mysql = new mysqli($host, $user, $pass);
+		$host = $mysql->hostname('localhost');
+		$user = $mysql->username;
+		$pass = $mysql->password;
+		$db   = $mysql->database('polyglot');
 
-	if ($mysql->connect_errno) {
-		error_log($mysql->connect_error);
-		return false;
-	}
+		$mysql = new mysqli($host, $user, $pass);
 
-	$mysql->set_charset('utf8');
-
-	if ($result = $mysql->query("SHOW DATABASES LIKE '$db'")) {
-		if (0 == $result->num_rows) {
-			if (!$mysql->query("CREATE DATABASE `$db`"))
-				trigger_error($mysql->error);
+		if ($mysql->connect_errno) {
+			error_log($mysql->connect_error);
+			return false;
 		}
 
-		$result->close();
+		$mysql->set_charset('utf8');
+
+		if ($result = $mysql->query("SHOW DATABASES LIKE '$db'")) {
+			if (0 == $result->num_rows) {
+				if (!$mysql->query("CREATE DATABASE `$db`"))
+					trigger_error($mysql->error);
+			}
+
+			$result->close();
+		}
+
+		$mysql->select_db($db);
+
+		$database = new database_schema($mysql);
+
+		foreach (glob(ASSET_PATH . '/sql/*-schema.sql') as $glob) {
+			$source = file_get_contents(realpath($glob));
+			$database->execute($source);
+		}
+
+		$database->execute('DELETE FROM session WHERE expire < NOW()');
+
+		$tables    = json_decode(file_get_contents(ASSET_PATH . '/json/tables.json'));
+		$bridges   = json_decode(file_get_contents(ASSET_PATH . '/json/bridges.json'));
+		$relations = json_decode(file_get_contents(ASSET_PATH . '/json/relations.json'));
+
+		foreach ($tables as $table)
+			$database->add_table($table);
+
+		foreach ($bridges as $bridge)
+			$database->add_table($bridge, null);
+
+		foreach ($relations as $rel_name => $rel_meta)
+			$database->add_relation($rel_name, $rel_meta->ptable, $rel_meta->ftable, $rel_meta->fkey);
+
+		setup_languages($database);
+		setup_projects($database);
+		setup_admin_user($database);
+		setup_user_roles($database);
 	}
-
-	$mysql->select_db($db);
-
-	$database = new database_schema($mysql);
-
-	foreach (glob(ASSET_PATH . '/sql/*-schema.sql') as $glob) {
-		$source = file_get_contents(realpath($glob));
-		$database->execute($source);
-	}
-
-	$database->execute('DELETE FROM session WHERE expire < NOW()');
-
-	$tables    = json_decode(file_get_contents(ASSET_PATH . '/json/tables.json'));
-	$bridges   = json_decode(file_get_contents(ASSET_PATH . '/json/bridges.json'));
-	$relations = json_decode(file_get_contents(ASSET_PATH . '/json/relations.json'));
-
-	foreach ($tables as $table)
-		$database->add_table($table);
-
-	foreach ($bridges as $bridge)
-		$database->add_table($bridge, null);
-
-	foreach ($relations as $rel_name => $rel_meta)
-		$database->add_relation($rel_name, $rel_meta->ptable, $rel_meta->ftable, $rel_meta->fkey);
-
-	setup_languages($database);
-	setup_projects($database);
-	setup_admin_user($database);
-	setup_user_roles($database);
 
 	return $database;
 }
 
 function init_cache() {
-	$memcached = new object();
+	static $cache = false;
 
-	if (is_file($config = CONFIG_PATH . '/memcached.php'))
-		require $config;
+	if (!$cache) {
+		$memcached = new object();
 
-	$host = $memcached->host('localhost');
-	$port = $memcached->port(11211);
+		if (is_file($config = CONFIG_PATH . '/memcached.php'))
+			require $config;
 
-	$memcached = new Memcached();
-	$memcached->addServer($host, $port);
+		$host = $memcached->host('localhost');
+		$port = $memcached->port(11211);
 
-	return new cache($memcached);
+		$memcached = new Memcached();
+		$memcached->addServer($host, $port);
+
+		$cache = new cache($memcached);
+	}
+
+	return $cache;
 }
 
 function init_url() {
