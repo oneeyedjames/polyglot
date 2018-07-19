@@ -25,6 +25,7 @@ require_all('includes/trait.*.php');
 require_all('includes/class.*.php');
 require_all('includes/*.php');
 require_all('controllers/*.php');
+require_all('renderers/*.php');
 
 
 
@@ -62,7 +63,14 @@ if ($action = get_action()) {
 // Render requested view
 
 if (is_api()) {
-	controller::load(get_resource())->api_view();
+	if ($resource = get_resource()) {
+		if (!($view = get_view()))
+			$view = get_resource_id() ? 'item' : 'index';
+
+		renderer::load($resource)->render($view);
+	} else {
+		// TODO what now?
+	}
 } else {
 	$template = new template(TEMPLATE_PATH);
 

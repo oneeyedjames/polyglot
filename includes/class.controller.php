@@ -276,51 +276,6 @@ class controller extends controller_base {
 		return build_url($params);
 	}
 
-	public function api_view() {
-		if (!($view = get_view()))
-			$view = get_resource_id() ? 'item' : 'index';
-
-		$method = 'api_' . str_replace('-', '_', $view) . '_view';
-
-		if (method_exists($this, $method)) {
-			$record = call_user_func(array($this, $method));
-		} else {
-			$record = $this->api_error('api_undefined_view', 'The requested API view is not defined', [
-				'status'   => 400,
-				'resource' => $this->resource,
-				'view'     => $view
-			]);
-		}
-
-		if (isset($record['data']['status'])) {
-			http_response_code($record['data']['status']);
-			unset($record['data']['status']);
-		}
-
-		header('Content-type: text/json');
-		echo json_encode($record);
-	}
-
-	protected function api_error($code, $message, $data = []) {
-		if (!is_array($data)) $data = [];
-		return compact('code', 'message', 'data');
-	}
-
-	public function add_links(&$record) {
-		$record['_links'] = [
-			[
-				'rel'  => 'self',
-				'href' => "/api/$this->resource/$record->id",
-			],
-			[
-				'rel'  => 'collection',
-				'href' => "/api/$this->resource",
-			]
-		];
-
-		return $record;
-	}
-
 	public function redirect($url) {
 		if (headers_sent())
 			die("<script type=\"text/javascript\">window.location = '$url'</script>");

@@ -194,25 +194,30 @@ class project_controller extends controller {
 
 		$args = compact('limit', 'offset');
 
-		$projects = $this->make_query($args)->get_result();
-		$projects->walk([$this, 'add_links']);
-
-		return $projects;
+		return $this->make_query($args)->get_result();
 	}
 
 	public function api_item_view() {
 		if ($record_id = get_resource_id()) {
-			if ($project = $this->get_record($record_id))
-				return $this->add_links($project);
+			if ($record = $this->get_record($record_id)) {
+				return $record;
 
-			return $this->api_error('api_record_not_found', 'The specified record could not be found', [
+				$project = new object();
+				$project->id = $record->id;
+				$project->title = $record->title;
+				$project->description = $record->descrip;
+
+				return $this->api_links($project);
+			}
+
+			return new api_error('api_record_not_found', 'The specified record could not be found', [
 				'status'   => 404,
 				'resource' => $this->resource,
 				'id'       => get_resource_id()
 			]);
 		}
 
-		return $this->api_error('api_record_id_not_specified', 'No record ID was specified', [
+		return new api_error('api_record_id_not_specified', 'No record ID was specified', [
 			'status'   => 400,
 			'resource' => $this->resource
 		]);
