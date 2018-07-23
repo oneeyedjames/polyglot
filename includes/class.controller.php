@@ -43,22 +43,6 @@ class controller extends controller_base {
 		}
 	}
 
-	// TODO backport to PHPunk
-	public function pre_render($view, &$result) {
-		$method = 'api_' . str_replace('-', '_', $view) . '_view';
-		if (method_exists($this, $method)) {
-			$result = call_user_func([$this, $method], $_GET, $_POST);
-		} else {
-			$result = new api_error('api_undefined_view',
-				'The requested API view is not defined', [
-					'status'   => 400,
-					'resource' => $this->resource,
-					'view'     => $view
-				]
-			);
-		}
-	}
-
 	public function do_action($action) {
 		if (in_array($action, ['login', 'logout', 'reset-password']))
 			return parent::do_action($action);
@@ -297,5 +281,64 @@ class controller extends controller_base {
 			die("<script type=\"text/javascript\">window.location = '$url'</script>");
 		else
 			die(header("Location: $url"));
+	}
+
+	protected function get_result($limit = false, $offset = false) {
+		if ($limit === false)
+			$limit = get_per_page();
+
+		if ($offset === false)
+			$offset = get_offset(get_page(), $limit);
+
+		$args = compact('limit', 'offset');
+		$this->filter_result_args($args);
+
+		return $this->make_query($args)->get_result();
+	}
+
+	protected function filter_result_args(&$args) {}
+
+	// TODO backport to PHPunk
+	public function pre_render($view, &$result) {
+		$method = 'api_' . str_replace('-', '_', $view) . '_view';
+		if (method_exists($this, $method)) {
+			$result = call_user_func([$this, $method], $_GET, $_POST);
+		} else {
+			$result = new api_error('api_undefined_view',
+				'The requested API view is not defined', [
+					'status'   => 400,
+					'resource' => $this->resource,
+					'view'     => $view
+				]
+			);
+		}
+	}
+
+	public function api_index_view() {
+		return $this->get_result();
+	}
+
+	public function api_item_view() {
+		if ($record_id = get_resource_id()) {
+			if ($record = $this->get_record($record_id))
+				return $record;
+
+			return new api_error('api_record_not_found',
+				'The specified record could not be found',
+				[
+					'status'   => 404,
+					'resource' => $this->resource,
+					'id'       => get_resource_id()
+				]
+			);
+		}
+
+		return new api_error('api_record_id_not_specified',
+			'No record ID was specified',
+			[
+				'status'   => 400,
+				'resource' => $this->resource
+			]
+		);
 	}
 }

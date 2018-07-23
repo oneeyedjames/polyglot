@@ -79,12 +79,7 @@ class project_controller extends controller {
 	}
 
 	public function index_view($vars) {
-		$limit  = get_per_page();
-		$offset = get_offset(get_page(), $limit);
-
-		$args = compact('limit', 'offset');
-
-		$projects = $this->make_query($args)->get_result();
+		$projects = $this->get_result();
 		$projects->walk([$this, 'fill_project']);
 
 		$vars['projects'] = $projects;
@@ -189,38 +184,7 @@ class project_controller extends controller {
 	}
 
 	public function api_index_view() {
-		$limit  = get_per_page();
-		$offset = get_offset(get_page(), $limit);
-
-		$args = compact('limit', 'offset');
-
-		return $this->make_query($args)->get_result();
-	}
-
-	public function api_item_view() {
-		if ($record_id = get_resource_id()) {
-			if ($record = $this->get_record($record_id)) {
-				return $record;
-
-				$project = new object();
-				$project->id = $record->id;
-				$project->title = $record->title;
-				$project->description = $record->descrip;
-
-				return $this->api_links($project);
-			}
-
-			return new api_error('api_record_not_found', 'The specified record could not be found', [
-				'status'   => 404,
-				'resource' => $this->resource,
-				'id'       => get_resource_id()
-			]);
-		}
-
-		return new api_error('api_record_id_not_specified', 'No record ID was specified', [
-			'status'   => 400,
-			'resource' => $this->resource
-		]);
+		return $this->get_result();
 	}
 
 	public function fill_project(&$project) {
@@ -232,6 +196,15 @@ class project_controller extends controller {
 		$project->users     = $this->get_users($project->id);
 
 		return $project;
+	}
+
+	protected function filter_result_args(&$args) {
+		$user = get_session_user();
+
+		if (!$user->admin) {
+			$args['bridge'] = 'up_project';
+			$args['args'] = ['up_user' => SESSION_USER_ID];
+		}
 	}
 
 	protected function get_languages($proj_id, $limit = DEFAULT_PER_PAGE, $offset = 0) {
