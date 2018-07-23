@@ -43,6 +43,22 @@ class controller extends controller_base {
 		}
 	}
 
+	// TODO backport to PHPunk
+	public function pre_render($view, &$result) {
+		$method = 'api_' . str_replace('-', '_', $view) . '_view';
+		if (method_exists($this, $method)) {
+			$result = call_user_func([$this, $method], $_GET, $_POST);
+		} else {
+			$result = new api_error('api_undefined_view',
+				'The requested API view is not defined', [
+					'status'   => 400,
+					'resource' => $this->resource,
+					'view'     => $view
+				]
+			);
+		}
+	}
+
 	public function do_action($action) {
 		if (in_array($action, ['login', 'logout', 'reset-password']))
 			return parent::do_action($action);
