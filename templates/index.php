@@ -6,18 +6,24 @@
 		<div class="card info collapsible">
 			<header><i class="fa fa-folder-open"></i> My Projects</header>
 			<ul>
-				<li><a href="#">Project Name</a></li>
+				<?php foreach ($projects as $project) : ?>
+					<li><a href="project/<?php echo $project->id; ?>"><?php echo $project->title; ?></a></li>
+				<?php endforeach; ?>
 			</ul>
-			<!-- <div class="align-right">
-				<a href="projects" class="btn sm text primary">
-					See More <i class="fa fa-chevron-right"></i>
-				</a>
-			</div> -->
+			<?php if ($projects->found > count($projects)) : ?>
+				<div class="align-right">
+					<a href="projects" class="btn sm text primary">
+						See More <i class="fa fa-chevron-right"></i>
+					</a>
+				</div>
+			<?php endif; ?>
 		</div>
 		<div class="card info collapsible">
 			<header><i class="fa fa-flag"></i> My Languages</header>
 			<ul>
-				<li>Language</li>
+				<?php foreach ($languages as $language) : ?>
+					<li><?php echo $language->name; ?></li>
+				<?php endforeach; ?>
 			</ul>
 		</div>
 	</div>

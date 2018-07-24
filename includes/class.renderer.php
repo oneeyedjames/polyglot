@@ -28,6 +28,11 @@ class renderer extends renderer_base {
 		$controller = controller::load($this->resource);
 		$controller->pre_render($view, $result);
 
+		$this->render_result($result);
+	}
+
+	// TODO backport to PHPunk
+	protected function render_result($result) {
 		if ($result instanceof database_record) {
 			$response = $this->create_response($result);
 		} elseif ($result instanceof database_result) {

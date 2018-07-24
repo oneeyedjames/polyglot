@@ -108,70 +108,18 @@ class controller extends controller_base {
 
 	public function index_view($vars) {
 		$vars['projects'] = $this->make_query([
-			'limit' => 3
+			'bridge' => 'up_project',
+			'args'   => [
+				'up_user' => SESSION_USER_ID
+			]
 		], 'project')->get_result();
 
-		$vars['projects']->walk(function(&$project) {
-			$project->languages = $this->make_query([
-				'bridge' => 'pl_language',
-				'limit'  => 3,
-				'args'   => [
-					'pl_project' => $project->id
-				]
-			], 'language')->get_result();
-
-			$project->users = $this->make_query([
-				'bridge' => 'up_user',
-				'limit'  => 3,
-				'args'   => [
-					'up_project' => $project->id
-				]
-			], 'user')->get_result();
-		});
-
 		$vars['languages'] = $this->make_query([
-			'limit' => 3
+			'bridge' => 'ul_language',
+			'args'   => [
+				'ul_user' => SESSION_USER_ID
+			]
 		], 'language')->get_result();
-
-		$vars['languages']->walk(function(&$language) {
-			$language->projects = $this->make_query([
-				'bridge' => 'pl_project',
-				'limit'  => 3,
-				'args'   => [
-					'pl_language' => $language->id
-				]
-			], 'project')->get_result();
-
-			$language->users = $this->make_query([
-				'bridge' => 'ul_user',
-				'limit'  => 3,
-				'args'   => [
-					'ul_language' => $language->id
-				]
-			], 'user')->get_result();
-		});
-
-		$vars['users'] = $this->make_query([
-			'limit' => 3
-		], 'user')->get_result();
-
-		$vars['users']->walk(function(&$user) {
-			$user->projects = $this->make_query([
-				'bridge' => 'up_project',
-				'limit'  => 3,
-				'args'   => [
-					'up_user' => $user->id
-				]
-			], 'project')->get_result();
-
-			$user->languages = $this->make_query([
-				'bridge' => 'ul_language',
-				'limit'  => 3,
-				'args'   => [
-					'ul_user' => $user->id
-				]
-			], 'language')->get_result();
-		});
 
 		return $vars;
 	}
@@ -324,8 +272,7 @@ class controller extends controller_base {
 				return $record;
 
 			return new api_error('api_record_not_found',
-				'The specified record could not be found',
-				[
+				'The specified record could not be found', [
 					'status'   => 404,
 					'resource' => $this->resource,
 					'id'       => get_resource_id()
@@ -334,8 +281,7 @@ class controller extends controller_base {
 		}
 
 		return new api_error('api_record_id_not_specified',
-			'No record ID was specified',
-			[
+			'No record ID was specified', [
 				'status'   => 400,
 				'resource' => $this->resource
 			]
