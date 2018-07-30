@@ -24,36 +24,10 @@ class renderer extends renderer_base {
 		}
 	}
 
-	public function render($view, $controller = false) {
+	public function render($view) {
 		$controller = controller::load($this->resource);
 		$controller->pre_render($view, $result);
 
 		$this->render_result($result);
-	}
-
-	// TODO backport to PHPunk
-	protected function render_result($result) {
-		if ($result instanceof database_record) {
-			$response = $this->create_response($result);
-		} elseif ($result instanceof database_result) {
-			$response = [];
-			foreach ($result as $record)
-				$response[] = $this->create_response($record);
-		} elseif ($result instanceof api_error) {
-			if (isset($result['status'])) {
-				http_response_code($result['status']);
-				unset($result['status']);
-			}
-
-			$response = $result;
-		} else {
-			$response = new api_error('api_invalid_response',
-				'The response was invalid.');
-
-			http_response_code(500);
-		}
-
-		header('Content-type: text/json');
-		echo json_encode($response);
 	}
 }

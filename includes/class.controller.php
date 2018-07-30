@@ -226,7 +226,7 @@ class controller extends controller_base {
 
 	public function redirect($url) {
 		if (headers_sent())
-			die("<script type=\"text/javascript\">window.location = '$url'</script>");
+			die("<script type=\"text/javascript\">window.location = '$url';</script>");
 		else
 			die(header("Location: $url"));
 	}

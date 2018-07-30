@@ -15,7 +15,14 @@ class template extends template_base {
 	}
 
 	public function load($view, $resource = false, $vars = []) {
-		$granted = in_array($view, ['header', 'footer', 'login-form', 'reset-password-form']);
+		$granted = in_array($view, [
+			'header',
+			'footer',
+			'pagination',
+			'page-limit',
+			'login-form',
+			'reset-password-form'
+		]);
 
 		if (!$granted && $user = get_session_user())
 			$granted = $user->has_permission($view, $resource);
