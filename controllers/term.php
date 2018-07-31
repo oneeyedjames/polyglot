@@ -52,7 +52,7 @@ class term_controller extends controller {
 
 		$params = ['resource' => 'list', 'id' => $term->list_id];
 
-		if ($term->language_id)
+		if ($term->language_id != $project->default_language_id)
 			$params['filter']['translation'] = $term->language_id;
 
 		return $params;
@@ -84,18 +84,6 @@ class term_controller extends controller {
 
 		return $vars;
 	}
-
-	// public function api_view() {
-	// 	if (isset($_REQUEST['filter']['list'])) {
-	// 		$terms = $this->make_query([
-	// 			'list_id'     => get_filter('list'),
-	// 			'language_id' => 1,
-	// 			'revision'    => 0
-	// 		])->get_result();
-	//
-	// 		echo json_encode($terms);
-	// 	}
-	// }
 
 	public function get_term($term_id, $lang_id = false) {
 		if ($lang_id) {

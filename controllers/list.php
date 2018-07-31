@@ -75,6 +75,10 @@ class list_controller extends controller {
 				return $term->master_id;
 			});
 
+			$trans->walk(function(&$term) {
+				$term->user = $this->get_record($term->user_id, 'user');
+			});
+
 			$terms->walk(function(&$term) use ($trans) {
 				if ($tran = @$trans[$term->id])
 					$term->translation = $tran;
