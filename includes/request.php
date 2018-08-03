@@ -60,6 +60,10 @@ function get_offset($page, $per_page) {
 	return ($page - 1) * $per_page;
 }
 
+function get_sorting() {
+	return is_array(@$_GET['sort']) ? $_GET['sort'] : false;
+}
+
 function get_filter($key) {
 	return isset($_GET['filter'][$key]) ? $_GET['filter'][$key] : false;
 }

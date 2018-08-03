@@ -239,6 +239,10 @@ class controller extends controller_base {
 			$offset = get_offset(get_page(), $limit);
 
 		$args = compact('limit', 'offset');
+
+		if ($sort = get_sorting())
+			$args['sort'] = $sort;
+
 		$this->filter_result_args($args);
 
 		return $this->make_query($args)->get_result();
