@@ -43,6 +43,8 @@ class controller extends controller_base {
 		}
 	}
 
+
+
 	public function do_action($action) {
 		if (in_array($action, ['login', 'logout', 'reset-password']))
 			return parent::do_action($action);
@@ -182,6 +184,36 @@ class controller extends controller_base {
 		return $vars;
 	}
 
+	public function sorting_view($vars) {
+		// TODO get access to resource-specific controller
+
+		if (!($sort = get_sorting()))
+			$sort = $this->get_default_sorting();
+
+		if ($sort) {
+			$key   = key($sort);
+			$order = current($sort);
+
+			if (!isset($vars['key']))
+				$vars['key'] = $key;
+
+			if ($vars['key'] == $key) {
+				$vars['order'] = $order == 'asc' ? 'desc' : 'asc';
+				$vars['dir']   = $order == 'asc' ? 'up'   : 'down';
+			}
+
+			if (!isset($vars['order']))
+				$vars['order'] = $order;
+		}
+
+		if (!isset($vars['url_params']))
+			$vars['url_params'] = $_GET;
+
+		return $vars;
+	}
+
+
+
 	protected function is_authorized($action, $resource = false) {
 		$resource = $resource ?: $this->resource;
 
@@ -231,6 +263,8 @@ class controller extends controller_base {
 			die(header("Location: $url"));
 	}
 
+
+
 	protected function get_result($limit = false, $offset = false) {
 		if ($limit === false)
 			$limit = get_per_page();
@@ -242,13 +276,19 @@ class controller extends controller_base {
 
 		if ($sort = get_sorting())
 			$args['sort'] = $sort;
+		elseif ($sort = $this->get_default_sorting())
+			$args['sort'] = $sort;
 
 		$this->filter_result_args($args);
 
 		return $this->make_query($args)->get_result();
 	}
 
+	protected function get_default_sorting() { return false; }
+
 	protected function filter_result_args(&$args) {}
+
+
 
 	// TODO backport to PHPunk
 	public function pre_render($view, &$result) {

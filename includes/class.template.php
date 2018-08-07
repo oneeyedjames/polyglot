@@ -44,6 +44,13 @@ class template extends template_base {
 
 		$this->load('pagination', false, $vars);
 	}
+
+	public function sorting($key, $title, $vars = []) {
+		$vars['title'] = $title;
+		$vars['key']   = $key;
+
+		$this->load('sorting', false, $vars);
+	}
 }
 
 function disabled($actual, $expected = null) {
@@ -69,6 +76,13 @@ function page_url($params, $page) {
 
 function per_page_url($params, $per_page) {
 	$params['per_page'] = $per_page;
+	unset($params['page']);
+
+	return build_url($params);
+}
+
+function sort_url($params, $key, $order) {
+	$params['sort'] = [$key => $order];
 	unset($params['page']);
 
 	return build_url($params);

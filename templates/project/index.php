@@ -17,7 +17,7 @@
 	<thead>
 		<tr>
 			<th class="snap"></th>
-			<th>Project</th>
+			<th><?php $this->sorting('title', 'Project'); ?></th>
 			<th># Languages</th>
 			<th># Users</th>
 			<th># Documents</th>

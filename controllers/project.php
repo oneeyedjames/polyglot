@@ -194,6 +194,10 @@ class project_controller extends controller {
 		return $project;
 	}
 
+	protected function get_default_sorting() {
+		return ['title' => 'asc'];
+	}
+
 	protected function filter_result_args(&$args) {
 		$user = get_session_user();
 
