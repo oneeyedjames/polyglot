@@ -31,11 +31,12 @@
 					<form action="project/<?php echo $project->id; ?>/delete" method="POST" class="btn-group pull-left"
 						data-confirm="Are you sure you want to delete this project?">
 						<a href="project/<?php echo $project->id; ?>/form-meta" target="#modal-card"
-							class="btn primary" data-action="modal" data-target="#modal-form-meta">
+							class="btn primary" title="Edit" data-hover="tooltip"
+							data-action="modal" data-target="#modal-form-meta">
 							<i class="fa fa-edit"></i>
 						</a>
 			            <input type="hidden" name="nonce" value="<?php echo $delete_nonce; ?>">
-						<button type="submit" class="btn danger">
+						<button type="submit" class="btn danger" title="Delete" data-hover="tooltip">
 			    			<i class="fa fa-trash"></i>
 			    		</button>
 					</form>

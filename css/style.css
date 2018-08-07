@@ -14,3 +14,6 @@ table, .card { border-width: 0 1px 1px; }
 .align-right { text-align: right; }
 
 th.snap, td.snap { width: 5em; }
+
+table thead th a { color: white; text-decoration: none; }
+table thead th a:visited { color: white; }

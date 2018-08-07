@@ -183,10 +183,6 @@ class project_controller extends controller {
 		return $vars;
 	}
 
-	public function api_index_view() {
-		return $this->get_result();
-	}
-
 	public function fill_project(&$project) {
 		$project->default_language = $this->get_record($project->default_language_id, 'language');
 

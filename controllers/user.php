@@ -99,12 +99,7 @@ class user_controller extends controller {
 	}
 
 	public function index_view($vars) {
-		$limit  = get_per_page();
-		$offset = get_offset(get_page(), $limit);
-
-		$args = compact('limit', 'offset');
-
-		$users = $this->make_query($args)->get_result();
+		$users = $this->get_result();
 		$users->walk(function(&$user) {
 			$user->languages = $this->get_languages($user->id);
 			$user->projects  = $this->get_projects($user->id);
