@@ -64,6 +64,10 @@ class language_controller extends controller {
 		return $vars;
 	}
 
+	protected function get_default_sorting() {
+		return ['code' => 'asc'];
+	}
+
 	protected function get_projects($lang_id, $limit = DEFAULT_PER_PAGE, $offset = 0) {
 		$args = compact('limit', 'offset');
 		$args['bridge'] = 'pl_project';

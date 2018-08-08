@@ -14,6 +14,16 @@ class template extends template_base {
 		trigger_error("Call to undefined method template::$func()", E_USER_WARNING);
 	}
 
+	public function __get($key) {
+		if ($count = count($this->_controllers)) {
+			$controller = $this->_controllers[$count - 1];
+
+			return $controller->__get($key);
+		}
+
+		trigger_error("Call to undefined property template::$key", E_USER_WARNING);
+	}
+
 	public function load($view, $resource = false, $vars = []) {
 		$granted = in_array($view, [
 			'header',
@@ -49,7 +59,7 @@ class template extends template_base {
 		$vars['title'] = $title;
 		$vars['key']   = $key;
 
-		$this->load('sorting', false, $vars);
+		$this->load('sorting', $this->resource, $vars);
 	}
 }
 

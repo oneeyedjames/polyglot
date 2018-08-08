@@ -15,8 +15,8 @@
 	<thead>
 		<tr>
 			<th class="snap"></th>
-			<th>Name</th>
-			<th>Code</th>
+			<th><?php $this->sorting('name', 'Name'); ?></th>
+			<th><?php $this->sorting('code', 'Code'); ?></th>
 			<th># Projects</th>
 			<th># Users</th>
 		</tr>
