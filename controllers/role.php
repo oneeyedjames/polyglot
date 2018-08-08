@@ -92,17 +92,19 @@ class role_controller extends controller {
     }
 
     public function form_permission_view($vars) {
-        $url_schema = init_url();
+		if ($role_id = get_resource_id()) {
+	        $url_schema = init_url();
 
-        $vars['role'] = $this->get_record(get_resource_id());
-        $vars['resources'] = $url_schema->resources;
+	        $vars['role'] = $this->get_record($role_id);
+	        $vars['resources'] = $url_schema->resources;
+		}
 
         return $vars;
     }
 
     public function card_permissions_view($vars) {
         if ($role_id = get_resource_id()) {
-            $role = $this->get_record(get_resource_id());
+            $role = $this->get_record($role_id);
             $role->permissions = $this->get_permissions($role_id);
 
             $vars['role'] = $role;
@@ -115,6 +117,7 @@ class role_controller extends controller {
         $args = compact('limit', 'offset');
         $args['bridge'] = 'rp_permission';
         $args['args'] = ['rp_role' => $role_id];
+		$args['sort'] = ['resource' => 'asc', 'action' => 'asc'];
 
         return $this->make_query($args, 'permission')->get_result();
     }
