@@ -61,10 +61,12 @@ class role_controller extends controller {
     }
 
     public function index_view($vars) {
-        $limit  = get_per_page();
-		$offset = get_offset(get_page(), $limit);
+        $roles = $this->get_result();
+		$roles->walk(function(&$role) {
+            $role->permissions = $this->get_permissions($role->id);
+		});
 
-		$vars['roles'] = $this->get_roles($limit, $offset);
+		$vars['roles'] = $roles;
 
         return $vars;
     }
@@ -107,17 +109,6 @@ class role_controller extends controller {
         }
 
         return $vars;
-    }
-
-    protected function get_roles($limit = DEFAULT_PER_PAGE, $offset = 0) {
-        $args = compact('limit', 'offset');
-
-        $roles = $this->make_query($args)->get_result();
-		$roles->walk(function(&$role) {
-            $role->permissions = $this->get_permissions($role->id);
-		});
-
-        return $roles;
     }
 
     protected function get_permissions($role_id, $limit = DEFAULT_PER_PAGE, $offset = 0) {

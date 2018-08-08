@@ -22,12 +22,7 @@ class language_controller extends controller {
 	}
 
 	public function index_view($vars) {
-		$vars['limit']  = $limit  = get_per_page();
-		$vars['offset'] = $offset = get_offset(get_page(), $limit);
-
-		$args = compact('limit', 'offset');
-
-		$languages = $this->make_query($args)->get_result();
+		$languages = $this->get_result();
 		$languages->walk(function(&$language) {
 			$language->projects = $this->get_projects($language->id);
 			$language->users    = $this->get_users($language->id);

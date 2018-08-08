@@ -54,15 +54,14 @@ class document_controller extends controller {
 	}
 
 	public function index_view($vars) {
+		$documents = $this->get_result();
+		$documents->walk([$this, 'fill_document']);
+
 		$proj_id = get_filter('project');
-		$vars['project'] = $this->get_project($proj_id);
+		$project = $this->get_project($proj_id);
 
-		$lang_id = get_filter('language') ?: $vars['project']->default_language_id;
-
-		$limit = get_per_page();
-		$offset = get_offset(get_page(), $limit);
-
-		$vars['documents'] = $this->get_documents($proj_id, $lang_id, $limit, $offset);
+		$vars['documents'] = $documents;
+		$vars['project']   = $project;
 
 		return $vars;
 	}
@@ -139,20 +138,6 @@ class document_controller extends controller {
 		return $vars;
 	}
 
-	public function get_documents($proj_id, $lang_id, $limit = DEFAULT_PER_PAGE, $offset = 0) {
-		$args = compact('limit', 'offset');
-		$args['args'] = [
-			'project_document'  => $proj_id,
-			'language_document' => $lang_id,
-			'revision'          => 0
-		];
-
-		$documents = $this->make_query($args)->get_result();
-		$documents->walk([$this, 'fill_document']);
-
-		return $documents;
-	}
-
 	public function get_document($doc_id, $lang_id = false) {
 		if ($lang_id) {
 			$query = $this->make_query([
@@ -180,6 +165,19 @@ class document_controller extends controller {
 		$document->user     = $this->get_record($document->user_id, 'user');
 
 		return $document;
+	}
+
+	protected function filter_result_args(&$args) {
+		$proj_id = get_filter('project');
+		$project = $this->get_project($proj_id);
+
+		$lang_id = get_filter('language') ?: $project->default_language_id;
+
+		$args['args'] = [
+			'project_document'  => $proj_id,
+			'language_document' => $lang_id,
+			'revision'          => 0
+		];
 	}
 
 	protected function get_project($proj_id) {

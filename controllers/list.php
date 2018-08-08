@@ -39,13 +39,14 @@ class list_controller extends controller {
 	}
 
 	public function index_view($vars) {
+		$lists = $this->get_result();
+		$lists->walk([$this, 'fill_list']);
+
 		$proj_id = get_filter('project');
-		$vars['project'] = $this->get_record($proj_id, 'project');
+		$project = $this->get_record($proj_id, 'project');
 
-		$limit = get_per_page();
-		$offset = get_offset(get_page(), $limit);
-
-		$vars['lists'] = $this->get_lists($proj_id, $limit, $offset);
+		$vars['lists']   = $lists;
+		$vars['project'] = $project;
 
 		return $vars;
 	}
@@ -105,16 +106,6 @@ class list_controller extends controller {
 		return $vars;
 	}
 
-	public function get_lists($proj_id, $limit = DEFAULT_PER_PAGE, $offset = 0) {
-		$args = compact('limit', 'offset');
-		$args['args'] = ['project_list' => $proj_id];
-
-		$lists = $this->make_query($args, 'list')->get_result();
-		$lists->walk([$this, 'fill_list']);
-
-		return $lists;
-	}
-
 	public function get_list($list_id) {
 		if ($list = $this->get_record($list_id))
 			return $this->fill_list($list);
@@ -127,6 +118,10 @@ class list_controller extends controller {
 		$list->user    = $this->get_record($list->user_id, 'user');
 
 		return $list;
+	}
+
+	protected function filter_result_args(&$args) {
+		$args['args'] = ['project_list' => get_filter('project')];
 	}
 
 	protected function get_project($proj_id) {
