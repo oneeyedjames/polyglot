@@ -1,43 +1,27 @@
 <?php
 
 class controller extends controller_base {
-	use password;
-
 	private static $_default_controller = false;
-	private static $_default_database   = false;
-	private static $_default_cache      = false;
 
 	private static $_controllers = [];
 
-	public static function init($database = false, $cache = false) {
-		if (!self::$_default_database)
-			self::$_default_database = $database;
-
-		if (!self::$_default_cache)
-			self::$_default_cache = $cache;
-	}
-
 	public static function load($resource = false) {
-		$database = self::$_default_database;
-		$cache    = self::$_default_cache;
-
-		if (!$database)
-			trigger_error("No default database", E_USER_ERROR);
-
 		if ($resource) {
 			if (!isset(self::$_controllers[$resource])) {
 				$class = "{$resource}_controller";
 
 				if (class_exists($class))
-					self::$_controllers[$resource] = new $class($database, $cache);
-				else
-					self::$_controllers[$resource] = new self($resource, $database, $cache);
+					$class = 'controller';
+
+				$resource_object = resource::load($resource);
+
+				self::$_controllers[$resource] = new $class($resource_object);
 			}
 
 			return self::$_controllers[$resource];
 		} else {
 			if (!self::$_default_controller)
-				self::$_default_controller = new self(false, $database, $cache);
+				self::$_default_controller = new default_controller(resource::load());
 
 			return self::$_default_controller;
 		}
@@ -46,117 +30,20 @@ class controller extends controller_base {
 
 
 	public function do_action($action) {
-		if (in_array($action, ['login', 'logout', 'reset-password']))
-			return parent::do_action($action);
-
 		if ($this->is_authorized($action))
 			return parent::do_action($action);
 
 		http_response_code(401);
 	}
 
-	public function login_action($get, $post) {
-		extract(@$post['login'], EXTR_SKIP);
-
-		$result = $this->make_query([
-			'args'  => compact('email'),
-			'limit' => 1
-		], 'user')->get_result();
-
-		if ($record = $result->first) {
-			if (password_verify($password, $record->password)) {
-				$user = new user($record);
-				$token = $user->create_token();
-				$expire = time() + (86400 * 7);
-
-				setcookie('user_token', $token, $expire);
-
-				$sql = 'INSERT INTO session (user_id, token, expire) VALUES (?, ?, ?)';
-
-				$this->execute($sql, intval($user->id), $token, date('Y-m-d H:i:s', $expire));
-
-				return ['view' => 'home'];
-			}
-		}
-
-		return $this->logout_action($get, $post);
-	}
-
-	public function logout_action($get, $post) {
-		setcookie('user_token', null, time() - 300);
-
-		return ['view', 'login-form'];
-	}
-
-	public function reset_password_action($get, $post) {
-		if (isset($post['email'])) {
-			$this->create_reset_token($post['email']);
-		} elseif (isset($post['token'], $post['login']['password'], $post['login']['password-confirm'])) {
-			$this->reset_password($post['token'], $post['login']['password'],
-				$post['login']['password-confirm']);
-
-			return ['view' => 'login-form'];
-		}
-
-		return [];
-	}
-
 	public function delete_action($get, $post) {
 		if ($id = get_resource_id())
-			$this->remove_record($id);
+			$this->_resource->remove_record($id);
 
 		return ['resource' => $this->resource];
 	}
 
-	public function index_view($vars) {
-		$vars['projects'] = $this->make_query([
-			'bridge' => 'up_project',
-			'args'   => [
-				'up_user' => SESSION_USER_ID
-			]
-		], 'project')->get_result();
 
-		$vars['languages'] = $this->make_query([
-			'bridge' => 'ul_language',
-			'args'   => [
-				'ul_user' => SESSION_USER_ID
-			]
-		], 'language')->get_result();
-
-		return $vars;
-	}
-
-	public function reset_password_form_view($vars) {
-		if ($token = get_filter('token')) {
-			$user = $this->make_query([
-				'limit' => 1,
-				'args'  => [
-					'reset_token' => $token
-				]
-			], 'user')->get_result()->first;
-
-			if ($user) {
-				if (strtotime($user->reset_expire) > time()) {
-					$vars['user'] = $user;
-				} else {
-					$vars['error'] = "Expired token.";
-
-					$user->reset_token  = null;
-					$user->reset_expire = null;
-
-					$this->put_record($user, 'user');
-				}
-
-				$vars['token'] = $token;
-			} else {
-				$vars['error'] = "Invalid token.";
-			}
-		} else {
-			$vars['error'] = "Invalid token.";
-		}
-
-		return $vars;
-	}
 
 	public function page_limit_view($vars) {
 		if (!isset($vars['per_page']))
@@ -229,7 +116,9 @@ class controller extends controller_base {
 					if ($permission->override)
 						return true;
 
-					$record = $this->get_record($resource_id);
+					$resource_object = resource::load($resource);
+
+					$record = $resource_object->get_record($resource_id);
 
 					return $record->user_id == $user->id;
 				} else {
@@ -265,31 +154,6 @@ class controller extends controller_base {
 
 
 
-	protected function get_result($limit = false, $offset = false) {
-		if ($limit === false)
-			$limit = get_per_page();
-
-		if ($offset === false)
-			$offset = get_offset(get_page(), $limit);
-
-		$args = compact('limit', 'offset');
-
-		if ($sort = get_sorting())
-			$args['sort'] = $sort;
-		elseif ($sort = $this->get_default_sorting())
-			$args['sort'] = $sort;
-
-		$this->filter_result_args($args);
-
-		return $this->make_query($args)->get_result();
-	}
-
-	protected function get_default_sorting() { return false; }
-
-	protected function filter_result_args(&$args) {}
-
-
-
 	// TODO backport to PHPunk
 	public function pre_render($view, &$result) {
 		$method = 'api_' . str_replace('-', '_', $view) . '_view';
@@ -307,12 +171,12 @@ class controller extends controller_base {
 	}
 
 	public function api_index_view() {
-		return $this->get_result();
+		return $this->_resource->get_result();
 	}
 
 	public function api_item_view() {
 		if ($record_id = get_resource_id()) {
-			if ($record = $this->get_record($record_id))
+			if ($record = $this->_resource->get_record($record_id))
 				return $record;
 
 			return new api_error('api_record_not_found',
