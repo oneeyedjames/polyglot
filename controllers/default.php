@@ -8,40 +8,32 @@ class default_controller extends controller {
 	public function __get($key) {
 		switch ($key) {
 			case 'resource':
-				return 'default';
+				return false;
 			default:
 				return parent::__get($key);
 		}
 	}
 
-
-
-	public function do_action($action) {
+	protected function is_authorized($action, $resource = false) {
 		if (in_array($action, ['login', 'logout', 'reset-password']))
-			return parent::do_action($action);
+			return true;
 
-		return parent::do_action($action);
+		return parent::is_authorized($action);
 	}
+
+
 
 	public function login_action($get, $post) {
 		extract(@$post['login'], EXTR_SKIP);
 
-		$result = $this->_resource->make_query([
-			'args'  => compact('email'),
-			'limit' => 1
-		])->get_result();
-
-		if ($record = $result->first) {
+		if ($record = $this->_resource->get_by_email($email)) {
 			if (password_verify($password, $record->password)) {
 				$user = new user($record);
 				$token = $user->create_token();
 				$expire = time() + (86400 * 7);
 
-				setcookie('user_token', $token, $expire);
-
-				$sql = 'INSERT INTO session (user_id, token, expire) VALUES (?, ?, ?)';
-
-				$this->_resource->execute($sql, intval($user->id), $token, date('Y-m-d H:i:s', $expire));
+				if ($this->_resource->create_session($user->id, $token, $expire))
+					setcookie('user_token', $token, $expire);
 
 				return ['view' => 'home'];
 			}
@@ -74,19 +66,8 @@ class default_controller extends controller {
 
 
 	public function index_view($vars) {
-		$vars['projects'] = resource::load('project')->make_query([
-			'bridge' => 'up_project',
-			'args'   => [
-				'up_user' => SESSION_USER_ID
-			]
-		])->get_result();
-
-		$vars['languages'] = resource::load('language')->make_query([
-			'bridge' => 'ul_language',
-			'args'   => [
-				'ul_user' => SESSION_USER_ID
-			]
-		])->get_result();
+		$vars['projects']  = resource::load('project')->get_by_user_id(SESSION_USER_ID);
+		$vars['languages'] = resource::load('language')->get_by_user_id(SESSION_USER_ID);
 
 		return $vars;
 	}

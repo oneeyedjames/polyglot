@@ -41,6 +41,10 @@ class resource extends resource_base {
 		}
 	}
 
+	public function get_all() {
+		return $this->make_query([])->get_result();
+	}
+
 	public function get_result($limit = false, $offset = false) {
 		if ($limit === false)
 			$limit = get_per_page();
@@ -60,7 +64,7 @@ class resource extends resource_base {
 		return $this->make_query($args)->get_result();
 	}
 
-	protected function get_default_sorting() { return false; }
+	public function get_default_sorting() { return false; }
 
-	protected function filter_result_args(&$args) {}
+	public function filter_result_args(&$args) {}
 }

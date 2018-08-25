@@ -1,10 +1,6 @@
 <?php
 
 class project_controller extends controller {
-	public function __construct($database, $cache = null) {
-		parent::__construct('project', $database, $cache);
-	}
-
 	public function save_action($get, $post) {
 		$project = new object();
 		$project->id = get_resource_id();
@@ -79,8 +75,10 @@ class project_controller extends controller {
 	}
 
 	public function index_view($vars) {
-		$projects = $this->get_result();
-		$projects->walk([$this, 'fill_project']);
+		$projects = $this->_resource->get_result();
+		$projects->walk(function(&$project) {
+			$this->fill_project($project);
+		});
 
 		$vars['projects'] = $projects;
 
@@ -89,7 +87,7 @@ class project_controller extends controller {
 
 	public function item_view($vars) {
 		if ($proj_id = get_resource_id()) {
-			$project = $this->get_record($proj_id);
+			$project = $this->_resource->get_record($proj_id);
 
 			$this->fill_project($project);
 
@@ -101,24 +99,24 @@ class project_controller extends controller {
 
 	public function form_meta_view($vars) {
 		if ($proj_id = get_resource_id())
-			$vars['project'] = $this->get_record($proj_id);
+			$vars['project'] = $this->_resource->get_record($proj_id);
 		else
 			$vars['project'] = new object();
 
-		$vars['languages'] = $this->make_query([], 'language')->get_result();
+		$vars['languages'] = resource::load('language')->get_all();
 
 		return $vars;
 	}
 
 	public function form_language_view($vars) {
 		if ($proj_id = get_resource_id()) {
-			$project = $this->get_record($proj_id);
+			$project = $this->_resource->get_record($proj_id);
 			$project->languages = $this->get_languages($proj_id)->key_map(function($language) {
 				return $language->id;
 			});
 
 			$vars['project'] = $project;
-			$vars['languages'] = $this->make_query([], 'language')->get_result();
+			$vars['languages'] = resource::load('language')->get_all();
 		}
 
 		return $vars;
@@ -126,14 +124,14 @@ class project_controller extends controller {
 
 	public function form_user_view($vars) {
 		if ($proj_id = get_resource_id()) {
-			$project = $this->get_record($proj_id);
+			$project = $this->_resource->get_record($proj_id);
 			$project->users = $this->get_users($proj_id)->key_map(function($user) {
 				return $user->id;
 			});
 
 			$vars['project'] = $project;
-			$vars['users'] = $this->make_query([], 'user')->get_result();
-			$vars['roles'] = $this->make_query([], 'role')->get_result();
+			$vars['users'] = resource::load('user')->get_all();
+			$vars['roles'] = resource::load('role')->get_all();
 		}
 
 		return $vars;
@@ -141,7 +139,7 @@ class project_controller extends controller {
 
 	public function card_languages_view($vars) {
 		if ($proj_id = get_resource_id()) {
-			$project = $this->get_record($proj_id);
+			$project = $this->_resource->get_record($proj_id);
 			$project->languages = $this->get_languages($proj_id);
 
 			$vars['project'] = $project;
@@ -152,7 +150,7 @@ class project_controller extends controller {
 
 	public function card_users_view($vars) {
 		if ($proj_id = get_resource_id()) {
-			$project = $this->get_record($proj_id);
+			$project = $this->_resource->get_record($proj_id);
 			$project->users = $this->get_users($proj_id);
 
 			$vars['project'] = $project;
@@ -163,7 +161,7 @@ class project_controller extends controller {
 
 	public function card_documents_view($vars) {
 		if ($proj_id = get_resource_id()) {
-			$project = $this->get_record($proj_id);
+			$project = $this->_resource->get_record($proj_id);
 			$project->documents = $this->get_documents($proj_id);
 
 			$vars['project'] = $project;
@@ -174,7 +172,7 @@ class project_controller extends controller {
 
 	public function card_lists_view($vars) {
 		if ($proj_id = get_resource_id()) {
-			$project = $this->get_record($proj_id);
+			$project = $this->_resource->get_record($proj_id);
 			$project->lists = $this->get_lists($proj_id);
 
 			$vars['project'] = $project;
@@ -184,7 +182,7 @@ class project_controller extends controller {
 	}
 
 	public function fill_project(&$project) {
-		$project->default_language = $this->get_record($project->default_language_id, 'language');
+		$project->default_language = resource::load('language')->get_record($project->default_language_id);
 
 		$project->languages = $this->get_languages($project->id);
 		$project->documents = $this->get_documents($project->id);
@@ -194,46 +192,20 @@ class project_controller extends controller {
 		return $project;
 	}
 
-	protected function get_default_sorting() {
-		return ['title' => 'asc'];
+	protected function get_languages($proj_id) {
+		return resource::load('language')->get_by_project_id($proj_id);
 	}
 
-	protected function filter_result_args(&$args) {
-		$user = get_session_user();
+	protected function get_documents($proj_id) {
+		return resource::load('document')->get_by_project_id($proj_id);
 
-		if (!$user->admin) {
-			$args['bridge'] = 'up_project';
-			$args['args'] = ['up_user' => SESSION_USER_ID];
-		}
-	}
-
-	protected function get_languages($proj_id, $limit = DEFAULT_PER_PAGE, $offset = 0) {
-		$args = compact('limit', 'offset');
-		$args['bridge'] = 'pl_language';
-		$args['args'] = ['pl_project' => $proj_id];
-
-		return $this->make_query($args, 'language')->get_result();
-	}
-
-	protected function get_documents($proj_id, $limit = DEFAULT_PER_PAGE, $offset = 0) {
-		$args = compact('limit', 'offset');
-		$args['args'] = [
-			'project_document' => $proj_id,
-			'master_id'        => 0,
-			'revision'         => 0
-		];
-
-		$documents = $this->make_query($args, 'document')->get_result();
 		$documents->walk(function(&$document) {
-			$args = [
+			$translations = $this->make_query([
 				'args' => [
 					'master_id' => $document->master_id ?: $document->id,
 					'revision'  => 0
 				]
-			];
-
-			$translations = $this->make_query($args, 'document')->get_result();
-			$translations = $translations->key_map(function($translation) {
+			], 'document')->get_result()->key_map(function($translation) {
 				return $translation->language_id;
 			});
 
@@ -243,33 +215,11 @@ class project_controller extends controller {
 		return $documents;
 	}
 
-	protected function get_lists($proj_id, $limit = DEFAULT_PER_PAGE, $offset = 0) {
-		$args = compact('limit', 'offset');
-		$args['args'] = [
-			'project_list' => $proj_id,
-			'master_id'    => 0,
-			'revision'     => 0
-		];
-
-		return $this->make_query($args, 'list')->get_result();
+	protected function get_lists($proj_id) {
+		return resource::load('list')->get_by_project_id($proj_id);
 	}
 
-	protected function get_users($proj_id, $limit = DEFAULT_PER_PAGE, $offset = 0) {
-		$args = compact('limit', 'offset');
-		$args['bridge'] = 'up_user';
-		$args['args'] = ['up_project' => $proj_id];
-
-		$users = $this->make_query($args, 'user')->get_result();
-		$users->walk(function(&$user) use ($proj_id) {
-			$user->role = $this->make_query([
-				'bridge' => 'up_role',
-				'args'   => [
-					'up_user'    => $user->id,
-					'up_project' => $proj_id
-				]
-			], 'role')->get_result()->first;
-		});
-
-		return $users;
+	protected function get_users($proj_id) {
+		return resource::load('user')->get_by_project_id($proj_id);
 	}
 }

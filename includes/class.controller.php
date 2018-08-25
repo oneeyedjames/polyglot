@@ -10,7 +10,7 @@ class controller extends controller_base {
 			if (!isset(self::$_controllers[$resource])) {
 				$class = "{$resource}_controller";
 
-				if (class_exists($class))
+				if (!class_exists($class))
 					$class = 'controller';
 
 				$resource_object = resource::load($resource);
@@ -75,7 +75,7 @@ class controller extends controller_base {
 		// TODO get access to resource-specific controller
 
 		if (!($sort = get_sorting()))
-			$sort = $this->get_default_sorting();
+			$sort = $this->_resource->get_default_sorting();
 
 		if ($sort) {
 			$key   = key($sort);
