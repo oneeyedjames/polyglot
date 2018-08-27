@@ -5,25 +5,34 @@ class language_resource extends resource {
 		parent::__construct('language', $database, $cache);
 	}
 
-	public function get_by_id($lang_id) {
-		return $this->make_query([
-			'args' => ['id' => $lang_id]
-		])->get_result();
+	protected function get_default_sorting() {
+		return ['code' => 'asc'];
 	}
 
-	public function get_by_user_id($user_id) {
-		return $this->make_query([
-			'bridge' => 'ul_language',
-			'args'   => [
-				'ul_user' => $user_id
-			]
-		])->get_result();
+	public function get_record($lang_id, $rels = []) {
+		if ($language = parent::get_record($lang_id)) {
+			if (in_array('project', $rels))
+				$language->projects = resource::load('project')->get_by_language_id($lang_id);
+
+			if (in_array('user', $rels))
+				$language->users = resource::load('user')->get_by_language_id($lang_id);
+		}
+
+		return $language;
 	}
 
 	public function get_by_project_id($proj_id, $limit = DEFAULT_PER_PAGE, $offset = 0) {
 		$args = compact('limit', 'offset');
 		$args['bridge'] = 'pl_language';
 		$args['args'] = ['pl_project' => $proj_id];
+
+		return $this->make_query($args)->get_result();
+	}
+
+	public function get_by_user_id($user_id, $limit = DEFAULT_PER_PAGE, $offset = 0) {
+		$args = compact('limit', 'offset');
+		$args['bridge'] = 'ul_language';
+		$args['args'] = ['ul_user' => $user_id];
 
 		return $this->make_query($args)->get_result();
 	}

@@ -63,6 +63,18 @@ class user_resource extends resource {
 
 
 
+	public function get_record($user_id, $rels = []) {
+		if ($user = parent::get_record($user_id)) {
+			if (in_array('project', $rels))
+				$user->projects = resource::load('project')->get_by_user_id($user_id);
+
+			if (in_array('language', $rels))
+				$user->languages = resource::load('language')->get_by_user_id($user_id);
+		}
+
+		return $user;
+	}
+
 	public function get_by_email($email) {
 		return $this->make_query([
 			'args'  => compact('email'),
@@ -82,6 +94,14 @@ class user_resource extends resource {
 		}
 
 		return $users;
+	}
+
+	public function get_by_language_id($lang_id, $limit = DEFAULT_PER_PAGE, $offset = 0) {
+		$args = compact('limit', 'offset');
+		$args['bridge'] = 'ul_user';
+		$args['args'] = ['ul_language' => $lang_id];
+
+		return $this->make_query($args, 'user')->get_result();
 	}
 
 	protected function get_roles(&$users, $proj_id) {
