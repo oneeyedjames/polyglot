@@ -3,10 +3,9 @@
 class language_resource extends resource {
 	public function __construct($database, $cache = false) {
 		parent::__construct('language', $database, $cache);
-	}
 
-	protected function get_default_sorting() {
-		return ['code' => 'asc'];
+		$this->register_relation('projects', 'project', 'get_by_language_id');
+		$this->register_relation('users',    'user',    'get_by_language_id');
 	}
 
 	public function get_record($lang_id, $rels = []) {
@@ -35,5 +34,12 @@ class language_resource extends resource {
 		$args['args'] = ['ul_user' => $user_id];
 
 		return $this->make_query($args)->get_result();
+	}
+
+	protected function get_default_args() {
+		$args = parent::get_default_args();
+		$args['sort'] = ['code' => 'asc'];
+
+		return $args;
 	}
 }

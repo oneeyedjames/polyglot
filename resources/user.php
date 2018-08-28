@@ -3,6 +3,9 @@
 class user_resource extends resource {
 	public function __construct($database, $cache = false) {
 		parent::__construct('user', $database, $cache);
+
+		$this->register_relation('projects',  'project',  'get_by_user_id');
+		$this->register_relation('languages', 'language', 'get_by_user_id');
 	}
 
 	public function create_session($user_id, $token, $expire) {

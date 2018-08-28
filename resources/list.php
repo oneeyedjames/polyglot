@@ -3,6 +3,8 @@
 class list_resource extends resource {
 	public function __construct($database, $cache = false) {
 		parent::__construct('list', $database, $cache);
+
+		$this->register_relation('terms', 'term', 'get_by_list_id');
 	}
 
 	public function get_by_project_id($proj_id, $limit = DEFAULT_PER_PAGE, $offset = 0) {

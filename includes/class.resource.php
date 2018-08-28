@@ -7,6 +7,8 @@ class resource extends resource_base {
 
 	private static $_resources = [];
 
+	private $_relations = [];
+
 	public static function init($database = false, $cache = false) {
 		if (!self::$_default_database)
 			self::$_default_database = $database;
@@ -45,26 +47,43 @@ class resource extends resource_base {
 		return $this->make_query([])->get_result();
 	}
 
-	public function get_result($limit = false, $offset = false) {
-		if ($limit === false)
-			$limit = get_per_page();
+	public function get_result($args = []) {
+		$defaults = $this->get_default_args();
 
-		if ($offset === false)
-			$offset = get_offset(get_page(), $limit);
-
-		$args = compact('limit', 'offset');
-
-		if ($sort = get_sorting())
-			$args['sort'] = $sort;
-		elseif ($sort = $this->get_default_sorting())
-			$args['sort'] = $sort;
-
-		$this->filter_result_args($args);
+		$args = array_merge($defaults, $args);
+		$args = $this->filter_args($args);
 
 		return $this->make_query($args)->get_result();
 	}
 
-	public function get_default_sorting() { return false; }
+	public function get_record($id, $rels = []) {
+		if ($record = parent::get_record($id)) {
+			foreach ($rels as $rel_name) {
+				if ($relation = @$this->_relations[$rel_name]) {
+					$resource = resource::load($relation->resource);
 
-	public function filter_result_args(&$args) {}
+					if (method_exists($resource, $relation->method))
+						$record[$rel_name] = call_user_func([$resource, $relation->method], $record->id);
+				}
+			}
+		}
+
+		return $record;
+	}
+
+	protected function get_default_args() {
+		return [
+			'limit'  => get_per_page(),
+			'offset' => get_offset(get_page(), get_per_page()),
+			'sort'   => get_sorting()
+		];
+	}
+
+	protected function filter_args($args) {
+		return $args;
+	}
+
+	protected function register_relation($name, $resource, $method) {
+		$this->_relations[$name] = new object(compact($resource, $method));
+	}
 }

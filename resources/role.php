@@ -3,6 +3,8 @@
 class role_resource extends resource {
 	public function __construct($database, $cache) {
 		parent::__construct('role', $database, $cache);
+
+		$this->register_relation('permissions', 'permission', 'get_by_role_id');
 	}
 
 	public function add_permission($role_id, $perm_id) {

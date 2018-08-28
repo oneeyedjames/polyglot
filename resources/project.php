@@ -3,6 +3,11 @@
 class project_resource extends resource {
 	public function __construct($database, $cache = false) {
 		parent::__construct('project', $database, $cache);
+
+		$this->register_relation('languages', 'language', 'get_by_project_id');
+		$this->register_relation('users',     'user',     'get_by_project_id');
+		$this->register_relation('documents', 'document', 'get_by_project_id');
+		$this->register_relation('lists',     'list',     'get_by_project_id');
 	}
 
 	public function get_record($proj_id, $rels = []) {
