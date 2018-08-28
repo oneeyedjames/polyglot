@@ -5,18 +5,18 @@ class document_resource extends resource {
 		parent::__construct('document', $database, $cache);
 	}
 
-	public function get_by_project_id($proj_id) {
-		$documents = $this->make_query([
-			'args' => [
-				'project_document' => $proj_id,
-				'master_id'        => 0,
-				'revision'         => 0
-			]
-		])->get_result();
+	public function get_by_project_id($proj_id, $limit = DEFAULT_PER_PAGE, $offset = 0) {
+		$args = compact('limit', 'offset');
+		$args['args'] = [
+			'project_document' => $proj_id,
+			'master_id'        => 0,
+			'revision'         => 0
+		];
 
-		if ($documents->found) {
+		$documents = $this->make_query($args)->get_result();
+
+		if ($documents->found)
 			$this->get_translations($documents);
-		}
 
 		return $documents;
 	}
