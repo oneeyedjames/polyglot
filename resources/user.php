@@ -63,6 +63,29 @@ class user_resource extends resource {
 
 
 
+	public function add_project($user_id, $proj_id, $role_id) {
+		$sql = 'INSERT INTO `user_project_map` (`user_id`, `project_id`, `role_id`) VALUES (?, ?, ?)';
+		return $this->execute($sql, intval($user_id), intval($proj_id), intval($role_id));
+	}
+
+	public function remove_project($user_id, $proj_id) {
+		$sql = 'DELETE FROM `user_project_map` WHERE `user_id` = ? AND `project_id` = ?';
+		return $this->execute($sql, intval($user_id), intval($proj_id));
+	}
+
+	public function add_language($user_id, $lang_id) {
+		$sql = 'INSERT INTO `user_language_map` (`user_id`, `language_id`) VALUES (?, ?)';
+		return $this->execute($sql, intval($user_id), intval($lang_id));
+	}
+
+	public function remove_language($user_id, $lang_id) {
+		$sql = 'DELETE FROM `user_language_map` WHERE `user_id` = ? AND `language_id` = ?';
+		return $this->execute($sql, intval($user_id), intval($lang_id));
+	}
+
+
+
+
 	public function get_record($user_id, $rels = []) {
 		if ($user = parent::get_record($user_id)) {
 			if (in_array('project', $rels))
@@ -102,6 +125,33 @@ class user_resource extends resource {
 		$args['args'] = ['ul_language' => $lang_id];
 
 		return $this->make_query($args, 'user')->get_result();
+	}
+
+	protected function get_projects($user_id, $limit = DEFAULT_PER_PAGE, $offset = 0) {
+		$args = compact('limit', 'offset');
+		$args['bridge'] = 'up_project';
+		$args['args'] = ['up_user' => $user_id];
+
+		$projects = $this->make_query($args, 'project')->get_result();
+		$projects->walk(function(&$project) {
+			$project->role = $this->make_query([
+				'bridge' => 'up_role',
+				'args'   => [
+					'up_user'    => $user_id,
+					'up_project' => $project->id
+				]
+			], 'role')->get_result()->first;
+		});
+
+		return $projects;
+	}
+
+	protected function get_languages($user_id, $limit = DEFAULT_PER_PAGE, $offset = 0) {
+		$args = compact('limit', 'offset');
+		$args['bridge'] = 'ul_language';
+		$args['args'] = ['ul_user' => $user->id];
+
+		return $this->make_query($args, 'language')->get_result();
 	}
 
 	protected function get_roles(&$users, $proj_id) {
