@@ -29,6 +29,15 @@ class controller extends controller_base {
 
 
 
+	public function __call($func, $args) {
+		if (method_exists($this->_resource, $func))
+			return call_user_func_array([$this->_resource, $func], $args);
+
+		trigger_error("Call to undefined method controller::$func()", E_USER_WARNING);
+	}
+
+
+
 	public function do_action($action) {
 		if ($this->is_authorized($action))
 			return parent::do_action($action);
@@ -38,7 +47,7 @@ class controller extends controller_base {
 
 	public function delete_action($get, $post) {
 		if ($id = get_resource_id())
-			$this->_resource->remove_record($id);
+			$this->remove_record($id);
 
 		return ['resource' => $this->resource];
 	}
@@ -75,7 +84,7 @@ class controller extends controller_base {
 		// TODO get access to resource-specific controller
 
 		if (!($sort = get_sorting()))
-			$sort = $this->_resource->get_default_sorting();
+			$sort = ['title' => 'asc'];
 
 		if ($sort) {
 			$key   = key($sort);
@@ -171,12 +180,12 @@ class controller extends controller_base {
 	}
 
 	public function api_index_view() {
-		return $this->_resource->get_result();
+		return $this->get_result();
 	}
 
 	public function api_item_view() {
 		if ($record_id = get_resource_id()) {
-			if ($record = $this->_resource->get_record($record_id))
+			if ($record = $this->get_record($record_id))
 				return $record;
 
 			return new api_error('api_record_not_found',

@@ -7,7 +7,8 @@ class resource extends resource_base {
 
 	private static $_resources = [];
 
-	private $_relations = [];
+	private $_parent_relations = [];
+	private $_child_relations  = [];
 
 	public static function init($database = false, $cache = false) {
 		if (!self::$_default_database)
@@ -47,19 +48,68 @@ class resource extends resource_base {
 		return $this->make_query([])->get_result();
 	}
 
-	public function get_result($args = []) {
+	public function get_result($args = [], $rels = []) {
 		$defaults = $this->get_default_args();
 
 		$args = array_merge($defaults, $args);
 		$args = $this->filter_args($args);
 
-		return $this->make_query($args)->get_result();
+		$result = $this->make_query($args)->get_result();
+		$record_ids = $result->map(function($record) {
+			return $record->id;
+		})->toArray();
+
+		foreach ($rels as $rel_name) {
+			if ($relation = @$this->_parent_relations[$rel_name]) {
+				$resource = resource::load($relation->resource);
+
+				$rel_ids = $result->map(function($record) use ($relation) {
+					return $record[$relation->field];
+				})->toArray();
+
+				$rel_result = $this->make_query([
+					'args' => ['id' => $rel_ids]
+				])->get_result();
+
+				$result->walk(function(&$record) use ($relation, $rel_name, $rel_result) {
+					foreach ($rel_result as $rel_record) {
+						if ($record[$relation->field] == $rel_record->id) {
+							$record[$rel_name] = $rel_record;
+							break;
+						}
+					}
+				});
+			} elseif ($relation = @$this->_child_relations[$rel_name]) {
+				$resource = resource::load($relation->resource);
+
+				if (method_exists($resource, $relation->method)) {
+					$rel_result = call_user_func([$resource, $relation->method], $record_ids);
+
+					$result->walk(function(&$record) use ($rel_name, $rel_result) {
+						$matches = [];
+
+						foreach ($rel_result as $rel_record) {
+							if ($record->id == $rel_record["{$this->name}_id"])
+								$matches[] = $rel_record;
+						}
+
+						$record[$rel_name] = new database_result($matches, count($matches));
+					});
+				}
+			}
+		}
+
+		return $result;
 	}
 
 	public function get_record($id, $rels = []) {
 		if ($record = parent::get_record($id)) {
 			foreach ($rels as $rel_name) {
-				if ($relation = @$this->_relations[$rel_name]) {
+				if ($relation = @$this->_parent_relations[$rel_name]) {
+					$resource = resource::load($relation->resource);
+
+					$record[$rel_name] = $resource->get_record($record[$relation->field]);
+				} elseif ($relation = @$this->_child_relations[$rel_name]) {
 					$resource = resource::load($relation->resource);
 
 					if (method_exists($resource, $relation->method))
@@ -72,18 +122,24 @@ class resource extends resource_base {
 	}
 
 	protected function get_default_args() {
-		return [
+		$defaults = [
 			'limit'  => get_per_page(),
-			'offset' => get_offset(get_page(), get_per_page()),
-			'sort'   => get_sorting()
+			'offset' => get_offset(get_page(), get_per_page())
 		];
+
+		if ($sort = get_sorting())
+			$defaults['sort'] = $sort;
+
+		return $defaults;
 	}
 
-	protected function filter_args($args) {
-		return $args;
+	protected function filter_args($args) { return $args; }
+
+	protected function register_parent_relation($name, $resource, $field) {
+		$this->_parent_relations[$name] = new object(compact('resource', 'field'));
 	}
 
-	protected function register_relation($name, $resource, $method) {
-		$this->_relations[$name] = new object(compact($resource, $method));
+	protected function register_child_relation($name, $resource, $method) {
+		$this->_child_relations[$name] = new object(compact('resource', 'method'));
 	}
 }
