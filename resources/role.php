@@ -4,7 +4,7 @@ class role_resource extends resource {
 	public function __construct($database, $cache) {
 		parent::__construct('role', $database, $cache);
 
-		$this->register_relation('permissions', 'permission', 'get_by_role_id');
+		$this->register_child_relation('permissions', 'permission', 'get_by_role_id');
 	}
 
 	public function add_permission($role_id, $perm_id) {
@@ -13,7 +13,7 @@ class role_resource extends resource {
 	}
 
 	public function remove_permission($role_id, $perm_id) {
-		$sql = 'DELETE FROM role_permission_map WHERE role_id = ? AND permission_id = ?';
+		$sql = 'DELETE FROM `role_permission_map` WHERE `role_id` = ? AND `permission_id` = ?';
 		return $this->execute($sql, intval($role_id), intval($perm_id));
 	}
 }

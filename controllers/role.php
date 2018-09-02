@@ -12,7 +12,7 @@ class role_controller extends controller {
 	        if (isset($post['role']['description']))
 	            $role->descrip = $post['role']['description'];
 
-	        $role->id = $this->_resource->put_record($role);
+	        $role->id = $this->put_record($role);
 		}
 
         return ['resource' => 'role', 'id' => $role->id];
@@ -27,7 +27,7 @@ class role_controller extends controller {
 				$post['permission']['action']
 			);
 
-			$this->_resource->add_permission($role_id, $permission->id);
+			$this->add_permission($role_id, $permission->id);
         }
 
         return ['resource' => 'role', 'id' => $role_id];
@@ -37,32 +37,27 @@ class role_controller extends controller {
         $role_id = get_resource_id();
 
         if (isset($post['permission']))
-			$this->_resource->remove_permission($role_id, $post['permission']);
+			$this->remove_permission($role_id, $post['permission']);
 
         return ['resource' => 'role', 'id' => $role_id];
     }
 
     public function index_view($vars) {
-        $roles = $this->get_result();
-		$roles->walk(function(&$role) {
-            $role->permissions = resource::load('permission')->get_by_role_id($role->id);
-		});
-
-		$vars['roles'] = $roles;
+        $vars['roles'] = $this->get_result([], ['permissions']);
 
         return $vars;
     }
 
     public function item_view($vars) {
         if ($role_id = get_resource_id())
-            $vars['role'] = $this->_resource->get_record($role_id, ['permissions']);
+            $vars['role'] = $this->get_record($role_id, ['permissions']);
 
         return $vars;
     }
 
     public function form_meta_view($vars) {
         if ($role_id = get_resource_id())
-			$vars['role'] = $this->_resource->get_record($role_id);
+			$vars['role'] = $this->get_record($role_id);
 		else
 			$vars['role'] = new object();
 
@@ -71,7 +66,7 @@ class role_controller extends controller {
 
     public function form_permission_view($vars) {
 		if ($role_id = get_resource_id())
-	        $vars['role'] = $this->_resource->get_record($role_id);
+	        $vars['role'] = $this->get_record($role_id);
 
 		$vars['resources'] = init_url()->resources;
 
@@ -80,7 +75,7 @@ class role_controller extends controller {
 
     public function card_permissions_view($vars) {
         if ($role_id = get_resource_id())
-            $vars['role'] = $this->_resource->get_record($role_id, 'permissions');
+            $vars['role'] = $this->get_record($role_id, 'permissions');
 
         return $vars;
     }
@@ -94,8 +89,8 @@ class role_controller extends controller {
 			$permission = $permissions->first;
 		} else {
 			$permission = new object();
-			$permission->resource = $post['permission']['resource'];
-			$permission->action   = $post['permission']['action'];
+			$permission->resource = $resource;
+			$permission->action   = $action;
 			$permission->id       = $resource_object->put_record($permission);
 		}
 
