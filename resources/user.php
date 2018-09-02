@@ -4,8 +4,8 @@ class user_resource extends resource {
 	public function __construct($database, $cache = false) {
 		parent::__construct('user', $database, $cache);
 
-		$this->register_relation('projects',  'project',  'get_by_user_id');
-		$this->register_relation('languages', 'language', 'get_by_user_id');
+		$this->register_child_relation('projects',  'project',  'get_by_user_id');
+		$this->register_child_relation('languages', 'language', 'get_by_user_id');
 	}
 
 	public function create_session($user_id, $token, $expire) {
@@ -88,18 +88,6 @@ class user_resource extends resource {
 
 
 
-
-	public function get_record($user_id, $rels = []) {
-		if ($user = parent::get_record($user_id)) {
-			if (in_array('project', $rels))
-				$user->projects = resource::load('project')->get_by_user_id($user_id);
-
-			if (in_array('language', $rels))
-				$user->languages = resource::load('language')->get_by_user_id($user_id);
-		}
-
-		return $user;
-	}
 
 	public function get_by_email($email) {
 		return $this->make_query([

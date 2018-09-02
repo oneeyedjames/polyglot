@@ -1,10 +1,6 @@
 <?php
 
 class user_controller extends controller {
-	public function __construct($database, $cache = null) {
-		parent::__construct('user', $database, $cache);
-	}
-
 	public function save_action($get, $post) {
 		$user = new object();
 		$user->id = get_resource_id();
@@ -19,7 +15,7 @@ class user_controller extends controller {
 			$user->email = $post['user']['email'];
 
 		if (isset($post['user']['admin']))
-			$user->email = boolval($post['user']['admin']);
+			$user->admin = boolval($post['user']['admin']);
 
 		if (!$user->id) {
 			if (empty($user->alias))
@@ -33,9 +29,9 @@ class user_controller extends controller {
 			$user->reset_expire = date('Y-m-d H:i:s', time() + 1800);
 
 			if (!empty($user->name) && !empty($user->email))
-				$this->_resource->put_record($user);
+				$this->put_record($user);
 		} else {
-			$this->_resource->put_record($user);
+			$this->put_record($user);
 		}
 
 		return ['resource' => 'user', 'id' => $user->id];
@@ -45,7 +41,7 @@ class user_controller extends controller {
 		$user_id = get_resource_id();
 
 		if (isset($post['project'], $post['role']))
-			$this->_resource->add_project($user_id, $post['project'], $post['role']);
+			$this->add_project($user_id, $post['project'], $post['role']);
 
 		return ['resource' => 'user', 'id' => $user_id];
 	}
@@ -54,7 +50,7 @@ class user_controller extends controller {
 		$user_id = get_resource_id();
 
 		if (isset($post['project']))
-			$this->_resource->remove_project($user_id, $post['project']);
+			$this->remove_project($user_id, $post['project']);
 
 		return ['resource' => 'users'];
 	}
@@ -63,7 +59,7 @@ class user_controller extends controller {
 		$user_id = get_resource_id();
 
 		if (isset($post['language']))
-			$this->_resource->add_language($user_id, $post['language']);
+			$this->add_language($user_id, $post['language']);
 
 		return ['resource' => 'user', 'id' => $user_id];
 	}
@@ -72,33 +68,27 @@ class user_controller extends controller {
 		$user_id = get_resource_id();
 
 		if (isset($post['language']))
-			$this->_resource->remove_language($user_id, $post['language']);
+			$this->remove_language($user_id, $post['language']);
 
 		return ['resource' => 'users'];
 	}
 
 	public function index_view($vars) {
-		$users = $this->get_result();
-		$users->walk(function(&$user) {
-			$user->languages = $this->get_languages($user->id);
-			$user->projects  = $this->get_projects($user->id);
-		});
-
-		$vars['users'] = $users;
+		$vars['users'] = $this->get_result([], ['projects', 'languages']);
 
 		return $vars;
 	}
 
 	public function item_view($vars) {
 		if ($user_id = get_resource_id())
-			$vars['user'] = $this->_resource->get_record($user_id, ['language', 'project']);
+			$vars['user'] = $this->get_record($user_id, ['projects', 'languages']);
 
 		return $vars;
 	}
 
 	public function form_meta_view($vars) {
 		if ($user_id = get_resource_id())
-			$vars['user'] = $this->_resource->get_record($user_id);
+			$vars['user'] = $this->get_record($user_id);
 		else
 			$vars['user'] = new object();
 
@@ -106,40 +96,34 @@ class user_controller extends controller {
 	}
 
 	public function form_project_view($vars) {
-		if ($user_id = get_resource_id())
-			$vars['user'] = $this->_resource->get_record($user_id);
-		else
-			$vars['user'] = new object();
-
-		// TODO replace with resource call
-		// $vars['projects'] = $this->make_query([], 'project')->get_result();
-		// $vars['roles'] = $this->make_query([], 'role')->get_result();
+		if ($user_id = get_resource_id()) {
+			$vars['user'] = $this->get_record($user_id);
+			$vars['projects'] = resource::load('project')->get_all();
+			$vars['roles'] = resource::load('role')->get_all();
+		}
 
 		return $vars;
 	}
 
 	public function form_language_view($vars) {
-		if ($user_id = get_resource_id())
-			$vars['user'] = $this->_resource->get_record($user_id);
-		else
-			$vars['user'] = new object();
-
-		// TODO replace with resource call
-		// $vars['languages'] = $this->make_query([], 'language')->get_result();
+		if ($user_id = get_resource_id()) {
+			$vars['user'] = $this->get_record($user_id);
+			$vars['languages'] = resource::load('language')->get_all();
+		}
 
 		return $vars;
 	}
 
 	public function card_projects_view($vars) {
 		if ($user_id = get_resource_id())
-			$vars['user'] = $this->_resource->get_record($user_id, ['project']);
+			$vars['user'] = $this->get_record($user_id, ['projects']);
 
 		return $vars;
 	}
 
 	public function card_languages_view($vars) {
 		if ($user_id = get_resource_id())
-			$vars['user'] = $this->_resource->get_record($user_id, ['language']);
+			$vars['user'] = $this->get_record($user_id, ['languages']);
 
 		return $vars;
 	}

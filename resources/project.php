@@ -4,22 +4,12 @@ class project_resource extends resource {
 	public function __construct($database, $cache = false) {
 		parent::__construct('project', $database, $cache);
 
-		$this->register_relation('languages', 'language', 'get_by_project_id');
-		$this->register_relation('users',     'user',     'get_by_project_id');
-		$this->register_relation('documents', 'document', 'get_by_project_id');
-		$this->register_relation('lists',     'list',     'get_by_project_id');
-	}
+		$this->register_parent_relation('default_language', 'language', 'default_language_id');
 
-	public function get_record($proj_id, $rels = []) {
-		if ($project = parent::get_record($proj_id)) {
-			if (in_array('language', $rels))
-				$project->languages = resource::load('language')->get_by_project_id($proj_id);
-
-			if (in_array('user', $rels))
-				$project->users = resource::load('user')->get_by_project_id($proj_id);
-		}
-
-		return $project;
+		$this->register_child_relation('languages', 'language', 'get_by_project_id');
+		$this->register_child_relation('users',     'user',     'get_by_project_id');
+		$this->register_child_relation('documents', 'document', 'get_by_project_id');
+		$this->register_child_relation('lists',     'list',     'get_by_project_id');
 	}
 
 	public function get_by_language_id($lang_id, $limit = DEFAULT_PER_PAGE, $offset = 0) {
