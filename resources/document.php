@@ -3,6 +3,26 @@
 class document_resource extends resource {
 	public function __construct($database, $cache) {
 		parent::__construct('document', $database, $cache);
+
+		$this->register_parent_relation('master',   'master',   'master_id');
+		$this->register_parent_relation('project',  'project',  'project_id');
+		$this->register_parent_relation('language', 'language', 'language_id');
+		$this->register_parent_relation('user',     'user',     'user_id');
+
+		$this->register_child_relation('revisions',    'document', 'get_revisions_by_master_id');
+		$this->register_child_relation('translations', 'document', 'get_translations_by_master_id');
+	}
+
+	public function get_translation($master_id, $lang_id, $rels) {
+		$args = [
+			'args' => [
+				'language_document' => $lang_id,
+				'master_id'         => $master_id,
+				'revision'          => 0
+			]
+		];
+
+		return $this->make_query($args)->get_result()->first;
 	}
 
 	public function get_by_project_id($proj_id, $limit = DEFAULT_PER_PAGE, $offset = 0) {
@@ -19,6 +39,26 @@ class document_resource extends resource {
 			$this->get_translations($documents);
 
 		return $documents;
+	}
+
+	public function get_revisions_by_master_id($master_id, $limit = DEFAULT_PER_PAGE, $offset = 0) {
+		$args = compact('limit', 'offset');
+		$args['args'] = [
+			'master_id' => $master_id,
+			'revision'  => 1
+		];
+
+		return $this->make_query($args)->get_result();
+	}
+
+	public function get_translations_by_master_id($master_id, $limit = DEFAULT_PER_PAGE, $offset = 0) {
+		$args = compact('limit', 'offset');
+		$args['args'] = [
+			'master_id' => $master_id,
+			'revision'  => 0
+		];
+
+		return $this->make_query($args)->get_result();
 	}
 
 	protected function get_translations(&$documents) {
@@ -44,5 +84,18 @@ class document_resource extends resource {
 
 			$document->translations = $doc_trans;
 		});
+	}
+
+	protected function filter_args($args) {
+		$proj_id = get_filter('project');
+		$project = resource::load('project')->get_record($proj_id);
+
+		$lang_id = get_filter('language') ?: $project->default_language_id;
+
+		$args['args']['project_document']  = $proj_id;
+		$args['args']['language_document'] = $lang_id;
+		$args['args']['revision']          = 0;
+
+		return $args;
 	}
 }

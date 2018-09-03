@@ -1,10 +1,6 @@
 <?php
 
 class term_controller extends controller {
-	public function __construct($database, $cache = null) {
-		parent::__construct('term', $database, $cache);
-	}
-
 	public function save_action($get, $post) {
 		$term = new object();
 		$term->user_id = SESSION_USER_ID;

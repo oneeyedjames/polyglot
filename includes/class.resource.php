@@ -67,7 +67,7 @@ class resource extends resource_base {
 					return $record[$relation->field];
 				})->toArray();
 
-				$rel_result = $this->make_query([
+				$rel_result = $resource->make_query([
 					'args' => ['id' => $rel_ids]
 				])->get_result();
 

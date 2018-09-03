@@ -26,13 +26,13 @@ class default_controller extends controller {
 	public function login_action($get, $post) {
 		extract(@$post['login'], EXTR_SKIP);
 
-		if ($record = $this->_resource->get_by_email($email)) {
+		if ($record = $this->get_by_email($email)) {
 			if (password_verify($password, $record->password)) {
 				$user = new user($record);
 				$token = $user->create_token();
 				$expire = time() + (86400 * 7);
 
-				if ($this->_resource->create_session($user->id, $token, $expire))
+				if ($this->create_session($user->id, $token, $expire))
 					setcookie('user_token', $token, $expire);
 
 				return ['view' => 'home'];
@@ -49,12 +49,10 @@ class default_controller extends controller {
 	}
 
 	public function reset_password_action($get, $post) {
-		$resource = resource::load('user');
-
 		if (isset($post['email'])) {
-			$this->_resource->create_reset_token($post['email']);
+			$this->create_reset_token($post['email']);
 		} elseif (isset($post['token'], $post['login']['password'], $post['login']['password-confirm'])) {
-			$this->_resource->reset_password($post['token'], $post['login']['password'],
+			$this->reset_password($post['token'], $post['login']['password'],
 				$post['login']['password-confirm']);
 
 			return ['view' => 'login-form'];
@@ -74,7 +72,7 @@ class default_controller extends controller {
 
 	public function reset_password_form_view($vars) {
 		if ($token = get_filter('token')) {
-			$user = $this->_resource->make_query([
+			$user = $this->make_query([
 				'limit' => 1,
 				'args'  => [
 					'reset_token' => $token
@@ -90,7 +88,7 @@ class default_controller extends controller {
 					$user->reset_token  = null;
 					$user->reset_expire = null;
 
-					$this->_resource->put_record($user);
+					$this->put_record($user);
 				}
 
 				$vars['token'] = $token;

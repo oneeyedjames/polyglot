@@ -1,10 +1,6 @@
 <?php
 
 class document_controller extends controller {
-	public function __construct($database, $cache = null) {
-		parent::__construct('document', $database, $cache);
-	}
-
 	public function save_action($get, $post) {
 		$document = new object();
 		$document->user_id = SESSION_USER_ID;
@@ -54,20 +50,18 @@ class document_controller extends controller {
 	}
 
 	public function index_view($vars) {
-		$documents = $this->get_result();
-		$documents->walk([$this, 'fill_document']);
+		$vars['documents'] = $this->get_result([], ['user']);
 
-		$proj_id = get_filter('project');
-		$project = $this->get_project($proj_id);
-
-		$vars['documents'] = $documents;
-		$vars['project']   = $project;
+		if ($proj_id = get_filter('project'))
+			$vars['project'] = $this->get_project($proj_id);
 
 		return $vars;
 	}
 
 	public function item_view($vars) {
-		$document = $this->get_document(get_resource_id());
+		$rels = ['project', 'language', 'user', 'revisions', 'translations'];
+
+		$vars['document'] = $document = $this->get_record(get_resource_id(), $rels);
 
 		if ($lang_id = get_filter('translation')) {
 			if ($lang_id == $document->language_id) {
@@ -75,7 +69,7 @@ class document_controller extends controller {
 			} else {
 				$master = $document;
 
-				if ($document = $this->get_document($master->id, $lang_id)) {
+				if ($document = $this->get_record($master->id, [], $lang_id)) {
 					$url = $this->build_url($document->id);
 				} else {
 					$url = $this->build_url([
@@ -91,31 +85,28 @@ class document_controller extends controller {
 			$this->redirect($url);
 		}
 
-		$document->revisions = $this->get_revisions($document->revision ? $document->master_id : $document->id);
-		$document->translations = $this->get_translations($document->master_id ?: $document->id);
-
-		$vars['document'] = $document;
-
 		return $vars;
 	}
 
 	public function form_view($vars) {
-		$document = $this->get_document(get_resource_id());
+		$rels = ['project', 'language', 'user'];
+
+		$document = $this->get_record(get_resource_id(), $rels);
 
 		if ($lang_id = get_filter('translation')) {
 			if ($lang_id != $document->language_id) {
 				$vars['master'] = $master = $document;
 
-				if (!$document = $this->get_document($master->id, $lang_id)) {
+				if (!$document = $this->get_record($master->id, $rels, $lang_id)) {
 					$document = new object();
 					$document->master_id   = $master->id;
 					$document->master      = $master;
-					$document->project_id  = $master->project->id;
+					$document->project_id  = $master->project_id;
 					$document->project     = $master->project;
 					$document->language_id = $lang_id;
-					$document->language    = $this->get_record($lang_id, 'language');
+					$document->language    = $this->get_language($lang_id);
 					$document->user_id     = SESSION_USER_ID;
-					$document->user        = $this->get_record(SESSION_USER_ID, 'user');
+					$document->user        = $this->get_user(SESSION_USER_ID);
 				}
 			}
 		}
@@ -127,7 +118,7 @@ class document_controller extends controller {
 
 	public function form_meta_view($vars) {
 		if ($doc_id = get_resource_id()) {
-			$vars['document'] = $this->get_document($doc_id, get_filter('translation'));
+			$vars['document'] = $this->get_record($doc_id, [], get_filter('translation'));
 		} elseif ($proj_id = get_filter('project')) {
 			$document = new object();
 			$document->project  = $this->get_project($proj_id);
@@ -138,91 +129,30 @@ class document_controller extends controller {
 		return $vars;
 	}
 
-	public function get_document($doc_id, $lang_id = false) {
-		if ($lang_id) {
-			$query = $this->make_query([
-				'args' => [
-					'language_document' => $lang_id,
-					'master_id'         => $doc_id,
-					'revision'          => 0
-				]
-			]);
+	protected function get_record($record_id, $rels = [], $lang_id = 0) {
+		if ($lang_id)
+			return $this->get_translation($record_id, $lang_id, $rels);
 
-			if ($document = $query->get_result()->first)
-				return $this->fill_document($document);
-		} else {
-			if ($document = $this->get_record($doc_id))
-				return $this->fill_document($document);
-		}
-
-		return false;
-	}
-
-	public function fill_document(&$document) {
-		$document->master   = $this->get_document($document->master_id);
-		$document->project  = $this->get_project($document->project_id);
-		$document->language = $this->get_record($document->language_id, 'language');
-		$document->user     = $this->get_record($document->user_id, 'user');
-
-		return $document;
-	}
-
-	protected function filter_result_args(&$args) {
-		$proj_id = get_filter('project');
-		$project = $this->get_project($proj_id);
-
-		$lang_id = get_filter('language') ?: $project->default_language_id;
-
-		$args['args'] = [
-			'project_document'  => $proj_id,
-			'language_document' => $lang_id,
-			'revision'          => 0
-		];
+		return parent::get_record($record_id, $rels);
 	}
 
 	protected function get_project($proj_id) {
-		$project = $this->get_record($proj_id, 'project');
-		$project->languages = $this->make_query([
-			'bridge' => 'pl_language',
-			'args'   => [
-				'pl_project' => $proj_id
-			]
-		], 'language')->get_result();
+		$project = resource::load('project')->get_record($proj_id);
+		// $project->languages = $this->make_query([
+		// 	'bridge' => 'pl_language',
+		// 	'args'   => [
+		// 		'pl_project' => $proj_id
+		// 	]
+		// ], 'language')->get_result();
 
 		return $project;
 	}
 
-	protected function get_revisions($doc_id) {
-		$query = $this->make_query([
-			'args' => [
-				'master_id' => $doc_id,
-				'revision'  => 1
-			],
-			'sort' => [
-				'created' => 'desc'
-			]
-		]);
-
-		$result = $query->get_result();
-		$result->walk([$this, 'fill_document']);
-
-		return $result;
+	protected function get_language($lang_id) {
+		return resource::load('language')->get_record($lang_id);
 	}
 
-	protected function get_translations($doc_id) {
-		$query = $this->make_query([
-			'args' => [
-				'master_id' => $doc_id,
-				'revision'  => 0
-			]
-		]);
-
-		$result = $query->get_result();
-		$result->walk([$this, 'fill_document']);
-		$result = $result->key_map(function($record) {
-			return $record->language->code;
-		});
-
-		return $result;
+	protected function get_user($user_id) {
+		return resource::load('user')->get_record($user_id);
 	}
 }
