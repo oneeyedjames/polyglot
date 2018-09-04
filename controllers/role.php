@@ -81,18 +81,14 @@ class role_controller extends controller {
     }
 
 	protected function get_permission($resource, $action) {
-		$resource_object = resource::load('permission');
+		$permissions = resource::load('permission')->get_by_resource_action($resource, $action);
 
-		$permissions = $resource_object->get_by_resource_action($resource, $action);
+		return $permissions->found ? $permissions->first : $this->create_permission($resource, $action);
+	}
 
-		if ($permissions->found) {
-			$permission = $permissions->first;
-		} else {
-			$permission = new object();
-			$permission->resource = $resource;
-			$permission->action   = $action;
-			$permission->id       = $resource_object->put_record($permission);
-		}
+	protected function create_permission($resource, $action) {
+		$permission = new object(compact('resource', 'action'));
+		$permission->id = resource::load('permission')->put_record($permission);
 
 		return $permission;
 	}

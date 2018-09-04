@@ -97,9 +97,9 @@ class user_controller extends controller {
 
 	public function form_project_view($vars) {
 		if ($user_id = get_resource_id()) {
-			$vars['user'] = $this->get_record($user_id);
-			$vars['projects'] = resource::load('project')->get_all();
-			$vars['roles'] = resource::load('role')->get_all();
+			$vars['user']     = $this->get_record($user_id);
+			$vars['projects'] = $this->get_projects();
+			$vars['roles']    = $this->get_roles();
 		}
 
 		return $vars;
@@ -107,8 +107,8 @@ class user_controller extends controller {
 
 	public function form_language_view($vars) {
 		if ($user_id = get_resource_id()) {
-			$vars['user'] = $this->get_record($user_id);
-			$vars['languages'] = resource::load('language')->get_all();
+			$vars['user']      = $this->get_record($user_id);
+			$vars['languages'] = $this->get_languages();
 		}
 
 		return $vars;
@@ -126,5 +126,17 @@ class user_controller extends controller {
 			$vars['user'] = $this->get_record($user_id, ['languages']);
 
 		return $vars;
+	}
+
+	protected function get_projects() {
+		return resource::load('project')->get_all();
+	}
+
+	protected function get_languages() {
+		return resource::load('language')->get_all();
+	}
+
+	protected function get_roles() {
+		return resource::load('role')->get_all();
 	}
 }

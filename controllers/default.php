@@ -64,8 +64,8 @@ class default_controller extends controller {
 
 
 	public function index_view($vars) {
-		$vars['projects']  = resource::load('project')->get_by_user_id(SESSION_USER_ID);
-		$vars['languages'] = resource::load('language')->get_by_user_id(SESSION_USER_ID);
+		$vars['projects']  = $this->get_projects(SESSION_USER_ID);
+		$vars['languages'] = $this->get_languages(SESSION_USER_ID);
 
 		return $vars;
 	}
@@ -106,5 +106,13 @@ class default_controller extends controller {
 
 	public function api_index_view() {
 		return [];
+	}
+
+	protected function get_projects($user_id) {
+		return resource::load('project')->get_by_user_id($user_id);
+	}
+
+	protected function get_languages($user_id) {
+		return resource::load('language')->get_by_user_id($user_id);
 	}
 }

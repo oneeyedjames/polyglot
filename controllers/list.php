@@ -49,26 +49,22 @@ class list_controller extends controller {
 			$vars['list']['project'] = $project = $this->get_project($list->project_id);
 			$vars['list']['language'] = $this->get_language($project->default_language_id);
 
-			$resource = resource::load('term');
-
-			$limit = get_per_page();
-			$offset = get_offset(get_page(), $limit);
-
-			$list->terms = $resource->get_by_list_id($list_id, $limit, $offset);
+			$list->terms = $this->get_terms($list_id);
 
 			if ($lang_id = get_filter('translation')) {
-				$vars['language'] = $this->get_language($lang_id);
+				if ($lang_id != $project->default_language_id) {
+					$vars['language'] = $this->get_language($lang_id);
 
-				$trans = $resource->get_by_list_lang_id($list_id, $lang_id, $limit, $offset);
+					$trans = $this->get_terms($list_id, $lang_id);
+					$trans = $trans->key_map(function($term) {
+						return $term->master_id;
+					});
 
-				$trans = $trans->key_map(function($term) {
-					return $term->master_id;
-				});
-
-				$list->terms->walk(function(&$term) use ($trans) {
-					if ($tran = @$trans[$term->id])
-						$term->translation = $tran;
-				});
+					$list->terms->walk(function(&$term) use ($trans) {
+						if ($tran = @$trans[$term->id])
+							$term->translation = $tran;
+					});
+				}
 			}
 		}
 
@@ -100,5 +96,15 @@ class list_controller extends controller {
 
 	protected function get_language($lang_id) {
 		return resource::load('language')->get_record($lang_id);
+	}
+
+	protected function get_terms($list_id, $lang_id = 0) {
+		$limit = get_per_page();
+		$offset = get_offset(get_page(), $limit);
+
+		if ($lang_id)
+			return resource::load('term')->get_by_list_lang_id($list_id, $lang_id, $limit, $offset);
+		else
+			return resource::load('term')->get_by_list_id($list_id, $limit, $offset);
 	}
 }

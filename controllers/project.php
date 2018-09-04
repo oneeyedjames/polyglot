@@ -60,18 +60,18 @@ class project_controller extends controller {
 	}
 
 	public function index_view($vars) {
-		$args = ['languages', 'users', 'documents', 'lists'];
+		$rels = ['languages', 'users', 'documents', 'lists'];
 
-		$vars['projects'] = $this->get_result([], $args);
+		$vars['projects'] = $this->get_result([], $rels);
 
 		return $vars;
 	}
 
 	public function item_view($vars) {
-		$args = ['default_language', 'languages', 'users', 'documents', 'lists'];
+		$rels = ['default_language', 'languages', 'users', 'documents', 'lists'];
 
 		if ($proj_id = get_resource_id())
-			$vars['project'] = $this->get_record($proj_id, $args);
+			$vars['project'] = $this->get_record($proj_id, $rels);
 
 		return $vars;
 	}
@@ -82,7 +82,7 @@ class project_controller extends controller {
 		else
 			$vars['project'] = new object();
 
-		$vars['languages'] = resource::load('language')->get_all();
+		$vars['languages'] = $this->get_languages();
 
 		return $vars;
 	}
@@ -90,7 +90,7 @@ class project_controller extends controller {
 	public function form_language_view($vars) {
 		if ($proj_id = get_resource_id()) {
 			$vars['project'] = $this->get_record($proj_id, ['languages']);
-			$vars['languages'] = resource::load('language')->get_all();
+			$vars['languages'] = $this->get_languages();
 		}
 
 		return $vars;
@@ -99,8 +99,8 @@ class project_controller extends controller {
 	public function form_user_view($vars) {
 		if ($proj_id = get_resource_id()) {
 			$vars['project'] = $this->get_record($proj_id, ['users']);
-			$vars['users'] = resource::load('user')->get_all();
-			$vars['roles'] = resource::load('role')->get_all();
+			$vars['users'] = $this->get_users();
+			$vars['roles'] = $this->get_roles();
 		}
 
 		return $vars;
@@ -132,5 +132,17 @@ class project_controller extends controller {
 			$vars['project'] = $this->get_record($proj_id, ['lists']);
 
 		return $vars;
+	}
+
+	protected function get_languages() {
+		return resource::load('language')->get_all();
+	}
+
+	protected function get_users() {
+		return resource::load('user')->get_all();
+	}
+
+	protected function get_roles() {
+		return resource::load('role')->get_all();
 	}
 }
