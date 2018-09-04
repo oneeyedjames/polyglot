@@ -59,9 +59,10 @@ class document_controller extends controller {
 	}
 
 	public function item_view($vars) {
-		$rels = ['project', 'language', 'user', 'revisions', 'translations'];
+		$rels = ['language', 'user', 'revisions', 'translations'];
 
 		$vars['document'] = $document = $this->get_record(get_resource_id(), $rels);
+		$vars['document']['project'] = $this->get_project($document->project_id);
 
 		if ($lang_id = get_filter('translation')) {
 			if ($lang_id == $document->language_id) {
@@ -137,15 +138,7 @@ class document_controller extends controller {
 	}
 
 	protected function get_project($proj_id) {
-		$project = resource::load('project')->get_record($proj_id);
-		// $project->languages = $this->make_query([
-		// 	'bridge' => 'pl_language',
-		// 	'args'   => [
-		// 		'pl_project' => $proj_id
-		// 	]
-		// ], 'language')->get_result();
-
-		return $project;
+		return resource::load('project')->get_record($proj_id, ['languages']);
 	}
 
 	protected function get_language($lang_id) {

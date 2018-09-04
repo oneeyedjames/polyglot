@@ -48,7 +48,11 @@ class document_resource extends resource {
 			'revision'  => 1
 		];
 
-		return $this->make_query($args)->get_result();
+		$revisions = $this->make_query($args)->get_result();
+
+		$this->get_users($revisions);
+
+		return $revisions;
 	}
 
 	public function get_translations_by_master_id($master_id, $limit = DEFAULT_PER_PAGE, $offset = 0) {
@@ -59,6 +63,27 @@ class document_resource extends resource {
 		];
 
 		return $this->make_query($args)->get_result();
+	}
+
+	protected function get_users(&$documents) {
+		$user_ids = $documents->map(function($document) {
+			return $document->user_id;
+		})->toArray();
+
+		if (!empty($user_ids)) {
+			$args = ['args' => ['id' => $user_ids]];
+
+			$users = resource::load('user')->make_query($args)->get_result();
+
+			$documents->walk(function(&$document) use ($users) {
+				foreach ($users as $user) {
+					if ($document->user_id == $user->id) {
+						$document->user = $user;
+						break;
+					}
+				}
+			});
+		}
 	}
 
 	protected function get_translations(&$documents) {
