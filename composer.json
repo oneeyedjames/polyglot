@@ -16,6 +16,6 @@
         }
     ],
     "require": {
-        "oneeyedjames/phpunk": "dev-resource-object"
+        "oneeyedjames/phpunk": "dev-master"
     }
 }
