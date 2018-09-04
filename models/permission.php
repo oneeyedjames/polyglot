@@ -1,6 +1,6 @@
 <?php
 
-class permission_resource extends resource {
+class permission_model extends model {
 	public function __construct($database, $cache) {
 		parent::__construct('permission', $database, $cache);
 	}

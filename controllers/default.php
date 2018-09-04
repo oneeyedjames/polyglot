@@ -2,7 +2,7 @@
 
 class default_controller extends controller {
 	public function __construct() {
-		parent::__construct(resource::load('user'));
+		parent::__construct(model::load('user'));
 	}
 
 	public function __get($key) {
@@ -109,10 +109,10 @@ class default_controller extends controller {
 	}
 
 	protected function get_projects($user_id) {
-		return resource::load('project')->get_by_user_id($user_id);
+		return model::load('project')->get_by_user_id($user_id);
 	}
 
 	protected function get_languages($user_id) {
-		return resource::load('language')->get_by_user_id($user_id);
+		return model::load('language')->get_by_user_id($user_id);
 	}
 }

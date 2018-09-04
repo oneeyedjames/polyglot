@@ -1,6 +1,6 @@
 <?php
 
-class project_resource extends resource {
+class project_model extends model {
 	public function __construct($database, $cache = false) {
 		parent::__construct('project', $database, $cache);
 

@@ -91,10 +91,10 @@ class term_controller extends controller {
 	}
 
 	protected function get_list($list_id) {
-		return resource::load('list')->get_record($list_id);
+		return model::load('list')->get_record($list_id);
 	}
 
 	protected function get_language($lang_id) {
-		return resource::load('language')->get_record($lang_id);
+		return model::load('language')->get_record($lang_id);
 	}
 }

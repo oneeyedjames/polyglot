@@ -91,11 +91,11 @@ class list_controller extends controller {
 	}
 
 	protected function get_project($proj_id) {
-		return resource::load('project')->get_record($proj_id, ['languages']);
+		return model::load('project')->get_record($proj_id, ['languages']);
 	}
 
 	protected function get_language($lang_id) {
-		return resource::load('language')->get_record($lang_id);
+		return model::load('language')->get_record($lang_id);
 	}
 
 	protected function get_terms($list_id, $lang_id = 0) {
@@ -103,8 +103,8 @@ class list_controller extends controller {
 		$offset = get_offset(get_page(), $limit);
 
 		if ($lang_id)
-			return resource::load('term')->get_by_list_lang_id($list_id, $lang_id, $limit, $offset);
+			return model::load('term')->get_by_list_lang_id($list_id, $lang_id, $limit, $offset);
 		else
-			return resource::load('term')->get_by_list_id($list_id, $limit, $offset);
+			return model::load('term')->get_by_list_id($list_id, $limit, $offset);
 	}
 }

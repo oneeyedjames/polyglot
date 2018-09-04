@@ -1,6 +1,6 @@
 <?php
 
-class user_resource extends resource {
+class user_model extends model {
 	public function __construct($database, $cache = false) {
 		parent::__construct('user', $database, $cache);
 
@@ -150,7 +150,7 @@ class user_resource extends resource {
 			return $user->id;
 		})->toArray();
 
-		$roles = resource::load('role')->make_query([
+		$roles = model::load('role')->make_query([
 			'bridge' => 'up_role',
 			'args'   => [
 				'up_user'    => $user_ids,

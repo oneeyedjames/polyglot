@@ -1,11 +1,11 @@
 <?php
 
-class resource extends resource_base {
-	private static $_default_resource = false;
+class model extends model_base {
 	private static $_default_database = false;
 	private static $_default_cache    = false;
+	private static $_default_model    = false;
 
-	private static $_resources = [];
+	private static $_models = [];
 
 	private $_parent_relations = [];
 	private $_child_relations  = [];
@@ -18,29 +18,29 @@ class resource extends resource_base {
 			self::$_default_cache = $cache;
 	}
 
-	public static function load($name = false) {
+	public static function load($resource = false) {
 		$database = self::$_default_database;
 		$cache    = self::$_default_cache;
 
 		if (!$database)
 			trigger_error("No default database", E_USER_ERROR);
 
-		if ($name) {
-			if (!isset(self::$_resources[$name])) {
-				$class = "{$name}_resource";
+		if ($resource) {
+			if (!isset(self::$_models[$resource])) {
+				$class = "{$resource}_model";
 
 				if (class_exists($class))
-					self::$_resources[$name] = new $class($database, $cache);
+					self::$_models[$resource] = new $class($database, $cache);
 				else
-					self::$_resources[$name] = new self($name, $database, $cache);
+					self::$_models[$resource] = new self($resource, $database, $cache);
 			}
 
-			return self::$_resources[$name];
+			return self::$_models[$resource];
 		} else {
-			if (!self::$_default_resource)
-				self::$_default_resource = new self(null, $database, $cache);
+			if (!self::$_default_model)
+				self::$_default_model = new self(null, $database, $cache);
 
-			return self::$_default_resource;
+			return self::$_default_model;
 		}
 	}
 
@@ -61,13 +61,13 @@ class resource extends resource_base {
 
 		foreach ($rels as $rel_name) {
 			if ($relation = @$this->_parent_relations[$rel_name]) {
-				$resource = resource::load($relation->resource);
+				$model = model::load($relation->resource);
 
 				$rel_ids = $result->map(function($record) use ($relation) {
 					return $record[$relation->field];
 				})->toArray();
 
-				$rel_result = $resource->make_query([
+				$rel_result = $model->make_query([
 					'args' => ['id' => $rel_ids]
 				])->get_result();
 
@@ -80,16 +80,17 @@ class resource extends resource_base {
 					}
 				});
 			} elseif ($relation = @$this->_child_relations[$rel_name]) {
-				$resource = resource::load($relation->resource);
+				$model = model::load($relation->resource);
 
-				if (method_exists($resource, $relation->method)) {
-					$rel_result = call_user_func([$resource, $relation->method], $record_ids);
+				if (method_exists($model, $relation->method)) {
+					$rel_result = call_user_func([$model, $relation->method], $record_ids);
 
 					$result->walk(function(&$record) use ($rel_name, $rel_result) {
 						$matches = [];
 
 						foreach ($rel_result as $rel_record) {
-							if ($record->id == $rel_record["{$this->name}_id"])
+							// TODO refactor this foreign key
+							if ($record->id == $rel_record["{$this->resource}_id"])
 								$matches[] = $rel_record;
 						}
 
@@ -106,14 +107,14 @@ class resource extends resource_base {
 		if ($record = parent::get_record($id)) {
 			foreach ($rels as $rel_name) {
 				if ($relation = @$this->_parent_relations[$rel_name]) {
-					$resource = resource::load($relation->resource);
+					$model = model::load($relation->resource);
 
-					$record[$rel_name] = $resource->get_record($record[$relation->field]);
+					$record[$rel_name] = $model->get_record($record[$relation->field]);
 				} elseif ($relation = @$this->_child_relations[$rel_name]) {
-					$resource = resource::load($relation->resource);
+					$model = model::load($relation->resource);
 
-					if (method_exists($resource, $relation->method))
-						$record[$rel_name] = call_user_func([$resource, $relation->method], $record->id);
+					if (method_exists($model, $relation->method))
+						$record[$rel_name] = call_user_func([$model, $relation->method], $record->id);
 				}
 			}
 		}

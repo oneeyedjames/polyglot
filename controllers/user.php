@@ -129,14 +129,14 @@ class user_controller extends controller {
 	}
 
 	protected function get_projects() {
-		return resource::load('project')->get_all();
+		return model::load('project')->get_all();
 	}
 
 	protected function get_languages() {
-		return resource::load('language')->get_all();
+		return model::load('language')->get_all();
 	}
 
 	protected function get_roles() {
-		return resource::load('role')->get_all();
+		return model::load('role')->get_all();
 	}
 }

@@ -1,6 +1,6 @@
 <?php
 
-class role_resource extends resource {
+class role_model extends model {
 	public function __construct($database, $cache) {
 		parent::__construct('role', $database, $cache);
 

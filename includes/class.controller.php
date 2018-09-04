@@ -13,15 +13,15 @@ class controller extends controller_base {
 				if (!class_exists($class))
 					$class = 'controller';
 
-				$resource_object = resource::load($resource);
+				$model = model::load($resource);
 
-				self::$_controllers[$resource] = new $class($resource_object);
+				self::$_controllers[$resource] = new $class($model);
 			}
 
 			return self::$_controllers[$resource];
 		} else {
 			if (!self::$_default_controller)
-				self::$_default_controller = new default_controller(resource::load());
+				self::$_default_controller = new default_controller(model::load());
 
 			return self::$_default_controller;
 		}
@@ -30,8 +30,8 @@ class controller extends controller_base {
 
 
 	public function __call($func, $args) {
-		if (method_exists($this->_resource, $func))
-			return call_user_func_array([$this->_resource, $func], $args);
+		if (method_exists($this->_model, $func))
+			return call_user_func_array([$this->_model, $func], $args);
 
 		trigger_error("Call to undefined method controller::$func()", E_USER_WARNING);
 	}
@@ -125,7 +125,7 @@ class controller extends controller_base {
 					if ($permission->override)
 						return true;
 
-					$resource_object = resource::load($resource);
+					$resource_object = model::load($resource);
 
 					$record = $resource_object->get_record($resource_id);
 

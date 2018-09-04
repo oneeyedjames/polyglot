@@ -1,6 +1,6 @@
 <?php
 
-class term_resource extends resource {
+class term_model extends model {
 	public function __construct($database, $cache = false) {
 		parent::__construct('term', $database, $cache);
 	}
@@ -59,7 +59,7 @@ class term_resource extends resource {
 		if (!empty($user_ids)) {
 			$args = ['args' => ['id' => $user_ids]];
 
-			$users = resource::load('user')->make_query($args)->get_result();
+			$users = model::load('user')->make_query($args)->get_result();
 
 			$terms->walk(function(&$term) use ($users) {
 				foreach ($users as $user) {

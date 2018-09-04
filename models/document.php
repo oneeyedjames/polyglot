@@ -1,6 +1,6 @@
 <?php
 
-class document_resource extends resource {
+class document_model extends model {
 	public function __construct($database, $cache) {
 		parent::__construct('document', $database, $cache);
 
@@ -73,7 +73,7 @@ class document_resource extends resource {
 		if (!empty($user_ids)) {
 			$args = ['args' => ['id' => $user_ids]];
 
-			$users = resource::load('user')->make_query($args)->get_result();
+			$users = model::load('user')->make_query($args)->get_result();
 
 			$documents->walk(function(&$document) use ($users) {
 				foreach ($users as $user) {
@@ -113,7 +113,7 @@ class document_resource extends resource {
 
 	protected function filter_args($args) {
 		$proj_id = get_filter('project');
-		$project = resource::load('project')->get_record($proj_id);
+		$project = model::load('project')->get_record($proj_id);
 
 		$lang_id = get_filter('language') ?: $project->default_language_id;
 

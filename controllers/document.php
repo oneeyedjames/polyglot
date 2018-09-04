@@ -138,14 +138,14 @@ class document_controller extends controller {
 	}
 
 	protected function get_project($proj_id) {
-		return resource::load('project')->get_record($proj_id, ['languages']);
+		return model::load('project')->get_record($proj_id, ['languages']);
 	}
 
 	protected function get_language($lang_id) {
-		return resource::load('language')->get_record($lang_id);
+		return model::load('language')->get_record($lang_id);
 	}
 
 	protected function get_user($user_id) {
-		return resource::load('user')->get_record($user_id);
+		return model::load('user')->get_record($user_id);
 	}
 }

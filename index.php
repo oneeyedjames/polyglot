@@ -24,7 +24,7 @@ if (!function_exists('require_all')) {
 require_all('includes/trait.*.php');
 require_all('includes/class.*.php');
 require_all('includes/*.php');
-require_all('resources/*.php');
+require_all('models/*.php');
 require_all('controllers/*.php');
 require_all('renderers/*.php');
 
@@ -37,7 +37,7 @@ if (!($database = init_database()))
 if (!($cache = init_cache()))
 	error_page(500);
 
-resource::init($database, $cache);
+model::init($database, $cache);
 
 
 
