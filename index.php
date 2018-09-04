@@ -24,20 +24,20 @@ if (!function_exists('require_all')) {
 require_all('includes/trait.*.php');
 require_all('includes/class.*.php');
 require_all('includes/*.php');
+require_all('models/*.php');
 require_all('controllers/*.php');
 require_all('renderers/*.php');
 
 
 
 // Bootstrap application components
-
 if (!($database = init_database()))
 	error_page(500);
 
 if (!($cache = init_cache()))
 	error_page(500);
 
-controller::init($database, $cache);
+model::init($database, $cache);
 
 
 
@@ -48,7 +48,6 @@ define('SESSION_USER_ID', init_session());
 
 
 // Route back-end requests
-
 if ($action = get_action()) {
 	$params = controller::load(get_resource())->do_action($action);
 
@@ -61,7 +60,6 @@ if ($action = get_action()) {
 
 
 // Render requested view
-
 if (is_api()) {
 	if ($resource = get_resource()) {
 		if (!($view = get_view()))
@@ -69,7 +67,7 @@ if (is_api()) {
 
 		renderer::load($resource)->render($view);
 	} else {
-		// TODO what now?
+		// TODO render default API response
 	}
 } else {
 	$template = new template(TEMPLATE_PATH);

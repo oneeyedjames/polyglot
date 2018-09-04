@@ -1,10 +1,6 @@
 <?php
 
 class term_controller extends controller {
-	public function __construct($database, $cache = null) {
-		parent::__construct('term', $database, $cache);
-	}
-
 	public function save_action($get, $post) {
 		$term = new object();
 		$term->user_id = SESSION_USER_ID;
@@ -60,7 +56,7 @@ class term_controller extends controller {
 
 	public function form_meta_view($vars) {
 		if ($term_id = get_resource_id()) {
-			$term = $this->get_term($term_id);
+			$term = $this->get_record($term_id);
 
 			if ($lang_id = get_filter('translation')) {
 				if ($lang_id != $term->language_id) {
@@ -68,18 +64,18 @@ class term_controller extends controller {
 
 					$master = $term;
 
-					$term = $this->get_term($term_id, $lang_id) ?: new object();
+					$term = $this->get_record($term_id, [], $lang_id) ?: new object();
 					$term->master_id   = $master->id;
 					$term->master      = $master;
-					$term->list_id     = $master->list_id;
-					$term->list        = $this->get_record($list_id, 'list');
+					$term->list_id     = $list_id;
+					$term->list        = $this->get_list($list_id);
 					$term->language_id = $lang_id;
-					$term->language    = $this->get_record($lang_id, 'language');
+					$term->language    = $this->get_language($lang_id);
 				}
 			}
 		} elseif ($list_id = get_filter('list')) {
 			$term = new object();
-			$term->list = $this->get_record($list_id, 'list');
+			$term->list = $this->get_list($list_id);
 		}
 
 		$vars['term'] = $term;
@@ -87,23 +83,18 @@ class term_controller extends controller {
 		return $vars;
 	}
 
-	public function get_term($term_id, $lang_id = false) {
-		if ($lang_id) {
-			$query = $this->make_query([
-				'args' => [
-					'language_term' => $lang_id,
-					'master_id'     => $term_id,
-					'revision'      => 0
-				]
-			]);
+	protected function get_record($record_id, $rels = [], $lang_id = 0) {
+		if ($lang_id)
+			return $this->get_translation($record_id, $lang_id);
 
-			if ($term = $query->get_result()->first)
-				return $term;
-		} else {
-			if ($term = $this->get_record($term_id))
-				return $term;
-		}
+		return parent::get_record($record_id, $rels);
+	}
 
-		return false;
+	protected function get_list($list_id) {
+		return model::load('list')->get_record($list_id);
+	}
+
+	protected function get_language($lang_id) {
+		return model::load('language')->get_record($lang_id);
 	}
 }
