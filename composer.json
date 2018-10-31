@@ -1,21 +1,21 @@
 {
-    "name": "oneeyedjames/polyglot",
-    "description": "A web application for translating software projects",
-    "type": "project",
-    "license": "GNU",
-    "authors": [
-        {
-            "name": "oneeyedjames",
-            "email": "jascott@programmer.net"
-        }
-    ],
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/oneeyedjames/phpunk"
-        }
-    ],
-    "require": {
-        "oneeyedjames/phpunk": "dev-master"
-    }
+	"name": "oneeyedjames/polyglot",
+	"description": "A web application for translating software projects",
+	"type": "project",
+	"license": "GNU",
+	"authors": [
+		{
+			"name": "oneeyedjames",
+			"email": "jascott@programmer.net"
+		}
+	],
+	"repositories": [
+		{
+			"type": "vcs",
+			"url": "https://github.com/oneeyedjames/phpunk"
+		}
+	],
+	"require": {
+		"oneeyedjames/phpunk": "dev-namespaces"
+	}
 }

@@ -1,5 +1,7 @@
 <?php
 
+use PHPunk\Component\user as user_base;
+
 class user extends user_base {
 	protected $_id;
 	protected $_admin;

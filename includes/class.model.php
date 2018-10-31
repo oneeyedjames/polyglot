@@ -1,5 +1,9 @@
 <?php
 
+use PHPunk\Component\model as model_base;
+use PHPunk\Database\result as database_result;
+use PHPunk\Util\object;
+
 class model extends model_base {
 	private static $_default_database = false;
 	private static $_default_cache    = false;

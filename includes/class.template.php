@@ -1,5 +1,7 @@
 <?php
 
+use PHPunk\Component\template as template_base;
+
 class template extends template_base {
 	private $_controllers = [];
 

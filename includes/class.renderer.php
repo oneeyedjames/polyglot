@@ -1,5 +1,7 @@
 <?php
 
+use PHPunk\Component\renderer as renderer_base;
+
 class renderer extends renderer_base {
 	private static $_default_renderer = false;
 	private static $_renderers = [];
