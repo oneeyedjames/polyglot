@@ -27,9 +27,13 @@ class renderer extends renderer_base {
 	}
 
 	public function render($view) {
-		$controller = controller::load($this->resource);
-		$controller->pre_render($view, $result);
+		if (is_string($view)) {
+			$controller = controller::load($this->resource);
+			$controller->pre_render($view, $result);
 
-		$this->render_result($result);
+			parent::render($result);
+		} else {
+			parent::render($view);
+		}
 	}
 }

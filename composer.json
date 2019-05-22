@@ -16,6 +16,6 @@
 		}
 	],
 	"require": {
-		"oneeyedjames/phpunk": "dev-namespaces"
+		"oneeyedjames/phpunk": "dev-master"
 	}
 }
