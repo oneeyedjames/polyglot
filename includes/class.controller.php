@@ -1,5 +1,7 @@
 <?php
 
+use PHPunk\Component\controller as controller_base;
+
 class controller extends controller_base {
 	private static $_default_controller = false;
 

@@ -1,5 +1,13 @@
 <?php
 
+use PHPunk\cache;
+use PHPunk\url_schema;
+
+use PHPunk\Util\object;
+
+use PHPunk\Database\schema as database_schema;
+use PHPunk\Database\result as database_result;
+
 function init_database() {
 	static $database = false;
 

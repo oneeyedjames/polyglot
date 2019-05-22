@@ -1,5 +1,7 @@
 <?php
 
+use PHPunk\Database\query as database_query;
+
 function get_projects($limit = DEFAULT_PER_PAGE, $offset = 0) {
 	return get_records('project', $limit, $offset);
 }
