@@ -36,7 +36,7 @@ $delete_term_nonce = $this->create_nonce('delete', 'term');
 			</a>
 			<div class="pull-right"><?php $this->load('page-limit'); ?></div>
 		</div>
-		<table class="primary">
+		<table class="table striped primary">
 			<thead>
 				<tr>
 					<th class="snap"></th>

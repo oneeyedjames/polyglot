@@ -11,7 +11,7 @@
 	</a>
 	<div class="pull-right"><?php $this->load('page-limit'); ?></div>
 </div>
-<table class="primary">
+<table class="table striped primary">
 	<thead>
 		<tr>
 			<th class="snap"></th>

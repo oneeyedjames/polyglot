@@ -7,12 +7,12 @@ header('Content-type: text/html; charset=utf-8');
 	<head>
 		<base href="/">
 
-		<script type="text/javascript" src="lib/jquery/dist/jquery.min.js"></script>
+		<script type="text/javascript" src="lib/jquery/dist/jquery.slim.min.js"></script>
 		<script type="text/javascript" src="lib/tinymce/tinymce.min.js"></script>
 		<script type="text/javascript" src="lib/barista/dist/js/barista.js"></script>
 		<script type="text/javascript" src="js/script.js"></script>
 
-		<link rel="stylesheet" type="text/css" href="lib/fontawesome/css/font-awesome.min.css">
+		<link rel="stylesheet" type="text/css" href="lib/font-awesome/css/font-awesome.min.css">
 		<link rel="stylesheet" type="text/css" href="lib/barista/dist/css/barista.css">
 		<link rel="stylesheet" type="text/css" href="lib/barista/dist/css/barista-tinymce.css">
 		<link rel="stylesheet" type="text/css" href="css/style.css">

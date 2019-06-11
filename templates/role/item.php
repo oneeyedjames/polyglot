@@ -32,7 +32,7 @@ $permission_nonce = $this->create_nonce('remove-permission', 'role');
 	</a>
 	<div class="pull-right"><?php $this->load('page-limit'); ?></div>
 </div>
-<table class="primary">
+<table class="table striped primary">
     <thead>
         <tr>
 			<th></th>
