@@ -1,7 +1,8 @@
 <?php
 
 use PHPunk\Component\model as model_base;
-use PHPunk\Database\result as database_result;
+use PHPunk\Database\result;
+use PHPunk\Database\record;
 use PHPunk\Util\object;
 
 class model extends model_base {
@@ -98,7 +99,7 @@ class model extends model_base {
 								$matches[] = $rel_record;
 						}
 
-						$record[$rel_name] = new database_result($matches, count($matches));
+						$record[$rel_name] = new result($matches, count($matches));
 					});
 				}
 			}
@@ -124,6 +125,12 @@ class model extends model_base {
 		}
 
 		return $record;
+	}
+
+	// TODO backport to PHPunk
+	public function create_record($data = []) {
+		if (is_numeric($data)) $data = ['id' => $data];
+		return new record($data, $this->resource);
 	}
 
 	protected function get_default_args() {

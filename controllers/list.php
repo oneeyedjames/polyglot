@@ -2,9 +2,10 @@
 
 class list_controller extends controller {
 	public function save_action($get, $post) {
-		$list = new object();
-		$list->user_id = SESSION_USER_ID;
-		$list->updated = date('Y-m-d H:i:s');
+		$list = $this->create_record([
+			'user_id' => SESSION_USER_ID,
+			'updated' => date('Y-m-d H:i:s')
+		]);
 
 		if (isset($post['list']['project']))
 			$list->project_id = intval($post['list']['project']);
@@ -75,7 +76,7 @@ class list_controller extends controller {
 		if ($list_id = get_resource_id()) {
 			$vars['list'] = $this->get_record($list_id);
 		} elseif ($proj_id = get_filter('project')) {
-			$vars['list'] = new object([
+			$vars['list'] = $this->create_record([
 				'project' => $this->get_project($proj_id)
 			]);
 		}

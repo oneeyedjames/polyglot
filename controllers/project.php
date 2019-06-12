@@ -2,8 +2,7 @@
 
 class project_controller extends controller {
 	public function save_action($get, $post) {
-		$project = new object();
-		$project->id = get_resource_id();
+		$project = $this->create_record(get_resource_id());
 
 		if (isset($post['project'])) {
 			if (isset($post['project']['language']))
@@ -80,7 +79,7 @@ class project_controller extends controller {
 		if ($proj_id = get_resource_id())
 			$vars['project'] = $this->get_record($proj_id);
 		else
-			$vars['project'] = new object();
+			$vars['project'] = $this->create_record();
 
 		$vars['languages'] = $this->get_languages();
 

@@ -2,8 +2,7 @@
 
 class user_controller extends controller {
 	public function save_action($get, $post) {
-		$user = new object();
-		$user->id = get_resource_id();
+		$user = $this->create_record(get_resource_id());
 
 		if (isset($post['user']['name']))
 			$user->name = $post['user']['name'];
@@ -90,7 +89,7 @@ class user_controller extends controller {
 		if ($user_id = get_resource_id())
 			$vars['user'] = $this->get_record($user_id);
 		else
-			$vars['user'] = new object();
+			$vars['user'] = $this->create_record();
 
 		return $vars;
 	}

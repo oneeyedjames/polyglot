@@ -2,9 +2,10 @@
 
 class document_controller extends controller {
 	public function save_action($get, $post) {
-		$document = new object();
-		$document->user_id = SESSION_USER_ID;
-		$document->updated = date('Y-m-d H:i:s');
+		$document = $this->create_record([
+			'user_id' => SESSION_USER_ID,
+			'updated' => date('Y-m-d H:i:s')
+		]);
 
 		if (isset($post['document']['master']))
 			$document->master_id = intval($post['document']['master']);
@@ -99,15 +100,16 @@ class document_controller extends controller {
 				$vars['master'] = $master = $document;
 
 				if (!$document = $this->get_record($master->id, $rels, $lang_id)) {
-					$document = new object();
-					$document->master_id   = $master->id;
-					$document->master      = $master;
-					$document->project_id  = $master->project_id;
-					$document->project     = $master->project;
-					$document->language_id = $lang_id;
-					$document->language    = $this->get_language($lang_id);
-					$document->user_id     = SESSION_USER_ID;
-					$document->user        = $this->get_user(SESSION_USER_ID);
+					$document = $this->create_record([
+						'master_id'   => $master->id,
+						'master'      => $master,
+						'project_id'  => $master->project_id,
+						'project'     => $master->project,
+						'language_id' => $lang_id,
+						'language'    => $this->get_language($lang_id),
+						'user_id'     => SESSION_USER_ID,
+						'user'        => $this->get_user(SESSION_USER_ID)
+					]);
 				}
 			}
 		}
@@ -121,10 +123,9 @@ class document_controller extends controller {
 		if ($doc_id = get_resource_id()) {
 			$vars['document'] = $this->get_record($doc_id, [], get_filter('translation'));
 		} elseif ($proj_id = get_filter('project')) {
-			$document = new object();
-			$document->project  = $this->get_project($proj_id);
-
-			$vars['document'] = $document;
+			$vars['document'] = $this->create_record([
+				'project' => $this->get_project($proj_id)
+			]);
 		}
 
 		return $vars;

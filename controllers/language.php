@@ -2,8 +2,7 @@
 
 class language_controller extends controller {
 	public function save_action($get, $post) {
-		$language = new object();
-        $language->id = get_resource_id();
+		$language = $this->create_record(get_resource_id());
 
         if (isset($post['language']['code']))
             $language->code = $post['language']['code'];
@@ -27,7 +26,7 @@ class language_controller extends controller {
 		if ($lang_id = get_resource_id())
 			$vars['language'] = $this->get_record($lang_id);
 		else
-			$vars['language'] = new object();
+			$vars['language'] = $this->create_record();
 
 		return $vars;
 	}

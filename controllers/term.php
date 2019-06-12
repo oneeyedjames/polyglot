@@ -2,9 +2,10 @@
 
 class term_controller extends controller {
 	public function save_action($get, $post) {
-		$term = new object();
-		$term->user_id = SESSION_USER_ID;
-		$term->updated = date('Y-m-d H:i:s');
+		$term = $this->create_record([
+			'user_id' => SESSION_USER_ID,
+			'updated' => date('Y-m-d H:i:s')
+		]);
 
 		if (isset($post['term']['master']))
 			$term->master_id = intval($post['term']['master']);
@@ -14,7 +15,7 @@ class term_controller extends controller {
 		elseif ($list_id = get_filter('list'))
 			$term->list_id = intval($list_id);
 
-		$list = $this->get_record($term->list_id, 'list') ?: new object();
+		$list = $this->get_record($term->list_id, 'list') ?: $this->create_record();
 
 		if (isset($post['term']['language']))
 			$term->language_id = intval($post['term']['language']);
@@ -64,7 +65,7 @@ class term_controller extends controller {
 
 					$master = $term;
 
-					$term = $this->get_record($term_id, [], $lang_id) ?: new object();
+					$term = $this->get_record($term_id, [], $lang_id) ?: $this->create_record();
 					$term->master_id   = $master->id;
 					$term->master      = $master;
 					$term->list_id     = $list_id;
@@ -74,8 +75,9 @@ class term_controller extends controller {
 				}
 			}
 		} elseif ($list_id = get_filter('list')) {
-			$term = new object();
-			$term->list = $this->get_list($list_id);
+			$term = $this->create_record([
+				'list' => $this->get_list($list_id)
+			]);
 		}
 
 		$vars['term'] = $term;

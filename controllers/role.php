@@ -2,8 +2,7 @@
 
 class role_controller extends controller {
     public function save_action($get, $post) {
-        $role = new object();
-        $role->id = get_resource_id();
+        $role = $this->create_record(get_resource_id());
 
 		if (isset($post['role'])) {
 			if (isset($post['role']['title']))
@@ -59,7 +58,7 @@ class role_controller extends controller {
         if ($role_id = get_resource_id())
 			$vars['role'] = $this->get_record($role_id);
 		else
-			$vars['role'] = new object();
+			$vars['role'] = $this->create_record();
 
 		return $vars;
     }
@@ -87,8 +86,10 @@ class role_controller extends controller {
 	}
 
 	protected function create_permission($resource, $action) {
-		$permission = new object(compact('resource', 'action'));
-		$permission->id = model::load('permission')->put_record($permission);
+		$model = model::load('permission');
+
+		$permission = $model->create_record(compact('resource', 'action'));
+		$permission->id = $model->put_record($permission);
 
 		return $permission;
 	}
