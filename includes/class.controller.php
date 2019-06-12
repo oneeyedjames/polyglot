@@ -127,9 +127,7 @@ class controller extends controller_base {
 					if ($permission->override)
 						return true;
 
-					$resource_object = model::load($resource);
-
-					$record = $resource_object->get_record($resource_id);
+					$record = model::load($resource)->get_record($resource_id);
 
 					return $record->user_id == $user->id;
 				} else {
