@@ -14,5 +14,8 @@
         "remove-language",
         "add-user",
         "remove-user"
-    ]
+    ],
+	"list": [
+		"export"
+	]
 }

@@ -116,7 +116,9 @@ class controller extends controller_base {
 		$resource = $resource ?: $this->resource;
 
 		if ($user = get_session_user()) {
-			if (!$user->verify_action_token(@$_POST['nonce'], $action, $resource))
+			$nonce = @$_POST['nonce'] ?: @$_GET['nonce'];
+
+			if (!$user->verify_action_token($nonce, $action, $resource))
 				return false;
 
 			if ($user->admin)

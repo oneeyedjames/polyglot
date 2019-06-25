@@ -35,6 +35,52 @@ class list_controller extends controller {
 		return ['resource' => 'list', 'id' => $list->id];
 	}
 
+	public function export_action($get, $post) {
+		if ($list_id = get_resource_id()) {
+			$list = $this->get_record($list_id);
+			$list->terms = $this->get_terms($list_id);
+			$list->project = $this->get_project($list->project_id);
+			$list->language = $this->get_language($list->project->default_language_id);
+
+			$file = urlencode(str_replace(' ', '_', $list->title));
+
+			$langs = [$list->language->code];
+			$terms = [];
+
+			foreach ($list->project->languages as $language)
+				$langs[] = $language->code;
+
+			$langs = array_unique($langs);
+
+			foreach ($list->terms as $term) {
+				$terms[$term->id] = array_fill_keys($langs, '');
+				$terms[$term->id][$list->language->code] = $term->content;
+			}
+
+			foreach ($list->project->languages as $language) {
+				if ($language->id != $list->language_id) {
+					foreach ($this->get_terms($list_id, $language->id) as $term) {
+						$terms[$term->master_id][$language->code] = $term->content;
+					}
+				}
+			}
+
+			if (($output = fopen('php://output', 'w')) !== false) {
+				header('Content-type: application/csv');
+				header("Content-disposition: attachment; filename=$file.csv");
+
+				fputcsv($output, $langs);
+
+				foreach ($terms as $term)
+					fputcsv($output, $term);
+
+				fclose($output);
+			}
+
+			exit;
+		}
+	}
+
 	public function index_view($vars) {
 		$vars['lists'] = $this->get_result([], ['user']);
 
