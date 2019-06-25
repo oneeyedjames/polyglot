@@ -4,7 +4,7 @@
 	<li class="active">Projects</li>
 </ol>
 <h2 class="page-title">
-	<i class="fa fa-folder-open"></i> Projects
+	<i class="fa fa-sitemap"></i> Projects
 </h2>
 <div class="btn-toolbar">
 	<a href="project/form-meta" target="#modal-card" class="btn success"

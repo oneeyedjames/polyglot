@@ -14,7 +14,7 @@ $nonce = $this->create_nonce('save', 'project');
 	<input type="hidden" name="nonce" value="<?php echo $nonce; ?>">
 	<div class="modal card primary" id="modal-form-meta">
 		<header>
-			<i class="fa fa-folder-open"></i> Edit Project
+			<i class="fa fa-sitemap"></i> Edit Project
 			<a class="pull-right cancel"><i class="fa fa-close"></i></a>
 		</header>
 

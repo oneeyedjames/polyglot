@@ -3,7 +3,7 @@
         <i class="fa fa-flag"></i> <?php echo $language->name; ?>
         <a class="pull-right cancel"><i class="fa fa-close"></i></a>
     </header>
-    <strong><i class="fa fa-folder-open"></i> Projects</strong>
+    <strong><i class="fa fa-sitemap"></i> Projects</strong>
     <ul>
         <?php foreach ($language->projects as $project) : ?>
             <li>

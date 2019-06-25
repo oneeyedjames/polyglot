@@ -7,7 +7,7 @@
 			<a class="pull-right cancel"><i class="fa fa-close"></i></a>
 		</header>
 
-		<label><i class="fa fa-folder-open"></i> Project</label>
+		<label><i class="fa fa-sitemap"></i> Project</label>
 		<select name="project">
 			<?php foreach ($projects as $project) : ?>
 				<option value="<?php echo $project->id; ?>"><?php echo $project->title; ?></option>

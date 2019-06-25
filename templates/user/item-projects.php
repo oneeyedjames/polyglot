@@ -1,6 +1,6 @@
 <div class="card info">
     <header>
-        <i class="fa fa-folder-open"></i> Projects
+        <i class="fa fa-sitemap"></i> Projects
         <a href="user/<?php echo $user->id; ?>/form-project" target="#modal-card"
             class="pull-right" data-action="modal" data-target="#modal-form-project">
             <i class="fa fa-plus"></i> Add

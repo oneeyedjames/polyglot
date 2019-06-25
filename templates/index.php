@@ -4,7 +4,7 @@
 <div class="row">
 	<div class="col-md-4 col-lg-3">
 		<div class="card info collapsible">
-			<header><i class="fa fa-folder-open"></i> My Projects</header>
+			<header><i class="fa fa-sitemap"></i> My Projects</header>
 			<ul>
 				<?php foreach ($projects as $project) : ?>
 					<li><a href="project/<?php echo $project->id; ?>"><?php echo $project->title; ?></a></li>

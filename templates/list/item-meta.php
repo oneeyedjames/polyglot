@@ -1,7 +1,7 @@
 <div class="card info">
 	<header><i class="fa fa-info-circle"></i> Term List</header>
 
-	<strong><i class="fa fa-folder-open"></i> Project</strong>
+	<strong><i class="fa fa-sitemap"></i> Project</strong>
 	<p><a href="projects/<?php echo $list->project->id; ?>"><?php echo $list->project->title; ?></a></p>
 
 	<strong><i class="fa fa-flag"></i> Language</strong>

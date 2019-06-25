@@ -8,7 +8,7 @@
 <h2 class="page-title">
 	<i class="fa fa-list"></i> Term Lists
 	<div class="small">
-		<i class="fa fa-folder-open"></i> In Project
+		<i class="fa fa-sitemap"></i> In Project
 		<a href="project/<?php echo $project->id; ?>">
 			<?php echo $project->title; ?>
 		</a>

@@ -3,7 +3,7 @@
         <i class="fa fa-user"></i> <?php echo $user->alias; ?>
         <a class="cancel pull-right"><i class="fa fa-close"></i></a>
     </header>
-    <strong><i class="fa fa-folder-open"></i> Projects</strong>
+    <strong><i class="fa fa-sitemap"></i> Projects</strong>
     <ul>
         <?php foreach ($user->projects as $project) : ?>
             <li>

@@ -1,7 +1,7 @@
 <div class="card info">
 	<header><i class="fa fa-file"></i> Document</header>
 
-	<strong><i class="fa fa-folder-open"></i> Project</strong>
+	<strong><i class="fa fa-sitemap"></i> Project</strong>
 	<p><a href="project/<?php echo $document->project->id; ?>"><?php echo $document->project->title; ?></a></p>
 
 	<strong><i class="fa fa-flag"></i> Language</strong>

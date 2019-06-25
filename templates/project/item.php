@@ -7,7 +7,7 @@
 <div class="row">
 	<div class="col-sm-12 col-md-8 col-md-push-4 col-lg-9 col-lg-push-3">
 		<h2 class="page-title">
-			<i class="fa fa-folder-open"></i> <?php echo $project->title; ?>
+			<i class="fa fa-sitemap"></i> <?php echo $project->title; ?>
 			<form action="project/<?php echo $project->id; ?>/delete" method="POST" class="btn-group pull-right"
 				data-confirm="Are you sure you want to delete this project?">
 				<a href="project/<?php echo $project->id; ?>/form-meta" target="#modal-card"

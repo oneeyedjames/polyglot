@@ -28,7 +28,7 @@ header('Content-type: text/html; charset=utf-8');
 						<ul class="nav">
 							<li>
 								<a href="projects">
-									<i class="fa fa-folder-open"></i>
+									<i class="fa fa-sitemap"></i>
 									<span class="navlbl">Projects</span>
 								</a>
 							</li>

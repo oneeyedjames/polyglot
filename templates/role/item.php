@@ -10,7 +10,7 @@ $permission_nonce = $this->create_nonce('remove-permission', 'role');
 	<li class="active"><?php echo $role->title; ?></li>
 </ol>
 <h2 class="page-title">
-	<i class="fa fa-folder-open"></i> <?php echo $role->title; ?>
+	<i class="fa fa-group"></i> <?php echo $role->title; ?>
 	<form action="role/<?php echo $role->id; ?>/delete" method="POST" class="btn-group pull-right"
 		data-confirm="Are you sure you want to delete this role?">
 		<a href="role/<?php echo $role->id; ?>/form-meta" target="#modal-card"
