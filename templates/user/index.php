@@ -32,10 +32,10 @@
 							class="btn primary" data-action="modal" data-target="#modal-form-meta">
 							<i class="fa fa-edit"></i>
 						</a>
-			            <input type="hidden" name="nonce" value="<?php echo $delete_nonce; ?>">
+$1	        <input type="hidden" name="nonce" value="<?php echo $delete_nonce; ?>">
 						<button type="submit" class="btn danger">
-			    			<i class="fa fa-trash"></i>
-			    		</button>
+$1				<i class="fa fa-trash"></i>
+$1			</button>
 					</form>
 				</td>
 				<td><a href="user/<?php echo $user->id; ?>"><?php echo $user->alias; ?></a></td>

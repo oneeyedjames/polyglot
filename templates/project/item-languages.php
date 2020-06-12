@@ -25,10 +25,10 @@
 			</li>
 		<?php endif; endforeach; ?>
 	</ul>
-    <form action="project/<?php echo $project->id; ?>/remove-language" method="POST" id="remove-language-form"
-    	data-confirm="Are you sure you want to remove this language from the project?">
-    	<?php $nonce = $this->create_nonce('remove-language', 'project'); ?>
-    	<input type="hidden" name="nonce" value="<?php echo $nonce; ?>">
-    	<input type="hidden" name="language">
-    </form>
+	<form action="project/<?php echo $project->id; ?>/remove-language" method="POST" id="remove-language-form"
+		data-confirm="Are you sure you want to remove this language from the project?">
+		<?php $nonce = $this->create_nonce('remove-language', 'project'); ?>
+		<input type="hidden" name="nonce" value="<?php echo $nonce; ?>">
+		<input type="hidden" name="language">
+	</form>
 </div>

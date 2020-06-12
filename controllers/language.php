@@ -4,11 +4,11 @@ class language_controller extends controller {
 	public function save_action($get, $post) {
 		$language = $this->create_record(get_resource_id());
 
-        if (isset($post['language']['code']))
-            $language->code = $post['language']['code'];
+		if (isset($post['language']['code']))
+			$language->code = $post['language']['code'];
 
-        if (isset($post['language']['name']))
-            $language->name = $post['language']['name'];
+		if (isset($post['language']['name']))
+			$language->name = $post['language']['name'];
 
 		if (!empty($language->code) && !empty($language->name))
 			$this->put_record($language);

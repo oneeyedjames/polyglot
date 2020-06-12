@@ -22,5 +22,5 @@ header('Content-type: text/html; charset=utf-8');
 					<a href="/"><i class="fa fa-comments"></i> Polyglot</a>
 				</div>
 			</div>
-	    </header>
+		</header>
 		<article class="wrapper">

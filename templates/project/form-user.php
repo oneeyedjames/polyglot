@@ -7,16 +7,16 @@
 			<a class="pull-right cancel"><i class="fa fa-close"></i></a>
 		</header>
 
-	    <label class="control-label"><i class="fa fa-user"></i> User</label>
-	    <select name="user" class="form-control">
-	    	<?php foreach ($users as $user) : if (!isset($project->users[$user->id])) : ?>
-	    		<option value="<?php echo $user->id; ?>">
-	                <?php echo $user->alias; ?>
-	            </option>
-	    	<?php endif; endforeach; ?>
-	    </select>
+		<label class="control-label"><i class="fa fa-user"></i> User</label>
+		<select name="user" class="form-control">
+			<?php foreach ($users as $user) : if (!isset($project->users[$user->id])) : ?>
+				<option value="<?php echo $user->id; ?>">
+					<?php echo $user->alias; ?>
+				</option>
+			<?php endif; endforeach; ?>
+		</select>
 
-	    <label class="control-label"><i class="fa fa-group"></i> Role</label>
+		<label class="control-label"><i class="fa fa-group"></i> Role</label>
 		<select name="role" class="form-control">
 			<?php foreach ($roles as $role) : ?>
 				<option value="<?php echo $role->id; ?>">

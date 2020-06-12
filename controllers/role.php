@@ -1,83 +1,85 @@
 <?php
 
 class role_controller extends controller {
-    public function save_action($get, $post) {
-        $role = $this->create_record(get_resource_id());
+	public function save_action($get, $post) {
+		$role = $this->create_record(get_resource_id());
 
 		if (isset($post['role'])) {
 			if (isset($post['role']['title']))
-	            $role->title = $post['role']['title'];
+				$role->title = $post['role']['title'];
 
-	        if (isset($post['role']['description']))
-	            $role->descrip = $post['role']['description'];
+			if (isset($post['role']['description']))
+				$role->descrip = $post['role']['description'];
 
-	        $role->id = $this->put_record($role);
+			$role->id = $this->put_record($role);
 		}
 
-        return ['resource' => 'role', 'id' => $role->id];
-    }
+		return ['resource' => 'role', 'id' => $role->id];
+	}
 
-    public function add_permission_action($get, $post) {
-        $role_id = get_resource_id();
+	public function add_permission_action($get, $post) {
+		$role_id = get_resource_id();
 
-        if (isset($post['permission']['resource'], $post['permission']['action'])) {
+		if (isset($post['permission']['resource'], $post['permission']['action'])) {
 			$permission = $this->get_permission(
 				$post['permission']['resource'],
 				$post['permission']['action']
 			);
 
-			$this->add_permission($role_id, $permission->id);
-        }
+			$override = 'true' == @$post['permission']['override'];
 
-        return ['resource' => 'role', 'id' => $role_id];
-    }
+			$this->add_permission($role_id, $permission->id, $override);
+		}
 
-    public function remove_permission_action($get, $post) {
-        $role_id = get_resource_id();
+		return ['resource' => 'role', 'id' => $role_id];
+	}
 
-        if (isset($post['permission']))
+	public function remove_permission_action($get, $post) {
+		$role_id = get_resource_id();
+
+		if (isset($post['permission']))
 			$this->remove_permission($role_id, $post['permission']);
 
-        return ['resource' => 'role', 'id' => $role_id];
-    }
+		return ['resource' => 'role', 'id' => $role_id];
+	}
 
-    public function index_view($vars) {
-        $vars['roles'] = $this->get_result([], ['permissions']);
+	public function index_view($vars) {
+		$vars['roles'] = $this->get_result([], ['permissions']);
 
-        return $vars;
-    }
+		return $vars;
+	}
 
-    public function item_view($vars) {
-        if ($role_id = get_resource_id())
-            $vars['role'] = $this->get_record($role_id, ['permissions']);
+	public function item_view($vars) {
+		if ($role_id = get_resource_id())
+			$vars['role'] = $this->get_record($role_id, ['permissions']);
 
-        return $vars;
-    }
+		return $vars;
+	}
 
-    public function form_meta_view($vars) {
-        if ($role_id = get_resource_id())
+	public function form_meta_view($vars) {
+		if ($role_id = get_resource_id())
 			$vars['role'] = $this->get_record($role_id);
 		else
 			$vars['role'] = $this->create_record();
 
 		return $vars;
-    }
+	}
 
-    public function form_permission_view($vars) {
+	public function form_permission_view($vars) {
 		if ($role_id = get_resource_id())
-	        $vars['role'] = $this->get_record($role_id);
+			$vars['role'] = $this->get_record($role_id);
 
 		$vars['resources'] = init_url()->resources;
 
-        return $vars;
-    }
+		return $vars;
+	}
 
-    public function card_permissions_view($vars) {
-        if ($role_id = get_resource_id())
-            $vars['role'] = $this->get_record($role_id, 'permissions');
+	public function card_permissions_view($vars) {
+		if ($role_id = get_resource_id())
+			$vars['role'] = $this->get_record($role_id, 'permissions');
 
-        return $vars;
-    }
+		return $vars;
+	}
 
 	protected function get_permission($resource, $action) {
 		$permissions = model::load('permission')->get_by_resource_action($resource, $action);

@@ -40,10 +40,10 @@
 						<a href="document/<?php echo $document->id; ?>/form" class="btn primary">
 							<i class="fa fa-edit"></i>
 						</a>
-			            <input type="hidden" name="nonce" value="<?php echo $delete_nonce; ?>">
+						<input type="hidden" name="nonce" value="<?php echo $delete_nonce; ?>">
 						<button type="submit" class="btn danger">
-			    			<i class="fa fa-trash"></i>
-			    		</button>
+							<i class="fa fa-trash"></i>
+						</button>
 					</form>
 				</td>
 				<td>

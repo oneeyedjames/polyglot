@@ -31,10 +31,10 @@
 							class="btn primary" data-action="modal" data-target="#modal-form-language">
 							<i class="fa fa-edit"></i>
 						</a>
-			            <input type="hidden" name="nonce" value="<?php echo $delete_nonce; ?>">
+						<input type="hidden" name="nonce" value="<?php echo $delete_nonce; ?>">
 						<button type="submit" class="btn danger">
-			    			<i class="fa fa-trash"></i>
-			    		</button>
+							<i class="fa fa-trash"></i>
+						</button>
 					</form>
 				</td>
 				<td><?php echo $language->name; ?></td>

@@ -7,9 +7,9 @@ class role_model extends model {
 		$this->register_child_relation('permissions', 'permission', 'get_by_role_id');
 	}
 
-	public function add_permission($role_id, $perm_id) {
-		$sql = 'INSERT INTO `role_permission_map` (`role_id`, `permission_id`) VALUES (?, ?)';
-		return $this->execute($sql, intval($role_id), intval($perm_id));
+	public function add_permission($role_id, $perm_id, $override = false) {
+		$sql = 'INSERT INTO `role_permission_map` (`role_id`, `permission_id`, `override`) VALUES (?, ?, ?)';
+		return $this->execute($sql, intval($role_id), intval($perm_id), intval($override));
 	}
 
 	public function remove_permission($role_id, $perm_id) {

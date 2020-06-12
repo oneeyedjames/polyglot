@@ -27,33 +27,38 @@ $permission_nonce = $this->create_nonce('remove-permission', 'role');
 <h3><i class="fa fa-key"></i> Permissions</h3>
 <div class="btn-toolbar">
 	<a href="role/<?php echo $role->id; ?>/form-permission" target="#modal-card"
-        class="btn success" data-action="modal" data-target="#modal-form-permission">
+$1	    class="btn success" data-action="modal" data-target="#modal-form-permission">
 		<i class="fa fa-plus"></i> Add Permission
 	</a>
 	<div class="pull-right"><?php $this->load('page-limit'); ?></div>
 </div>
 <table class="table striped primary">
-    <thead>
-        <tr>
+$1	<thead>
+$1	    <tr>
 			<th></th>
-            <th>Resource</th>
-            <th>Action</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php foreach ($role->permissions as $permission) : ?>
-            <tr>
+$1	        <th>Resource</th>
+$1	        <th>Action</th>
+			<th>Override</th>
+$1	    </tr>
+$1	</thead>
+$1	<tbody>
+$1	    <?php foreach ($role->permissions as $permission) : ?>
+$1	        <tr>
 				<td class="snap">
 					<a class="btn danger" data-action="submit" data-target="#remove-permission-form"
 						data-input-permission="<?php echo $permission->id; ?>" style="white-space: nowrap">
 						<i class="fa fa-minus"></i> Remove
 					</a>
 				</td>
-                <td><?php echo $permission->resource; ?></td>
-                <td><?php echo $permission->action; ?></td>
-            </tr>
-        <?php endforeach; ?>
-    </tbody>
+$1	            <td><?php echo $permission->resource; ?></td>
+$1	            <td><?php echo $permission->action; ?></td>
+				<td>
+					<?php $icon = $permission->override ? 'check' : 'times'; ?>
+					<i class="fa fa-<?php echo $icon; ?>"></i>
+				</td>
+$1	        </tr>
+$1	    <?php endforeach; ?>
+$1	</tbody>
 </table>
 <form action="role/<?php echo $role->id; ?>/remove-permission" method="POST" id="remove-permission-form"
 	data-confirm="Are you sure you want to remove this permission?">

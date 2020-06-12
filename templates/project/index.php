@@ -35,10 +35,10 @@
 							data-action="modal" data-target="#modal-form-meta">
 							<i class="fa fa-edit"></i>
 						</a>
-			            <input type="hidden" name="nonce" value="<?php echo $delete_nonce; ?>">
+						<input type="hidden" name="nonce" value="<?php echo $delete_nonce; ?>">
 						<button type="submit" class="btn danger" title="Delete" data-hover="tooltip">
-			    			<i class="fa fa-trash"></i>
-			    		</button>
+							<i class="fa fa-trash"></i>
+						</button>
 					</form>
 				</td>
 				<td><a href="project/<?php echo $project->id; ?>"><?php echo $project->title; ?></a></td>
